@@ -1,18 +1,18 @@
 public class Squere extends Figure
  implements Printable {
 
-    double x;
 
     Squere(double x){
-        this.x=x;
+        this.val=x;
+        this.verticles=4;
     }
 
     double calculateArea(){
-        return x*x;
+        return val*val;
     }
 
     double calculatePerimeter(){
-        return x*4;
+        return val*val;
     }
 
     public void print(){

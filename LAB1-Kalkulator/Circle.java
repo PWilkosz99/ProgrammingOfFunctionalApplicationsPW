@@ -1,18 +1,18 @@
 public class Circle extends Figure
  implements Printable {
 
-    double r;
 
     Circle(double r){
-        this.r=r;
+        this.val=r;
+        this.verticles=0;
     }
 
     double calculateArea(){
-        return Math.PI * r * r ;
+        return Math.PI * val * val ;
     }
 
     double calculatePerimeter(){
-        return 2 * Math.PI * r;
+        return 2 * Math.PI * val;
     }
 
     public void print(){

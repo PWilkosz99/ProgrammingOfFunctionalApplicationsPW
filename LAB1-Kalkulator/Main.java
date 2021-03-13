@@ -35,6 +35,30 @@ public class Main {
           break;
 
           case 4:
+          System.out.print("Wybierz figurę w podstawie:\n1 Kwadrat\n2 Trójkąt\nOpcja: ");
+          var value4=scanner.nextInt();
+          if(value4==1){
+            System.out.print("\nPodaj długość boku:");
+            var value5=scanner.nextDouble();
+            Squere squerep = new Squere(value5);
+            System.out.print("\nPodaj wysokość:");
+            var h1=scanner.nextDouble();
+            Prism prism = new Prism(squerep, h1);
+            prism.print();
+
+          }else if(value4==2){
+            System.out.print("\nPodaj promien koła: ");
+            var value6 = scanner.nextDouble();
+            Triangle trianglep = new Triangle(value6);
+            System.out.print("\nPodaj wysokość:");
+            var h2=scanner.nextDouble();
+            Prism prism = new Prism(trianglep, h2);
+            prism.print();
+
+          }else{
+            System.out.print("Blędna wartość");
+            break;
+          }
 
           break;
 
@@ -42,15 +66,6 @@ public class Main {
           scanner.close();
           return;
         }
-
-
       }
-
-      // Squere kwdrt=new Squere(5);
-      // kwdrt.print();
-      // Circle kolo=new Circle(5);
-      // kolo.print();
-      // Triangle trojkat=new Triangle(5);
-      // trojkat.print();
     }
   }

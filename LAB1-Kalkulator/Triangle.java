@@ -1,18 +1,18 @@
 public class Triangle extends Figure
  implements Printable {
 
-    double a;
 
     Triangle(double a){
-        this.a=a;
+        this.val=a;
+        this.verticles=3;
     }
 
     double calculateArea(){
-        return a*a*Math.sqrt(3)/4;
+        return val*val*Math.sqrt(3)/4;
     }
 
     double calculatePerimeter(){
-        return a*3;
+        return val*3;
     }
 
     public void print(){
