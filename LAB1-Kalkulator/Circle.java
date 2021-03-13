@@ -7,17 +7,17 @@ public class Circle extends Figure
         this.r=r;
     }
 
-    double calculateArea(double r){
+    double calculateArea(){
         return Math.PI * r * r ;
     }
 
-    double calculatePerimeter(double r){
+    double calculatePerimeter(){
         return 2 * Math.PI * r;
     }
 
     public void print(){
         System.out.println("\nKOŁO");
-        System.out.println("Pole wynosi: "+calculateArea(r));
-        System.out.println("Obwod wynosi: "+calculatePerimeter(r)+"\n");
+        System.out.println("Pole wynosi: "+calculateArea());
+        System.out.println("Obwod wynosi: "+calculatePerimeter()+"\n");
     }
 }

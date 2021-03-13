@@ -7,18 +7,18 @@ public class Triangle extends Figure
         this.a=a;
     }
 
-    double calculateArea(double a){
+    double calculateArea(){
         return a*a*Math.sqrt(3)/4;
     }
 
-    double calculatePerimeter(double a){
+    double calculatePerimeter(){
         return a*3;
     }
 
     public void print(){
         System.out.println("\nTROJKAT");
-        System.out.println("Pole wynosi: "+calculateArea(a));
-        System.out.println("Obwod wynosi: "+calculatePerimeter(a)+"\n");
+        System.out.println("Pole wynosi: "+calculateArea());
+        System.out.println("Obwod wynosi: "+calculatePerimeter()+"\n");
     }
 }
 

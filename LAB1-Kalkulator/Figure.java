@@ -1,4 +1,4 @@
 public abstract class Figure {
-    abstract double calculateArea(double x);
-    abstract double calculatePerimeter(double x);
+    abstract double calculateArea();
+    abstract double calculatePerimeter();
 }

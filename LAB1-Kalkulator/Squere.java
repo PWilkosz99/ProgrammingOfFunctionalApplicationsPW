@@ -7,17 +7,17 @@ public class Squere extends Figure
         this.x=x;
     }
 
-    double calculateArea(double x){
+    double calculateArea(){
         return x*x;
     }
 
-    double calculatePerimeter(double x){
+    double calculatePerimeter(){
         return x*4;
     }
 
     public void print(){
         System.out.println("\nKWADRAT");
-        System.out.println("Pole wynosi: "+calculateArea(x));
-        System.out.println("Obwod wynosi: "+calculatePerimeter(x)+"\n");
+        System.out.println("Pole wynosi: "+calculateArea());
+        System.out.println("Obwod wynosi: "+calculatePerimeter()+"\n");
     }
 }
