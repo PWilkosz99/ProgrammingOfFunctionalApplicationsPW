@@ -3,6 +3,9 @@ public class Triangle extends Figure
 
 
     Triangle(double a){
+        if(a<0){
+            throw new IllegalArgumentException("Błąd: Wpisana ujemna liczbe jako bok");
+        }
         this.val=a;
         this.verticles=3;
     }

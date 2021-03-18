@@ -3,6 +3,9 @@ public class Squere extends Figure
 
 
     Squere(double x){
+        if(x<0){
+            throw new IllegalArgumentException("Błąd: Wpisana ujemna liczbe jako bok");
+        }
         this.val=x;
         this.verticles=4;
     }
