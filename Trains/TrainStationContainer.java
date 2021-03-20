@@ -39,6 +39,6 @@ public class TrainStationContainer {
     }
 
     void showStationState(TrainStation station){
-        System.out.println(station.name+" "+station.capacity);
+        System.out.println(station.name+" "+station.trainsList.size();
     }
 }

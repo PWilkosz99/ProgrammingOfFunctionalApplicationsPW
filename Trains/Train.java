@@ -3,6 +3,8 @@ public class Train implements Comparable {
     String cargo;
     int number;
     int capacity;
+    int arrivalTime;
+    int departureTime;
     TrainState state;
 
     Train(String name, int number, int capacity, String cargo) {
