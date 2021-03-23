@@ -1,5 +1,6 @@
 public enum TrainState {
     New,
     Delayed,
-    Scheduled;
+    Scheduled,
+    Cancelled;
 }
