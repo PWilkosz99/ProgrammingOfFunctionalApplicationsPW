@@ -32,18 +32,18 @@ public class TrainStation {
 
     void deleteAllTrains(Train train) {
         // for (Train trains : trainsList) {
-        //     if(trains.compareTo(train)==1){
-        //         trainsList.remove(trains);
-        //     }
+        // if(trains.compareTo(train)==1){
+        // trainsList.remove(trains);
         // }
-        for(int i=0; i< trainsList.size(); i++){
+        // }
+        for (int i = 0; i < trainsList.size(); i++) {
             String name = trainsList.get(i).name;
-            if(name==train.name){
+            if (name == train.name) {
                 trainsList.remove(i);
             }
         }
     }
-    
+
     void deleteLastTrain() {
         deleteTrain(trainsList.get(trainsList.size() - 1));
     }
@@ -101,6 +101,14 @@ public class TrainStation {
         return trains;
     }
 
+    Train longestTravelTime() {
+        return Collections.max(trainsList, new CompareByTravelTime());
+    }
+
+    Train shortesTravelTime() {
+        return Collections.min(trainsList, new CompareByTravelTime());
+    }
+
     @Override
     public String toString() {
         return name;
@@ -118,6 +126,23 @@ class SortTrainsByDeparture implements Comparator<Train> {
         } else {
             return 0;
         }
+    }
+
+}
+
+class CompareByTravelTime implements Comparator<Train> {
+
+    @Override
+    public int compare(Train o1, Train o2) {
+
+        // if((o1.getFinishTime()-o1.getStartTime())>(o2.getFinishTime()-o2.getStartTime())){
+        // return 1;
+        // }else{
+        // return -1;
+        // }
+
+        return (o1.getFinishTime() - o1.getStartTime()) - (o2.getFinishTime() - o2.getStartTime());
+
     }
 
 }

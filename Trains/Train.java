@@ -6,31 +6,65 @@ public class Train implements Comparable<Train> {
     int arrivalTime;
     int departureTime;
     TrainState state;
+    int startTime;
+    int finishTime;
 
     Train(String name, int number, int capacity, String cargo) {
         this.name = name;
         this.number = number;
         this.capacity = capacity;
         this.cargo = cargo;
+        this.arrivalTime=0;
+        this.departureTime=0;
+        this.state=TrainState.New;
+        this.startTime=0;
+        this.finishTime=0;
     }
+
+    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime) {
+        this.name = name;
+        this.number = number;
+        this.capacity = capacity;
+        this.cargo = cargo;
+        this.arrivalTime=arrivalTime;
+        this.departureTime=departureTime;
+        this.state=TrainState.New;
+        this.startTime=0;
+        this.finishTime=0;
+    }
+
+    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime, TrainState state){
+        this.name = name;
+        this.number = number;
+        this.capacity = capacity;
+        this.cargo = cargo;
+        this.arrivalTime=arrivalTime;
+        this.departureTime=departureTime;
+        this.state=state;
+        this.startTime=0;
+        this.finishTime=0;
+    }
+
+    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime, TrainState state, int startTime, int finishTime){
+        this.name = name;
+        this.number = number;
+        this.capacity = capacity;
+        this.cargo = cargo;
+        this.arrivalTime=arrivalTime;
+        this.departureTime=departureTime;
+        this.state=state;
+        this.startTime=startTime;
+        this.finishTime=finishTime;
+    }
+
 
     public void printTrainCargo() {
         System.out.println(String.format("Pociąg o %s o numerze %d przwozi %s", name, number, cargo));
     }
 
-    // @Override
-    // public int compareTo(Object o) {
-
-    //     Train temp = (Train) o;
-
-    //     if (name == temp.name) {
-    //         return 1;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-
-
+    public void print(){
+        System.out.println(String.format("Pociąg o %s o numerze %d\nprzyjezdza o %d, odjezdza o %d\nwyjezdza z stacji poczatkowej o %d\ndojezdza do stacji koncowej o %d\nprzewozi %s", name, number, arrivalTime, departureTime, startTime, finishTime, cargo));
+    }
 
     String getName(){
         return name;
@@ -44,7 +78,16 @@ public class Train implements Comparable<Train> {
         return arrivalTime;
     }
 
+    int getStartTime(){
+        return startTime;
+    }
+
+    int getFinishTime(){
+        return finishTime;
+    }
+
     public int compareTo(Train o) {
         return name.compareTo(o.name);
     }
+    
 }
