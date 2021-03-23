@@ -1,11 +1,9 @@
-import java.io.Console;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class TrainStation implements Comparator<String> {
+public class TrainStation{
     String name;
-    List<Train> trainsList;
-    public  int capacity;
+    List<Train> trainsList = new ArrayList<Train>();
+    int capacity;
     int capacityLimit;
 
     int getCapacity()
@@ -15,7 +13,7 @@ public class TrainStation implements Comparator<String> {
 
     TrainStation(String name, int capacity){
         this.name=name;
-        this.capacity = capacity;
+        this.capacityLimit= capacity;
     }
 
     void addTrain(Train train) {
@@ -28,7 +26,7 @@ public class TrainStation implements Comparator<String> {
     }
 
     void deleteTrain(Train train){
-        if(trainsList.remove(train)){
+        if(!trainsList.remove(train)){
             System.out.println("Brak pociagu o podanej nazwie");
         }
     }
@@ -60,23 +58,64 @@ public class TrainStation implements Comparator<String> {
         deleteTrain(trainsList.get(trainsList.size()-1));
     }
 
-    // Train searchTrain(String trainName){
-    //     // compare(trainName, );
-    //     // trainsList.indexOf(o)
-    // }
+     Train search(String trainName){
+         for (Train train : trainsList) {
+             if(train.getName() == trainName){
+                 return train;
+             }
+         }
+         return null;
+     }
+
+
+     List<Train> searchPartial(String name){
+         List<Train> trains = new ArrayList<>();
+         for (Train train : trainsList) {
+             if(train.getName().contains(name)){
+                trains.add(train);
+             }
+         }
+         return trains;
+     }
+
+     List<Train> sortByName(){
+         List<Train> trains = new ArrayList<Train>();
+         for (Train train : trainsList) {
+             trains.add(train);
+         }
+         Collections.sort(trains);
+         return trains;
+     }
+
+     List<Train> sortByDepartureTime(){
+        List<Train> trains = new ArrayList<Train>();
+        for (Train train : trainsList) {
+            trains.add(train);
+        }
+        Collections.sort(trains, new SortTrainsByDeparture());
+        return trains;
+    }
+
+
 
     @Override
-    public int compare(String o1, String o2) {
-        if(o1==o2){
+    public String toString() {
+             return name;
+    }
+
+}
+
+
+class SortTrainsByDeparture implements Comparator<Train>{
+
+    @Override
+    public int compare(Train o1, Train o2) {
+        //return o1.compareTo(o2);
+        if(o1.getDeparture()>o2.getDeparture()){
             return 1;
         }else{
             return 0;
         }
     }
     
-    @Override
-    public String toString() {
-             return name;
-    }
-
 }

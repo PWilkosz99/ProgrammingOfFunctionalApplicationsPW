@@ -1,4 +1,4 @@
-public class Train implements Comparable {
+public class Train implements Comparable<Train> {
     String name;
     String cargo;
     int number;
@@ -18,15 +18,33 @@ public class Train implements Comparable {
         System.out.println(String.format("Pociąg o %s o numerze %d przwozi %s", name, number, cargo));
     }
 
-    @Override
-    public int compareTo(Object o) {
+    // @Override
+    // public int compareTo(Object o) {
 
-        Train temp = (Train) o;
+    //     Train temp = (Train) o;
 
-        if (name == temp.name) {
-            return 1;
-        } else {
-            return 0;
-        }
+    //     if (name == temp.name) {
+    //         return 1;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+
+
+
+    String getName(){
+        return name;
+    }
+
+    int getDeparture(){
+        return departureTime;
+    }
+
+    int getArrival(){
+        return arrivalTime;
+    }
+
+    public int compareTo(Train o) {
+        return name.compareTo(o.name);
     }
 }

@@ -3,19 +3,40 @@ public class Main {
 
         Train train = new Train("Train1", 123, 500, "passenger");
         Train train2 = new Train("Train2", 555, 200, "apples");
+        Train train3 = new Train("Train3", 632, 500, "passenger");
+        Train train4 = new Train("Train4", 412, 200, "food");
 
         TrainStation station = new TrainStation("stacja1",5);
-        TrainStation station2 = new TrainStation("stacja2",0);
 
-        TrainStationContainer container = new TrainStationContainer();
+        station.addTrain(train);
+        station.addTrain(train2);
+        station.addTrain(train3);
+        station.addTrain(train4);
 
-        container.addStation(station);
-        container.addStation(station2);
+        station.printAllTrains();
 
-        train.printTrainCargo();
+        station.deleteTrain(train);
 
-        container.emptyTrainStations();
+        station.printAllTrains();
 
-        System.out.println(train.compareTo(train2));
+        station.deleteLastTrain();
+
+        station.printAllTrains();
+        // TrainStation station2 = new TrainStation("stacja2",0);
+
+        // TrainStationContainer container = new TrainStationContainer();
+
+        // container.addStation(station);
+        // container.addStation(station2);
+
+
+        
+        // train.printTrainCargo();
+
+
+        // container.emptyTrainStations();
+
+
+
     }
 }
