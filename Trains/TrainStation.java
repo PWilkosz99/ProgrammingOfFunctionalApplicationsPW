@@ -30,7 +30,7 @@ public class TrainStation {
         }
     }
 
-    void deleteAllTrains(Train train) {
+    void deleteAllTrainsNamed(Train train) {
         // for (Train trains : trainsList) {
         // if(trains.compareTo(train)==1){
         // trainsList.remove(trains);
@@ -121,11 +121,12 @@ class SortTrainsByDeparture implements Comparator<Train> {
     @Override
     public int compare(Train o1, Train o2) {
         // return o1.compareTo(o2);
-        if (o1.getDeparture() > o2.getDeparture()) {
-            return 1;
-        } else {
-            return 0;
-        }
+        // if (o1.getDeparture() > o2.getDeparture()) {
+        //     return 1;
+        // } else {
+        //     return 0;
+        // }
+        return o1.getDeparture() - o2.getDeparture();
     }
 
 }

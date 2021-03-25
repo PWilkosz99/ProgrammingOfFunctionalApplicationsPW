@@ -25,11 +25,11 @@ public class TrainStationContainer {
     }
 
 
-    List<TrainStation> emptyTrainStations(){
+    List<TrainStation> overcrowdedTrainStations(){
        // stations.forEach(System.out.println(" ")); 
        List<TrainStation> tmp=  new ArrayList<TrainStation>(); 
         for (var a  : stations.entrySet()) {
-            if(a.getValue().capacity == 0)           
+            if(a.getValue().getCapacity() == 0)           
             {
                 tmp.add(a.getValue());
             //System.out.println(a.getKey() + " - " + a.getValue().toString());

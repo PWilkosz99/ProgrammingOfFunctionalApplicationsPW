@@ -63,7 +63,7 @@ public class Train implements Comparable<Train> {
     }
 
     public void print(){
-        System.out.println(String.format("Pociąg o %s o numerze %d\nprzyjezdza o %d, odjezdza o %d\nwyjezdza z stacji poczatkowej o %d\ndojezdza do stacji koncowej o %d\nprzewozi %s", name, number, arrivalTime, departureTime, startTime, finishTime, cargo));
+        System.out.println(String.format("\t\t-----\nPociąg o %s o numerze %d\nPrzyjeżdza o: %d, Odjezdza o: %d\nWyjezdza z stacji poczatkowej o %d\nDojezdza do stacji koncowej o %d\nprzewozi %s\n\t\t-----\n", name, number, arrivalTime, departureTime, startTime, finishTime, cargo));
     }
 
     String getName(){

@@ -3,113 +3,101 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="-20.0" y="2145.0">com</node>
-    <node x="1164.5" y="1134.0">TrainStation</node>
-    <node x="168.0" y="2145.0">images</node>
-    <node x="1600.0" y="1905.0">netscape</node>
-    <node x="380.0" y="2145.0">org</node>
-    <node x="332.0" y="933.0">SortTrainsByDeparture</node>
-    <node x="-12.5" y="-2.5">TrainState</node>
-    <node x="988.0" y="1905.0">toolbarButtonGraphics</node>
-    <node x="580.0" y="2145.0">sun</node>
-    <node x="780.0" y="2145.0">jdk</node>
-    <node x="1840.0" y="1905.0">META-INF</node>
-    <node x="1292.0" y="1905.0">groovyjarjarasm</node>
-    <node x="780.0" y="893.0">CompareByTravelTime</node>
-    <node x="976.0" y="2145.0">java</node>
-    <node x="1168.0" y="2145.0">groovy</node>
-    <node x="1372.0" y="2145.0">javax</node>
-    <node x="1556.0" y="145.0">groovyjarjarpicocli</node>
-    <node x="-16.0" y="2065.0">groovyjarjarcommonscli</node>
-    <node x="484.0" y="2065.0">groovyjarjarantlr</node>
-    <node x="965.5" y="213.0">Main</node>
-    <node x="274.0" y="352.0">Train</node>
-    <node x="1150.5" y="1666.0">TrainStationContainer</node>
+    <node x="543.0" y="1075.701171875">com</node>
+    <node x="667.0" y="237.0">TrainStation</node>
+    <node x="980.0" y="1000.701171875">images</node>
+    <node x="570.0" y="1000.701171875">netscape</node>
+    <node x="708.0" y="1075.701171875">org</node>
+    <node x="788.5" y="55.5">SortTrainsByDeparture</node>
+    <node x="147.57812500000006" y="0.0">TrainState</node>
+    <node x="0.0" y="1000.701171875">toolbarButtonGraphics</node>
+    <node x="873.0" y="1075.701171875">sun</node>
+    <node x="1038.0" y="1075.701171875">jdk</node>
+    <node x="775.0" y="1000.701171875">META-INF</node>
+    <node x="309.0" y="1000.701171875">groovyjarjarasm</node>
+    <node x="568.5" y="55.5">CompareByTravelTime</node>
+    <node x="370.0" y="1075.701171875">java</node>
+    <node x="0.0" y="1075.701171875">groovy</node>
+    <node x="189.0" y="1075.701171875">javax</node>
+    <node x="397.0" y="885.701171875">groovyjarjarpicocli</node>
+    <node x="40.0" y="885.701171875">groovyjarjarcommonscli</node>
+    <node x="730.0" y="885.701171875">groovyjarjarantlr</node>
+    <node x="352.0" y="771.0">Main</node>
+    <node x="0.0" y="215.0">Train</node>
+    <node x="353.0" y="369.0">TrainStationContainer</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="Main" target="Train">
+      <point x="-63.85714285714289" y="-27.0" />
+      <point x="362.6428571428571" y="751.0" />
+      <point x="83.0" y="751.0" />
+      <point x="-83.0" y="248.0" />
+    </edge>
     <edge source="TrainStation" target="SortTrainsByDeparture">
-      <point x="-115.5" y="-40.0" />
-      <point x="440.0" y="1320.0" />
+      <point x="57.75" y="-226.0" />
+      <point x="840.25" y="190.0" />
+      <point x="896.5" y="190.0" />
       <point x="0.0" y="27.0" />
     </edge>
     <edge source="Main" target="TrainStation">
-      <point x="0.0" y="27.0" />
-      <point x="1040.0" y="1200.0" />
-      <point x="-115.5" y="-160.0" />
+      <point x="42.571428571428555" y="-27.0" />
+      <point x="469.07142857142856" y="741.0" />
+      <point x="724.75" y="741.0" />
+      <point x="-57.75" y="226.0" />
     </edge>
     <edge source="groovyjarjarantlr" target="groovyjarjarantlr">
-      <point x="0.0" y="-15.0" />
-      <point x="600.0" y="1920.0" />
-      <point x="920.0" y="1920.0" />
-      <point x="920.0" y="2080.0" />
-      <point x="116.0" y="0.0" />
-    </edge>
-    <edge source="CompareByTravelTime" target="Train">
-      <point x="0.0" y="-27.0" />
-      <point x="880.0" y="600.0" />
-      <point x="166.0" y="0.0" />
-    </edge>
-    <edge source="Main" target="TrainState">
-      <point x="0.0" y="-27.0" />
-      <point x="1040.0" y="80.0" />
-      <point x="92.5" y="0.0" />
-    </edge>
-    <edge source="groovyjarjarpicocli" target="groovyjarjarpicocli">
-      <point x="0.0" y="-15.0" />
-      <point x="1680.0" y="0.0" />
-      <point x="2000.0" y="0.0" />
-      <point x="2000.0" y="160.0" />
-      <point x="124.0" y="0.0" />
-    </edge>
-    <edge source="Main" target="Train">
-      <point x="-74.5" y="0.0" />
-      <point x="440.0" y="240.0" />
-      <point x="0.0" y="-248.0" />
-    </edge>
-    <edge source="TrainStation" target="Train">
-      <point x="-115.5" y="-80.0" />
-      <point x="720.0" y="1280.0" />
-      <point x="720.0" y="640.0" />
-      <point x="166.0" y="40.0" />
-    </edge>
-    <edge source="SortTrainsByDeparture" target="Train">
-      <point x="0.0" y="-27.0" />
-      <point x="0.0" y="248.0" />
-    </edge>
-    <edge source="TrainStationContainer" target="TrainStation">
-      <point x="0.0" y="-94.0" />
-      <point x="0.0" y="226.0" />
+      <point x="77.33333333333331" y="15.0" />
+      <point x="923.3333333333333" y="955.701171875" />
+      <point x="690.0" y="955.701171875" />
+      <point x="690.0" y="890.701171875" />
+      <point x="-116.0" y="-10.0" />
     </edge>
     <edge source="groovyjarjarcommonscli" target="groovyjarjarcommonscli">
-      <point x="0.0" y="-15.0" />
-      <point x="120.0" y="1920.0" />
-      <point x="440.0" y="1920.0" />
-      <point x="440.0" y="2080.0" />
-      <point x="136.0" y="0.0" />
+      <point x="90.66666666666669" y="15.0" />
+      <point x="266.6666666666667" y="955.701171875" />
+      <point x="0.0" y="955.701171875" />
+      <point x="0.0" y="890.701171875" />
+      <point x="-136.0" y="-10.0" />
+    </edge>
+    <edge source="Main" target="TrainStationContainer">
+      <point x="0.0" y="-27.0" />
+      <point x="-73.5" y="94.0" />
+    </edge>
+    <edge source="Main" target="TrainState">
+      <point x="-21.285714285714334" y="-27.0" />
+      <point x="405.21428571428567" y="731.0" />
+      <point x="342.5" y="731.0" />
+      <point x="342.5" y="190.0" />
+      <point x="301.7447916666667" y="190.0" />
+      <point x="61.66666666666663" y="82.5" />
     </edge>
     <edge source="Train" target="TrainState">
-      <point x="-166.0" y="-40.0" />
-      <point x="120.0" y="560.0" />
-      <point x="40.0" y="82.5" />
+      <point x="-83.0" y="-248.0" />
+      <point x="83.0" y="190.0" />
+      <point x="178.41145833333337" y="190.0" />
+      <point x="-61.666666666666686" y="82.5" />
     </edge>
-    <edge source="TrainStation" target="TrainState">
-      <point x="-115.5" y="0.0" />
-      <point x="80.0" y="1360.0" />
-      <point x="0.0" y="82.5" />
+    <edge source="groovyjarjarpicocli" target="groovyjarjarpicocli">
+      <point x="82.66666666666669" y="15.0" />
+      <point x="603.6666666666667" y="955.701171875" />
+      <point x="357.0" y="955.701171875" />
+      <point x="357.0" y="890.701171875" />
+      <point x="-124.0" y="-10.0" />
     </edge>
     <edge source="TrainStation" target="CompareByTravelTime">
-      <point x="-115.5" y="-120.0" />
-      <point x="880.0" y="1240.0" />
+      <point x="-57.75" y="-226.0" />
+      <point x="724.75" y="190.0" />
+      <point x="668.5" y="190.0" />
       <point x="0.0" y="27.0" />
     </edge>
   </edges>
-  <settings layout="Orthogonal" zoom="0.8" x="824.75" y="1658.75" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="668.0" y="423.0" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
-    <Category>Constructors</Category>
     <Category>Methods</Category>
+    <Category>Constructors</Category>
     <Category>Properties</Category>
     <Category>Inner Classes</Category>
   </Categories>
