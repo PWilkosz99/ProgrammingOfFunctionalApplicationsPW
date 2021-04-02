@@ -6,6 +6,7 @@ public class Main {
         Train train3 = new Train("Train3", 632, 500, "passenger", 11, 12, TrainState.New, 9, 19);
         Train train4 = new Train("Train4", 412, 200, "food", 17, 18, TrainState.New, 5, 23);
         Train train5 = new Train("Train1", 412, 200, "food", 15, 16, TrainState.New, 13, 18);
+        Train train6 = new Train("Train20", 412, 200, "food", 15, 16, TrainState.New, 13, 18);
 
         TrainStation station = new TrainStation("stacja1", 5);
 
@@ -14,6 +15,8 @@ public class Main {
         station.addTrain(train3);
         station.addTrain(train4);
         station.addTrain(train5);
+        System.out.println("\nDodaje stajce:\n");
+        station.addTrain(train6);
 
         // System.out.println("\n\n\n");
 
@@ -60,7 +63,7 @@ public class Main {
 
         //tworze i dodaje stacje do kontenera
 
-        TrainStation station2 = new TrainStation("stacja2", 0);
+        TrainStation station2 = new TrainStation("stacja2", 2);
 
         TrainStationContainer container = new TrainStationContainer();
 

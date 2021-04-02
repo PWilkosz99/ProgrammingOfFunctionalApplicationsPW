@@ -13,7 +13,12 @@ public class TrainStationContainer {
     }
 
     void addStation(TrainStation station){
-        stations.put(station.name, station);
+        if(station.getCapacity()>0){
+            stations.put(station.name, station);
+        }else{
+            System.out.println("Capacity przekroczone");
+        }
+
     }
 
     void removeStation(TrainStation station){
