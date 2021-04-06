@@ -1,7 +1,15 @@
+package SortAlgorithms;
+import Exceptions.*;
+
 public class HeapSort implements Sort {
-    public void sort(int arr[])
+    public void sort(int arr[]) throws EmptyArrayException
     {
         int n = arr.length;
+
+        if(n==0){
+            throw new EmptyArrayException("HeapSort: Empty array");
+        }
+
  
         for (int i = n / 2 - 1; i >= 0; i--)
             heapify(arr, n, i);

@@ -1,6 +1,9 @@
+package Tests;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import LabEx.*;
 
 public class SpotTest {
     public static void test() throws Exception {

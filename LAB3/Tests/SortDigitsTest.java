@@ -1,3 +1,5 @@
+package Tests;
+import LabEx.*;
 
 public class SortDigitsTest {
     public static void test() throws Exception {

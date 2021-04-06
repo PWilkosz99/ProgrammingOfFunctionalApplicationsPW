@@ -1,6 +1,13 @@
+package SortAlgorithms;
+import Exceptions.*;
+
 public class CoctailSort implements Sort {
-    public void sort(int a[])
+    public void sort(int a[]) throws EmptyArrayException
     {
+        if(a.length==0){
+            throw new EmptyArrayException("CoctailSort: Empty array");
+        }
+        
         boolean swapped = true;
         int start = 0;
         int end = a.length;

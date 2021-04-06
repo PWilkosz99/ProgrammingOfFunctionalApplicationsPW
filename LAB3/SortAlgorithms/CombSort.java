@@ -1,3 +1,6 @@
+package SortAlgorithms;
+import Exceptions.*;
+
 public class CombSort implements Sort {
 
        int getNextGap(int gap)
@@ -8,8 +11,13 @@ public class CombSort implements Sort {
            return gap;
        }
 
-       public void sort(int arr[])
+       public void sort(int arr[]) throws EmptyArrayException
        {
+
+        if(arr.length==0){
+            throw new EmptyArrayException("CombSort: Empty array");
+        }
+
            int n = arr.length;
            int gap = n;
            boolean swapped = true;

@@ -1,8 +1,16 @@
+package SortAlgorithms;
+import Exceptions.*;
+
 public class SelectionSort implements Sort {
-    public void sort(int arr[])
+    public void sort(int arr[]) throws EmptyArrayException
     {
         int n = arr.length;
 
+        
+        if(n==0){
+            throw new EmptyArrayException("SelectionSort: Empty array");
+        }
+        
         for (int i = 0; i < n-1; i++)
         {
             int min_idx = i;

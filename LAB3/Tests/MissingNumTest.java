@@ -1,6 +1,8 @@
+package Tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class MissingNumTest {
     public static void test(){
