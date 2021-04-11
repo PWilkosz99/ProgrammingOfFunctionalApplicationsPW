@@ -1,5 +1,4 @@
 package Tests;
-import LabEx.*;
 import java.util.Random;
 import SortAlgorithms.*;
 import Exceptions.*;
@@ -29,17 +28,17 @@ public class SortTest {
 
         for (int i = 0; i < arrOptimistic1.length; i++) {
             arrOptimistic1[i] = i;
-            arrOptimistic2[i] = i;
-            arrOptimistic3[i] = i;
-            arrOptimistic4[i] = i;
-            arrOptimistic5[i] = i;
-            //System.out.println(arrPesymistic1.length-i);
             arrPesymistic1[i] = arrPesymistic1.length-i;
-            arrPesymistic2[i] = arrPesymistic2.length-i;
-            arrPesymistic3[i] = arrPesymistic3.length-i;
-            arrPesymistic4[i] = arrPesymistic4.length-i;
-            arrPesymistic5[i] = arrPesymistic5.length-i;
         }
+        
+        arrOptimistic2=arrOptimistic1.clone();
+        arrOptimistic3=arrOptimistic1.clone();
+        arrOptimistic4=arrOptimistic1.clone();
+        arrOptimistic5=arrOptimistic1.clone();
+        arrPesymistic2=arrOptimistic1.clone();
+        arrPesymistic3=arrOptimistic1.clone();
+        arrPesymistic4=arrOptimistic1.clone();
+        arrPesymistic5=arrOptimistic1.clone();
 
         int[] arrExpected1 = new int[100000];
         int[] arrExpected2 = new int[100000];
