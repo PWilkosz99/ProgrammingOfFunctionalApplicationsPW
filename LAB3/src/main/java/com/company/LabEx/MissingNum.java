@@ -1,4 +1,4 @@
-package com.company.LabEx;
+package main.java.com.company.LabEx;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

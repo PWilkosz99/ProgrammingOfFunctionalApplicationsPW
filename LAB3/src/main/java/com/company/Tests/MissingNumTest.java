@@ -1,8 +1,8 @@
-package com.company.Tests;
+package main.java.com.company.Tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import com.company.LabEx.*;
+import main.java.com.company.LabEx.*;
 
 
 public class MissingNumTest {

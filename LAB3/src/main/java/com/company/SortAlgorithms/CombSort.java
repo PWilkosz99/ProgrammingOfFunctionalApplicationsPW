@@ -1,5 +1,5 @@
-package com.company.SortAlgorithms;
-import com.company.Exceptions.*;
+package main.java.com.company.SortAlgorithms;
+import main.java.com.company.Exceptions.*;
 
 public class CombSort implements Sort {
 
