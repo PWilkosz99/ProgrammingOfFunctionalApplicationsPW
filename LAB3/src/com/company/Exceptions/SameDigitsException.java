@@ -1,4 +1,4 @@
-package Exceptions;
+package com.company.Exceptions;
 
 public class SameDigitsException extends Exception {
 

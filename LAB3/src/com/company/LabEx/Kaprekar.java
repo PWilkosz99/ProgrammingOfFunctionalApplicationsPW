@@ -1,9 +1,9 @@
-package LabEx;
+package com.company.LabEx;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import Exceptions.*;
+import com.company.Exceptions.*;
 
 
 public class Kaprekar {

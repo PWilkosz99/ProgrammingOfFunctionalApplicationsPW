@@ -1,4 +1,4 @@
-package LabEx;
+package com.company.LabEx;
 import java.util.List;
 
 public class Spot {

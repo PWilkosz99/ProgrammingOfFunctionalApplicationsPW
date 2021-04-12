@@ -1,4 +1,4 @@
-package LabEx;
+package com.company.LabEx;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

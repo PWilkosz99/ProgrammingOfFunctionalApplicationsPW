@@ -1,7 +1,7 @@
-package Tests;
+package com.company.Tests;
 import java.util.Random;
-import SortAlgorithms.*;
-import Exceptions.*;
+import com.company.SortAlgorithms.*;
+import com.company.Exceptions.*;
 
 public class SortTest {
 

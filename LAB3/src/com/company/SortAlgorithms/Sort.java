@@ -1,6 +1,6 @@
-package SortAlgorithms;
+package com.company.SortAlgorithms;
 
-import Exceptions.*;
+import com.company.Exceptions.*;
 
 public interface Sort {
     void sort(int arr[]) throws EmptyArrayException, EmptyArrayException;
