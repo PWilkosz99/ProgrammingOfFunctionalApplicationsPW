@@ -2,10 +2,8 @@ package main.java.com.company.UnitTests;
 import main.java.com.company.Exceptions.EmptyArrayException;
 import main.java.com.company.SortAlgorithms.*;
 import static java.time.Duration.ofMillis;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +12,7 @@ class SortJUnit {
 
 
     int[] sample = {2, 3, 3, 3, 5, 5 ,5, 5, 6, 7, 7, 9, 23, 23 ,32 ,54, 54, 63, 76, 76, 76, 78, 89, 345, 354, 456, 568, 643, 651, 754,5667, 5865};
+
 
     @Test
     @DisplayName("BubbleSort: ArrayEquals")

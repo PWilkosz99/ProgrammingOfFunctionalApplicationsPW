@@ -47,7 +47,7 @@ public class SortDigits {
             int[] intarr = Arrays.stream(arrobj).mapToInt(o -> (int) o).toArray();
             return intarr;
         } else {
-            throw new Exception("Blene argumenty");
+            throw new Exception("Bledne argumenty");
         }
     }
 }
