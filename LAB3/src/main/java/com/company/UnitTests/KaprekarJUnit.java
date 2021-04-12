@@ -12,16 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class KaprekarJUnit {
 
     @Test
-    @DisplayName("Kaprekar: test kroków(case: 1234)")
+    @DisplayName("Kaprekar: test kroków(case: 1234 - 3)")
     void kaprekar() throws SameDigitsException {
         Assertions.assertEquals(Kaprekar.kaprekar(1234), 3);
     }
 
     @Test
-    @DisplayName("Kaprekar: test obecności wyjątku(case: 1111)")
+    @DisplayName("Kaprekar: test obecności wyjątku(case: 1111 - throw)")
     void kaprekar2() throws SameDigitsException {
         Assertions.assertThrows(SameDigitsException.class, () -> {
             Kaprekar.kaprekar(1111);
+        });
+    }
+    @Test
+    @DisplayName("Kaprekar: test obecności wyjątku(case: 1234 - does not throw)")
+    void kaprekar3() throws SameDigitsException {
+        Assertions.assertDoesNotThrow(() -> {
+            Kaprekar.kaprekar(1234);
         });
     }
 }
