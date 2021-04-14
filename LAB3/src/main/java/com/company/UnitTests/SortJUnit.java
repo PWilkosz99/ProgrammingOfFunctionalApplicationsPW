@@ -10,22 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class SortJUnit {
     public static Sort sortMethod;
 
-
-    int[] sample = {2, 3, 3, 3, 5, 5 ,5, 5, 6, 7, 7, 9, 23, 23 ,32 ,54, 54, 63, 76, 76, 76, 78, 89, 345, 354, 456, 568, 643, 651, 754,5667, 5865};
-
+    int[] getSampleArray(){
+        return new int[]{2, 3, 3, 3, 5, 5, 5, 5, 6, 7, 7, 9, 23, 23, 32, 54, 54, 63, 76, 76, 76, 78, 89, 345, 354, 456, 568, 643, 651, 754, 5667, 5865};
+    }
 
     @Test
     @DisplayName("BubbleSort: ArrayEquals")
-    void bubbleSort() throws EmptyArrayException {
+    void bubbleSort_Arrays_Equals() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new BubbleSort();
         sortMethod.sort(arr);
-        Assertions.assertArrayEquals(arr, sample);
+        Assertions.assertArrayEquals(arr, getSampleArray());
     }
 
     @Test
     @DisplayName("BubbleSort: Timeout(10s)")
-    void bubbleSortTimeout() throws EmptyArrayException {
+    void bubbleSortTime_Lower_Than_10() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new BubbleSort();
         assertTimeout(ofMillis(10), () -> {
@@ -36,16 +36,16 @@ class SortJUnit {
 
     @Test
     @DisplayName("CoctailSort: ArrayEquals")
-    void coctailSort() throws EmptyArrayException {
+    void coctailSort_Arrays_Equals() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new CoctailSort();
         sortMethod.sort(arr);
-        Assertions.assertArrayEquals(arr, sample);
+        Assertions.assertArrayEquals(arr, getSampleArray());
     }
 
     @Test
     @DisplayName("CoctailSort: Timeout(10s)")
-    void coctailSortTimeout() throws EmptyArrayException {
+    void coctailSortTime_Lower_Than_10() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new CoctailSort();
         assertTimeout(ofMillis(10), () -> {
@@ -55,16 +55,16 @@ class SortJUnit {
 
     @Test
     @DisplayName("CombSort: ArrayEquals")
-    void combSort() throws EmptyArrayException {
+    void combSort_Arrays_Equals() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new CombSort();
         sortMethod.sort(arr);
-        Assertions.assertArrayEquals(arr, sample);
+        Assertions.assertArrayEquals(arr, getSampleArray());
     }
 
     @Test
     @DisplayName("CombSort: Timeout(10s)")
-    void combSortSortTimeout() throws EmptyArrayException {
+    void combSortSortTime_Lower_Than_10() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new CombSort();
         assertTimeout(ofMillis(10), () -> {
@@ -74,16 +74,16 @@ class SortJUnit {
 
     @Test
     @DisplayName("HeapSort: ArrayEquals")
-    void heapSort() throws EmptyArrayException {
+    void heapSort_Arrays_Equals() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new HeapSort();
         sortMethod.sort(arr);
-        Assertions.assertArrayEquals(arr, sample);
+        Assertions.assertArrayEquals(arr, getSampleArray());
     }
 
     @Test
     @DisplayName("HeapSort: Timeout(10s)")
-    void heapSortTimeout() throws EmptyArrayException {
+    void heapSortTime_Lower_Than_10() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new HeapSort();
         assertTimeout(ofMillis(10), () -> {
@@ -94,16 +94,16 @@ class SortJUnit {
 
     @Test
     @DisplayName("SelectionSort: ArrayEquals")
-    void selectionSort() throws EmptyArrayException {
+    void selectionSort_Arrays_Equals() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new SelectionSort();
         sortMethod.sort(arr);
-        Assertions.assertArrayEquals(arr, sample);
+        Assertions.assertArrayEquals(arr, getSampleArray());
     }
 
     @Test
     @DisplayName("SelectionSort: Timeout(10s)")
-    void selectionSortTimeout() throws EmptyArrayException {
+    void selectionSortTime_Lower_Than_10() throws EmptyArrayException {
         int[] arr = {5,7,23,3,651,23,643,5,754,78,568,3,5,345,3,63,7,456,76,89,76,9,5667,54,5,2,354,32,6,54,76,5865};
         sortMethod = new SelectionSort();
         sortMethod.sort(arr);

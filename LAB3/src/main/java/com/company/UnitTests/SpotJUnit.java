@@ -14,7 +14,7 @@ class SpotJUnit {
 
     @Test
     @DisplayName("Spot: assertAll(7(0) + 2(5) = 7")
-    void spot() throws Exception {
+    void spot_Sum_Of_0_and_5() throws Exception {
         List<Integer> list = new ArrayList<Integer>(){
             {
           add(5);
