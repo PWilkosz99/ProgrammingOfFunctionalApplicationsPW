@@ -1,9 +1,9 @@
+import java.time.LocalTime;
 import java.util.*;
 
 public class TrainStation {
     String name;
     List<Train> trainsList = new ArrayList<Train>();
-    int capacity;
     int capacityLimit;
 
     int getCapacity() {
@@ -12,46 +12,60 @@ public class TrainStation {
 
     TrainStation(String name, int capacity) {
         this.name = name;
-        this.capacityLimit = capacity;
+        capacityLimit = capacity;
     }
 
-    void addTrain(Train train) {
+    void addTrain(Train train) throws Exception {
         if (getCapacity() < capacityLimit) {
             trainsList.add(train);
-            // capacity++;
         } else {
-            System.err.println("Pojemność stacji przekroczona");
+            throw new Exception("Pojemność stacji przekroczona");
         }
     }
 
-    void deleteTrain(Train train) {
-        if (!trainsList.remove(train)) {
-            System.out.println("Brak pociagu o podanej nazwie");
+    void deleteTrain(Train train) throws Exception {
+        try {
+            train.updateTimeAtStation(0, 1);
+            trainsList.remove(train);
+        } catch (NullPointerException e) {
+            throw new Exception("Brak pociagu o podanej nazwie"); // lub train nie jest typu Train, gdy nie jest inny wyjątek
         }
     }
+////////////////// CURRENT------DEPARTURE--------------------->
+    void deleteTrain(Train train, LocalTime CurrentTime) throws Exception
+    {
+        if( train.getDepartureDate().isBefore(CurrentTime))
+        {
+            // opzoniony
+            train.setState(TrainState.Delayed);
+        }
+        else{
+            train.setState(TrainState.Scheduled);
 
-    void deleteAllTrainsNamed(Train train) {
-        // for (Train trains : trainsList) {
-        // if(trains.compareTo(train)==1){
-        // trainsList.remove(trains);
-        // }
-        // }
+        }
+        deleteTrain(train);
+    }
+
+    // jw ale jak sie nazwy dublują to sie usuwaja
+    void deleteAllSameName(Train train) {
+
         for (int i = 0; i < trainsList.size(); i++) {
-            String name = trainsList.get(i).name;
-            if (name == train.name) {
+            String name = trainsList.get(i).getName();
+            if (name == train.getName()) {
                 trainsList.remove(i);
             }
         }
     }
 
-    void deleteLastTrain() {
+    void deleteLastTrain() throws Exception {
         deleteTrain(trainsList.get(trainsList.size() - 1));
     }
 
+    // ile pociagow ma ten status
     int countTrainState(TrainState s) {
         int count = 0;
         for (Train train : trainsList) {
-            if (train.state == s) {
+            if (train.getState() == s) {
                 count++;
             }
         }
@@ -60,7 +74,7 @@ public class TrainStation {
 
     void printAllTrains() {
         for (Train train : trainsList) {
-            System.out.println(String.format("Pociąg %s o numerze %d", train.name, train.number));
+            System.out.println(String.format("Pociąg %s o numerze %d", train.getName(), train.getNumber()));
         }
     }
 
@@ -72,7 +86,7 @@ public class TrainStation {
         }
         return null;
     }
-
+    // zawiera okreslony ciag znakow
     List<Train> searchPartial(String name) {
         List<Train> trains = new ArrayList<>();
         for (Train train : trainsList) {
@@ -91,22 +105,31 @@ public class TrainStation {
         Collections.sort(trains);
         return trains;
     }
-
+    // ktory jedzie pierwszy
     List<Train> sortByDepartureTime() {
         List<Train> trains = new ArrayList<Train>();
         for (Train train : trainsList) {
             trains.add(train);
         }
-        Collections.sort(trains, new SortTrainsByDeparture());
+        //if()
+        Collections.sort(trains, new SortTrainsByDeparture()); // zeby nie ruszac oryginalu
         return trains;
     }
 
     Train longestTravelTime() {
-        return Collections.max(trainsList, new CompareByTravelTime());
+        if (trainsList.size() != 0) {
+            return Collections.max(trainsList, new CompareByTravelTime());
+        } else {
+            return null;
+        }
     }
 
     Train shortesTravelTime() {
-        return Collections.min(trainsList, new CompareByTravelTime());
+        if (trainsList.size() != 0) {
+            return Collections.min(trainsList, new CompareByTravelTime());
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -120,30 +143,18 @@ class SortTrainsByDeparture implements Comparator<Train> {
 
     @Override
     public int compare(Train o1, Train o2) {
-        // return o1.compareTo(o2);
-        // if (o1.getDeparture() > o2.getDeparture()) {
-        //     return 1;
-        // } else {
-        //     return 0;
-        // }
-        return o1.getDeparture() - o2.getDeparture();
+        if (o1.getDeparture() > o2.getDeparture()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
-
 }
 
 class CompareByTravelTime implements Comparator<Train> {
 
     @Override
     public int compare(Train o1, Train o2) {
-
-        // if((o1.getFinishTime()-o1.getStartTime())>(o2.getFinishTime()-o2.getStartTime())){
-        // return 1;
-        // }else{
-        // return -1;
-        // }
-
         return (o1.getFinishTime() - o1.getStartTime()) - (o2.getFinishTime() - o2.getStartTime());
-
     }
-
 }

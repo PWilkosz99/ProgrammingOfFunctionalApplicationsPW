@@ -1,89 +1,96 @@
+import java.time.LocalTime;
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
-        Train train = new Train("Train1", 123, 500, "passenger", 13, 14, TrainState.New, 1, 24);
-        Train train2 = new Train("Train2", 555, 200, "apples", 12, 13, TrainState.New, 7, 18);
-        Train train3 = new Train("Train3", 632, 500, "passenger", 11, 12, TrainState.New, 9, 19);
-        Train train4 = new Train("Train4", 412, 200, "food", 17, 18, TrainState.New, 5, 23);
-        Train train5 = new Train("Train1", 412, 200, "food", 15, 16, TrainState.New, 13, 18);
-        Train train6 = new Train("Train20", 412, 200, "food", 15, 16, TrainState.New, 13, 18);
+        try {
+            TrainStation station = new TrainStation("Kraków Główny", 5);
+            TrainStation station1 = new TrainStation("Warszawa Zachodnia", 3);
+            TrainStation station2 = new TrainStation("Warszawa Centralna", 10);
+            TrainStation station5 = new TrainStation("Warszawa Wschodnia", 4);
+            TrainStation station6 = new TrainStation("Iława Główna", 2);
+            TrainStation station7 = new TrainStation("Gdańsk Główny", 5);
+            TrainStation station8 = new TrainStation("Gdańsk Wrzeszcz", 2);
+            TrainStation station9 = new TrainStation("Gdańsk Oliwa", 2);
+            TrainStation station10 = new TrainStation("Sopot", 1);
+            TrainStation station11 = new TrainStation("Gdynia Główna", 7);
 
-        TrainStation station = new TrainStation("stacja1", 5);
+            
+            var record = new TimeRecord("Express InterCity Premium", new String[] { "Kraków Główny", "Warszawa Centralna", "Gdańsk Główny", "Sopot", "Gdynia Główna"},
+                    new int[] { 10, 13, 16,18,20 }, new int[] { 30, 10, 35, 10, 50 });
+            var record2 = new TimeRecord("USTRONIE", new String[] {  "Kraków Główny", "Warszawa Zachodnia","Warszawa Centralna", "Warszawa Wschodnia", "Iława Główna", "Gdańsk Główny", "Gdańsk Wrzeszcz", "Gdańsk Oliwa","Sopot", "Gdynia Główna" },
+                    new int[] { 2, 8, 5, 6, 9, 12, 13, 14 ,15, 16 }, new int[] { 20, 50, 10, 5,  5, 5, 5, 5, 5, 5 });
+            var record3 = new TimeRecord("Express InterCity", new String[] {  "Kraków Główny", "Warszawa Zachodnia","Warszawa Centralna", "Warszawa Wschodnia", "Iława Główna", "Gdańsk Główny", "Gdańsk Wrzeszcz","Sopot", "Gdynia Główna" },
+                    new int[] { 6, 8, 10, 11, 14, 16, 17, 18, 21 }, new int[] { 15, 20, 25, 35,  45, 10, 7, 9, 50 });
+            var record4 = new TimeRecord("PKP Cargo", new String[] {  "Kraków Główny", "Gdańsk Główny", "Gdańsk Wrzeszcz","Sopot", "Gdynia Główna" },
+                    new int[] { 6, 16, 17, 18, 21 }, new int[] { 15, 20, 25, 9, 50 }, "cargo");
 
-        station.addTrain(train);
-        station.addTrain(train2);
-        station.addTrain(train3);
-        station.addTrain(train4);
-        station.addTrain(train5);
-        System.out.println("\nDodaje stajce:\n");
-        station.addTrain(train6);
+            var container = new TrainStationContainer(station, station1, station2, station5, station6, station7, station8, station9, station10, station11);
+            container.updateTimeTable(record, record3, record2, record4);
 
-        // System.out.println("\n\n\n");
+            LocalTime time = LocalTime.of(0, 0);
 
-        // station.printAllTrains();
-        System.out.println("\nNajkrótszy czas przejazdu:\n");
+            while (time.compareTo(LocalTime.of(23, 50)) < 0) {
+                container.tick(time);
+                time = time.plusMinutes(10);
 
-        station.shortesTravelTime().print();
+                if(time.compareTo(LocalTime.of(8, 20))  == 0)
+                {
+                  //  container.renovation("Warszawa Zachodnia");
+                }                
 
-        System.out.println("\nNajdłuższy czas przejazdu:\n");
+                Thread.sleep(10);
+            }
 
-        station.longestTravelTime().print();
-
-        System.out.println("\nSortuje po nazwie:\n");
-
-        var a = station.sortByName();
-
-        for (Train trains : a) {
-            System.out.println(trains.name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+    }
 
-        System.out.println("\nSortuje po czasie odjazdu:\n");
+}
 
-        var b = station.sortByDepartureTime();
 
-        for (Train trains : b) {
-            System.out.println(trains.name + " " + trains.getDeparture());
+class TimeRecord {
+    String trainName;
+    String[] stations;
+    LocalTime[] arriveTimes;
+    LocalTime[] DepartureTime;
+    int count = 0;
+    String cargo;
+    int capacity;
+
+    public TimeRecord(String trainName, String[] stations, int[] arriveTimes, int[] stationDelay) {
+            this(trainName, stations, arriveTimes, stationDelay, "passanger", 50); 
+    }
+
+    public TimeRecord(String trainName, String[] stations, int[] arriveTimes, int[] stationDelay, String cargo) {
+        this(trainName, stations, arriveTimes, stationDelay, cargo, 50);
+    }
+
+    public TimeRecord(String trainName, String[] stations, int[] arriveTimes, int[] stationDelay, int capacity) {
+        this(trainName, stations, arriveTimes, stationDelay, "passanger", capacity);
+    }
+
+    public TimeRecord(String trainName, String[] stations, int[] arriveTimes, int[] stationDelay, String cargo, int capacity) {
+        this.trainName = trainName;
+        this.stations = stations;
+        this.cargo = cargo;
+        this.capacity = capacity;
+        var listArriveTimes = new ArrayList<LocalTime>();
+        var listDepartureTimes = new ArrayList<LocalTime>();
+
+        for (int i = 0; i < stations.length; i++){
+            var clc = LocalTime.of(arriveTimes[i], 0);
+            listArriveTimes.add(clc);
+            listDepartureTimes.add(clc.plusMinutes(stationDelay[i]));
         }
+        var arriveTimesTypeDef = new LocalTime[listArriveTimes.size()];
+        this.arriveTimes = listArriveTimes.toArray(arriveTimesTypeDef);
 
-        System.out.println("\nUsuwam pociag train2:\n");
-
-        station.deleteTrain(train2);
-
-        station.printAllTrains();
-
-        System.out.println("\nUsuwam ostatni pociag :\n");
-
-        station.deleteLastTrain();
-        station.printAllTrains();
-
-        System.out.println("\nUsuwam pociagi o nazwie Train1 :\n");
-
-        station.deleteAllTrainsNamed(train);
-        station.printAllTrains();
-
-        //tworze i dodaje stacje do kontenera
-
-        TrainStation station2 = new TrainStation("stacja2", 2);
-
-        TrainStationContainer container = new TrainStationContainer();
-
-        container.addStation(station);
-        container.addStation(station2);
-
-        System.out.println("\nPojemnosc stacji 2 :\n");
-        System.out.println(station2.getCapacity());
-
-        System.out.println("\nPociagi o statusie nowy na stacji1 :\n");
-        System.out.println(station.countTrainState(TrainState.New));
-
-        System.out.println("\nSzukam pociagu o nazwie Train3 :\n");
-        System.out.println(station.search("Train999"));
-
-        System.out.println("\nSzukam pociagu zawierajacego Tra :\n");
-        System.out.println(station.searchPartial("Tra"));
-
-        System.out.println("\nPrzepełnione stacje :\n");
-        System.out.println(container.overcrowdedTrainStations());
-
+        var departureTimeTypeDef = new LocalTime[listDepartureTimes.size()];
+        this.DepartureTime = listDepartureTimes.toArray(departureTimeTypeDef);
+        return;
     }
 }
