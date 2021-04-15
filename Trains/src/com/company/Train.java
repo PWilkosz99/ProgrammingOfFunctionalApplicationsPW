@@ -1,3 +1,4 @@
+package com.company;
 import java.time.LocalTime;
 
 public class Train implements Comparable<Train> {
