@@ -10,6 +10,10 @@ public class TrainStation {
         return trainsList.size();
     }
 
+    void setCapacity(int capacity){
+        this.capacity= capacity;
+    }
+
     String getName(){ return name; }
 
     int getCapacityLimit(){ return capacityLimit;}
@@ -149,7 +153,6 @@ class CompareByTravelTime implements Comparator<Train> {
         // }
 
         return (o1.getFinishTime() - o1.getStartTime()) - (o2.getFinishTime() - o2.getStartTime());
-
     }
 
 }

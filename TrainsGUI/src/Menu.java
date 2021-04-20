@@ -1,9 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,14 +14,29 @@ public class Menu {
     static DefaultTableModel model;
 
     static List<TrainStation> stationsList;
+    static List<TrainTable> trainTableslist;
 
 
     public TrainStation findByStationName(String name) {
         return stationsList.stream().filter(station -> name.equals(station.getName())).findFirst().orElse(null);
     }
 
+    public static void RefreshData(int capacity, TrainStation station) {
+        int index = 0;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            System.out.println(String.valueOf(model.getValueAt(i, 0)));
+            System.out.println(station.getName());
+            if (String.valueOf(model.getValueAt(i, 0)) == station.getName()) {
+                index = i;
+                break;
+            }
+        }
+        model.setValueAt(capacity, index, 2);
+    }
+
     Menu() {
         stationsList = new ArrayList<>();
+        trainTableslist = new ArrayList<>();
 
         JFrame frame = new JFrame("Train management app");
         frame.setContentPane(panelMenu);
@@ -37,7 +50,6 @@ public class Menu {
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         tableStation.setModel(model);
-
 
 
         btnAddStation.addActionListener(new ActionListener() {
@@ -85,6 +97,13 @@ public class Menu {
                     Object[] row = {ts.getName(), ts.getCapacityLimit(), ts.getCapacity()};
                     model.addRow(row);
                 }
+            }
+        });
+        tableStation.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                trainTableslist.add(new TrainTable(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
             }
         });
     }

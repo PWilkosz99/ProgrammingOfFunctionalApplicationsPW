@@ -8,6 +8,32 @@ public class Train implements Comparable<Train> {
     TrainState state;
     int startTime;
     int finishTime;
+    int travelTime;
+
+    Train(String name, int number, int capacity, int travelTime, TrainState state){
+        this.name=name;
+        this.number = number;//of cars in this case
+        this.capacity = capacity;
+        this.travelTime = travelTime;
+        this.state = state;
+        this.arrivalTime=0;
+        this.departureTime=0;
+        this.startTime=0;
+        this.finishTime=0;
+    }
+
+    Train(String name){
+        this.name=name;
+        this.number = 0;
+        this.capacity = 0;
+        this.travelTime = 0;
+        this.state = TrainState.New;
+        this.arrivalTime=0;
+        this.departureTime=0;
+        this.startTime=0;
+        this.finishTime=0;
+        this.travelTime=0;
+    }
 
     Train(String name, int number, int capacity, String cargo) {
         this.name = name;
@@ -19,6 +45,7 @@ public class Train implements Comparable<Train> {
         this.state=TrainState.New;
         this.startTime=0;
         this.finishTime=0;
+        this.travelTime=0;
     }
 
     Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime) {
@@ -69,6 +96,14 @@ public class Train implements Comparable<Train> {
     String getName(){
         return name;
     }
+
+    int getNumber() {return number;}
+
+    int getCapacity() {return capacity;}
+
+    int getTravelTime(){return travelTime;}
+
+    TrainState getTrainState(){return state;}
 
     int getDeparture(){
         return departureTime;
