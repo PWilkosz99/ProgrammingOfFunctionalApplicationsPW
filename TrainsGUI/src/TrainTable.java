@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +11,7 @@ public class TrainTable {
     private JButton btnAddTrain;
     private JButton btnDeleteTrain;
     private JButton btnUpdate;
+    private JTextField txtSearchTrain;
 
     public static TrainState parseStringtoState(String sstate) {
         return switch (sstate) {
@@ -107,6 +109,12 @@ public class TrainTable {
             TrainState state = parseStringtoState(String.valueOf(model.getValueAt(selectedIndex, 4)));
             currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
             currentStation.addTrain(new Train(name, cars, capacity, time, state));
+        });
+        txtSearchTrain.addActionListener(e -> {
+            DefaultTableModel Model = (DefaultTableModel)tableTrains.getModel();
+            TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
+            tableTrains.setRowSorter(tr);
+            tr.setRowFilter(RowFilter.regexFilter(txtSearchTrain.getText().trim()));
         });
     }
 }

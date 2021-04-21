@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,6 +12,8 @@ public class Menu {
     private JButton btnAddStation;
     private JButton btnSortStation;
     private JButton btnDeleteStation;
+    private JLabel txtInfo;
+    private JTextField txtSearchStation;
     static DefaultTableModel model;
 
     static List<TrainStation> stationsList;
@@ -94,6 +97,12 @@ public class Menu {
                 super.mouseClicked(e);
                 trainTableslist.add(new TrainTable(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
             }
+        });
+        txtSearchStation.addActionListener(e -> {
+            DefaultTableModel Model = (DefaultTableModel)tableStation.getModel();
+            TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
+            tableStation.setRowSorter(tr);
+            tr.setRowFilter(RowFilter.regexFilter(txtSearchStation.getText().trim()));
         });
     }
 
