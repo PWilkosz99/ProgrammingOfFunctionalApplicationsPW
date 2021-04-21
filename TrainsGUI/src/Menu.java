@@ -24,9 +24,7 @@ public class Menu {
     public static void RefreshData(int capacity, TrainStation station) {
         int index = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
-            System.out.println(String.valueOf(model.getValueAt(i, 0)));
-            System.out.println(station.getName());
-            if (String.valueOf(model.getValueAt(i, 0)) == station.getName()) {
+            if (String.valueOf(model.getValueAt(i, 0)).equals(station.getName())) {
                 index = i;
                 break;
             }
@@ -52,51 +50,42 @@ public class Menu {
         tableStation.setModel(model);
 
 
-        btnAddStation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object[] row = new Object[3];
-                row[0] = JOptionPane.showInputDialog("Podaj nazwę stacji");
-                row[1] = JOptionPane.showInputDialog("Podaj maksymalną pojemność stacji");
-                row[2] = 0;
-                if (row[0].equals("") || row[1].equals("")) {
-                    JOptionPane.showMessageDialog(null, "Wykryto puste pole");
-                } else {
-                    String name = String.valueOf(row[0]);
-                    int cap = Integer.parseInt(String.valueOf(row[1]));
-                    stationsList.add(new TrainStation(name, cap));
-                    model.addRow(row);
-                }
+        btnAddStation.addActionListener(e -> {
+            Object[] row = new Object[3];
+            row[0] = JOptionPane.showInputDialog("Podaj nazwę stacji");
+            row[1] = JOptionPane.showInputDialog("Podaj maksymalną pojemność stacji");
+            row[2] = 0;
+            if (row[0].equals("") || row[1].equals("")) {
+                JOptionPane.showMessageDialog(null, "Wykryto puste pole");
+            } else {
+                String name = String.valueOf(row[0]);
+                int cap = Integer.parseInt(String.valueOf(row[1]));
+                stationsList.add(new TrainStation(name, cap));
+                model.addRow(row);
             }
         });
 
-        btnDeleteStation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedIndex = tableStation.getSelectedRow();
-                if (selectedIndex >= 0) {
-                    if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć stacje " + String.valueOf(model.getValueAt(selectedIndex, 0)) + "?", "OSTRZEŻENIE",
-                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        TrainStation actStation = findByStationName(String.valueOf(model.getValueAt(selectedIndex, 0)));
-                        model.removeRow(selectedIndex);
-                        stationsList.remove(actStation);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
+        btnDeleteStation.addActionListener(e -> {
+            int selectedIndex = tableStation.getSelectedRow();
+            if (selectedIndex >= 0) {
+                if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć stacje " + model.getValueAt(selectedIndex, 0) + "?", "OSTRZEŻENIE",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    TrainStation actStation = findByStationName(String.valueOf(model.getValueAt(selectedIndex, 0)));
+                    model.removeRow(selectedIndex);
+                    stationsList.remove(actStation);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
             }
         });
 
-        btnSortStation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Comparator<TrainStation> compareByCapacity = (TrainStation t1, TrainStation t2) -> Integer.compare(t1.getCapacity(), t2.getCapacity());
-                stationsList.sort(compareByCapacity);
-                for (TrainStation ts : stationsList) {
-                    model.removeRow(0);
-                    Object[] row = {ts.getName(), ts.getCapacityLimit(), ts.getCapacity()};
-                    model.addRow(row);
-                }
+        btnSortStation.addActionListener(e -> {
+            Comparator<TrainStation> compareByCapacity = (TrainStation t1, TrainStation t2) -> Integer.compare(t1.getCapacity(), t2.getCapacity());
+            stationsList.sort(compareByCapacity);
+            for (TrainStation ts : stationsList) {
+                model.removeRow(0);
+                Object[] row = {ts.getName(), ts.getCapacityLimit(), ts.getCapacity()};
+                model.addRow(row);
             }
         });
         tableStation.addMouseListener(new MouseAdapter() {

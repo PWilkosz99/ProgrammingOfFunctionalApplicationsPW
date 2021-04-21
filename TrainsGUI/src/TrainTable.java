@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class TrainTable {
     DefaultTableModel model;
@@ -10,20 +9,20 @@ public class TrainTable {
     private JTable tableTrains;
     private JButton btnAddTrain;
     private JButton btnDeleteTrain;
-
-    List<Train> trainList;
+    private JButton btnUpdate;
 
     public static TrainState parseStringtoState(String sstate) {
-        if (sstate == "Nowy") {
-            return TrainState.New;
-        } else if (sstate == "Opóźniony") {
-            return TrainState.Delayed;
-        } else if (sstate == "Planowy") {
-            return TrainState.Scheduled;
-        } else if (sstate == "Odowłany") {
-            return TrainState.Cancelled;
-        }
-        return null;
+        return switch (sstate) {
+            case "Nowy" -> TrainState.New;
+            case "New" -> TrainState.New;
+            case "Opóźniony" -> TrainState.Delayed;
+            case "Delayed" -> TrainState.Delayed;
+            case "Planowy" -> TrainState.Scheduled;
+            case "Scheduled" -> TrainState.Scheduled;
+            case "Odowłany" -> TrainState.Cancelled;
+            case "Cancelled" -> TrainState.Cancelled;
+            default -> null;
+        };
     }
 
     TrainTable(TrainStation currentStation) {
@@ -49,60 +48,65 @@ public class TrainTable {
             model.addRow(row);
         }
 
-        btnAddTrain.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int cap = currentStation.getCapacity();
-                int maxcap = currentStation.getCapacityLimit();
-                if (cap >= maxcap) {
-                    JOptionPane.showMessageDialog(null, "Osiągnięto limit stacji!");
-                } else {
-                    String[] states = new String[4];
-                    states[0] = "Nowy";
-                    states[1] = "Opóźniony";
-                    states[2] = "Planowy";
-                    states[3] = "Odowłany";
+        btnAddTrain.addActionListener(e -> {
+            int cap = currentStation.getCapacity();
+            int maxcap = currentStation.getCapacityLimit();
+            if (cap >= maxcap) {
+                JOptionPane.showMessageDialog(null, "Osiągnięto limit stacji!");
+            } else {
+                String[] states = new String[4];
+                states[0] = "Nowy";
+                states[1] = "Opóźniony";
+                states[2] = "Planowy";
+                states[3] = "Odowłany";
 
-                    Object[] row = new Object[5];
-                    row[0] = JOptionPane.showInputDialog("Podaj nazwę pociągu");
-                    row[1] = JOptionPane.showInputDialog("Podaj ilość wagonów w pociągu");
-                    row[2] = JOptionPane.showInputDialog("Podaj ilość miejsc pociagu");
-                    row[3] = JOptionPane.showInputDialog("Podaj czas przejazdu pociagu");
-                    row[4] = JOptionPane.showInputDialog(null, "Wybierz stan pociągu", "Wprowadzanie danych o pociągu", JOptionPane.QUESTION_MESSAGE, null, states, "New");
+                Object[] row = new Object[5];
+                row[0] = JOptionPane.showInputDialog("Podaj nazwę pociągu");
+                row[1] = JOptionPane.showInputDialog("Podaj ilość wagonów w pociągu");
+                row[2] = JOptionPane.showInputDialog("Podaj ilość miejsc pociagu");
+                row[3] = JOptionPane.showInputDialog("Podaj czas przejazdu pociagu");
+                row[4] = JOptionPane.showInputDialog(null, "Wybierz stan pociągu", "Wprowadzanie danych o pociągu", JOptionPane.QUESTION_MESSAGE, null, states, "New");
 
 
-                    String name = String.valueOf(row[0]);
-                    int cars = Integer.parseInt(String.valueOf(row[1]));
-                    int capacity = Integer.parseInt(String.valueOf(row[2]));
-                    int time = Integer.parseInt(String.valueOf(row[3]));
-                    TrainState state = parseStringtoState(row[4].toString());
+                String name = String.valueOf(row[0]);
+                int cars = Integer.parseInt(String.valueOf(row[1]));
+                int capacity = Integer.parseInt(String.valueOf(row[2]));
+                int time = Integer.parseInt(String.valueOf(row[3]));
+                TrainState state = parseStringtoState(row[4].toString());
 
-                    currentStation.addTrain(new Train(name, cars, capacity, time, state));
-                    cap++;
-                    currentStation.setCapacity(cap);
-                    Menu.RefreshData(cap, currentStation);
-                    model.addRow(row);
-                }
+                currentStation.addTrain(new Train(name, cars, capacity, time, state));
+                cap++;
+                currentStation.setCapacity(cap);
+                Menu.RefreshData(cap, currentStation);
+                model.addRow(row);
             }
         });
-        btnDeleteTrain.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedIndex = tableTrains.getSelectedRow();
-                if (selectedIndex >= 0) {
-                    if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć pociąg " + String.valueOf(model.getValueAt(selectedIndex, 0)) + "?", "OSTRZEŻENIE",
-                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
-                        model.removeRow(selectedIndex);
+        btnDeleteTrain.addActionListener(e -> {
+            int selectedIndex = tableTrains.getSelectedRow();
+            if (selectedIndex >= 0) {
+                if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć pociąg " + model.getValueAt(selectedIndex, 0) + "?", "OSTRZEŻENIE",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
+                    model.removeRow(selectedIndex);
 
-                        int cap = currentStation.getCapacity();
-                        currentStation.setCapacity(cap);
-                        Menu.RefreshData(cap, currentStation);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
+                    int cap = currentStation.getCapacity();
+                    currentStation.setCapacity(cap);
+                    Menu.RefreshData(cap, currentStation);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
             }
+        });
+        btnUpdate.addActionListener(e -> {
+            //Object[] columns = {"Nazwa pociagu", "Ilosc wagonow", "Ilosc miejsc", "Czas przejazdu", "Stan pociagu"};
+            int selectedIndex = tableTrains.getSelectedRow();
+            String name = String.valueOf(model.getValueAt(selectedIndex, 0));
+            int cars = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 1)));
+            int capacity = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 2)));
+            int time = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 3)));
+            TrainState state = parseStringtoState(String.valueOf(model.getValueAt(selectedIndex, 4)));
+            currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
+            currentStation.addTrain(new Train(name, cars, capacity, time, state));
         });
     }
 }
