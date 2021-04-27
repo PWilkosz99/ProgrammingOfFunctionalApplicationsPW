@@ -1,3 +1,5 @@
+package TrainControllerGUI;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -5,6 +7,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import TrainModel.*;
 
 public class Menu {
     private JTable tableStation;
@@ -39,7 +42,7 @@ public class Menu {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
 
-        JFrame frame = new JFrame("Train management app");
+        JFrame frame = new JFrame("TrainModel.Train management app");
         frame.setContentPane(panelMenu);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,3 +1,5 @@
+package TrainModel;
+
 public class Train implements Comparable<Train> {
     String name;
     String cargo;
@@ -10,7 +12,7 @@ public class Train implements Comparable<Train> {
     int finishTime;
     int travelTime;
 
-    Train(String name, int number, int capacity, int travelTime, TrainState state){
+    public Train(String name, int number, int capacity, int travelTime, TrainState state){
         this.name=name;
         this.number = number;//of cars in this case
         this.capacity = capacity;
@@ -22,7 +24,7 @@ public class Train implements Comparable<Train> {
         this.finishTime=0;
     }
 
-    Train(String name){
+    public Train(String name){
         this.name=name;
         this.number = 0;
         this.capacity = 0;
@@ -93,17 +95,17 @@ public class Train implements Comparable<Train> {
         System.out.println(String.format("\t\t-----\nPociąg o %s o numerze %d\nPrzyjeżdza o: %d, Odjezdza o: %d\nWyjezdza z stacji poczatkowej o %d\nDojezdza do stacji koncowej o %d\nprzewozi %s\n\t\t-----\n", name, number, arrivalTime, departureTime, startTime, finishTime, cargo));
     }
 
-    String getName(){
+    public String getName(){
         return name;
     }
 
-    int getNumber() {return number;}
+    public int getNumber() {return number;}
 
-    int getCapacity() {return capacity;}
+    public int getCapacity() {return capacity;}
 
-    int getTravelTime(){return travelTime;}
+    public int getTravelTime(){return travelTime;}
 
-    TrainState getTrainState(){return state;}
+    public TrainState getTrainState(){return state;}
 
     int getDeparture(){
         return departureTime;

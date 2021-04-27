@@ -1,8 +1,10 @@
+package TrainControllerGUI;
+
+import TrainModel.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TrainTable {
     DefaultTableModel model;
@@ -28,7 +30,7 @@ public class TrainTable {
     }
 
     TrainTable(TrainStation currentStation) {
-        JFrame frame = new JFrame("Train management app");
+        JFrame frame = new JFrame("TrainModel.Train management app");
         frame.setContentPane(panelTrains);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

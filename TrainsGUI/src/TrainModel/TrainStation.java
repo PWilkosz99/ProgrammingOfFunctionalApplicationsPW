@@ -1,31 +1,33 @@
+package TrainModel;
+
 import java.util.*;
 
 public class TrainStation {
     String name;
-    List<Train> trainsList = new ArrayList<Train>();
+    public List<Train> trainsList = new ArrayList<Train>();
     int capacity;
     int capacityLimit;
 
-    int getCapacity() {
+    public int getCapacity() {
         return trainsList.size();
     }
 
-    void setCapacity(int capacity){
+    public void setCapacity(int capacity){
         this.capacity= capacity;
     }
 
-    String getName(){ return name; }
+    public String getName(){ return name; }
 
-    int getCapacityLimit(){ return capacityLimit;}
+    public int getCapacityLimit(){ return capacityLimit;}
 
 
-    TrainStation(String name, int capacity) {
+    public TrainStation(String name, int capacity) {
         this.name = name;
         this.capacityLimit = capacity;
     }
 
 
-    void addTrain(Train train) {
+    public void addTrain(Train train) {
         if (getCapacity() < capacityLimit) {
             trainsList.add(train);
             // capacity++;
@@ -40,8 +42,8 @@ public class TrainStation {
         }
     }
 
-    void deleteAllTrainsNamed(Train train) {
-        // for (Train trains : trainsList) {
+    public void deleteAllTrainsNamed(Train train) {
+        // for (TrainModel.Train trains : trainsList) {
         // if(trains.compareTo(train)==1){
         // trainsList.remove(trains);
         // }
