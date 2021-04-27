@@ -1,4 +1,4 @@
-package TrainControllerGUI;
+package TrainPlannerGUI;
 
 import TrainModel.*;
 

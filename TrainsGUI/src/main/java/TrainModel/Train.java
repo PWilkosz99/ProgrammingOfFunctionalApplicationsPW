@@ -1,5 +1,7 @@
 package TrainModel;
 
+import java.util.ArrayList;
+
 public class Train implements Comparable<Train> {
     String name;
     String cargo;
@@ -11,6 +13,7 @@ public class Train implements Comparable<Train> {
     int startTime;
     int finishTime;
     int travelTime;
+    public ArrayList<TrainStation> stationList;
 
     public Train(String name, int number, int capacity, int travelTime, TrainState state){
         this.name=name;
