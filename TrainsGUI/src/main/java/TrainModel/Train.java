@@ -14,120 +14,101 @@ public class Train implements Comparable<Train> {
     int finishTime;
     int travelTime;
     public ArrayList<TrainStation> stationList;
+    public ArrayList<Integer> timeTableList;
 
-    public Train(String name, int number, int capacity, int travelTime, TrainState state){
-        this.name=name;
+    public Train(String name, int number, int capacity, int travelTime, TrainState state) {
+        this.name = name;
         this.number = number;//of cars in this case
         this.capacity = capacity;
         this.travelTime = travelTime;
         this.state = state;
-        this.arrivalTime=0;
-        this.departureTime=0;
-        this.startTime=0;
-        this.finishTime=0;
+        this.arrivalTime = 0;
+        this.departureTime = 0;
+        this.startTime = 0;
+        this.finishTime = 0;
     }
 
-    public Train(String name){
-        this.name=name;
+    public Train(String name) {
+        this.name = name;
         this.number = 0;
         this.capacity = 0;
         this.travelTime = 0;
         this.state = TrainState.New;
-        this.arrivalTime=0;
-        this.departureTime=0;
-        this.startTime=0;
-        this.finishTime=0;
-        this.travelTime=0;
+        this.arrivalTime = 0;
+        this.departureTime = 0;
+        this.startTime = 0;
+        this.finishTime = 0;
+        this.travelTime = 0;
     }
 
-    Train(String name, int number, int capacity, String cargo) {
+    public Train(String name, ArrayList<TrainStation> stationList, TrainState state) {
         this.name = name;
-        this.number = number;
-        this.capacity = capacity;
-        this.cargo = cargo;
-        this.arrivalTime=0;
-        this.departureTime=0;
-        this.state=TrainState.New;
-        this.startTime=0;
-        this.finishTime=0;
-        this.travelTime=0;
+        this.state = state;
+        this.stationList = stationList;
+        this.number = 0;
+        this.capacity = 0;
+        this.travelTime = 0;
+        this.arrivalTime = 0;
+        this.departureTime = 0;
+        this.startTime = 0;
+        this.finishTime = 0;
+        this.travelTime = 0;
+
     }
 
-    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime) {
+    public Train(String name, ArrayList<TrainStation> stationList, ArrayList<Integer> timeTableList, TrainState state) {
         this.name = name;
-        this.number = number;
-        this.capacity = capacity;
-        this.cargo = cargo;
-        this.arrivalTime=arrivalTime;
-        this.departureTime=departureTime;
-        this.state=TrainState.New;
-        this.startTime=0;
-        this.finishTime=0;
+        this.state = state;
+        this.stationList = stationList;
+        this.timeTableList = timeTableList;
     }
-
-    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime, TrainState state){
-        this.name = name;
-        this.number = number;
-        this.capacity = capacity;
-        this.cargo = cargo;
-        this.arrivalTime=arrivalTime;
-        this.departureTime=departureTime;
-        this.state=state;
-        this.startTime=0;
-        this.finishTime=0;
-    }
-
-    Train(String name, int number, int capacity, String cargo, int arrivalTime, int departureTime, TrainState state, int startTime, int finishTime){
-        this.name = name;
-        this.number = number;
-        this.capacity = capacity;
-        this.cargo = cargo;
-        this.arrivalTime=arrivalTime;
-        this.departureTime=departureTime;
-        this.state=state;
-        this.startTime=startTime;
-        this.finishTime=finishTime;
-    }
-
 
     public void printTrainCargo() {
         System.out.println(String.format("Pociąg o %s o numerze %d przwozi %s", name, number, cargo));
     }
 
-    public void print(){
+    public void print() {
         System.out.println(String.format("\t\t-----\nPociąg o %s o numerze %d\nPrzyjeżdza o: %d, Odjezdza o: %d\nWyjezdza z stacji poczatkowej o %d\nDojezdza do stacji koncowej o %d\nprzewozi %s\n\t\t-----\n", name, number, arrivalTime, departureTime, startTime, finishTime, cargo));
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getNumber() {return number;}
+    public int getNumber() {
+        return number;
+    }
 
-    public int getCapacity() {return capacity;}
+    public int getCapacity() {
+        return capacity;
+    }
 
-    public int getTravelTime(){return travelTime;}
+    public int getTravelTime() {
+        return travelTime;
+    }
 
-    public TrainState getTrainState(){return state;}
+    public TrainState getTrainState() {
+        return state;
+    }
 
-    int getDeparture(){
+    int getDeparture() {
         return departureTime;
     }
 
-    int getArrival(){
+    int getArrival() {
         return arrivalTime;
     }
 
-    int getStartTime(){
+    int getStartTime() {
         return startTime;
     }
 
-    int getFinishTime(){
+    int getFinishTime() {
         return finishTime;
     }
 
     public int compareTo(Train o) {
         return name.compareTo(o.name);
     }
-    
+
 }

@@ -26,6 +26,11 @@ public class TrainStation {
         this.capacityLimit = capacity;
     }
 
+    public TrainStation(String name) {
+        this.name = name;
+        this.capacityLimit = 0;
+    }
+
 
     public void addTrain(Train train) {
         if (getCapacity() < capacityLimit) {
