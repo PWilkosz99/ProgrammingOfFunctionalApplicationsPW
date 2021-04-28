@@ -33,5 +33,6 @@
            <TableColumn fx:id="clmnTime" prefWidth="120.0" text="Czas przejazdu" />
            <TableColumn fx:id="clmnCost" prefWidth="75.0" text="Cena biletu" />
        </columns></TableView>
+      <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#buttonCancelOnClick" text="Button" GridPane.rowIndex="4" />
    </children>
 </GridPane>

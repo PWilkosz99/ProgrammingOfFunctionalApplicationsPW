@@ -117,6 +117,10 @@ public class Train implements Comparable<Train> {
     capacity--;
     }
 
+    public void increaseCapacity(){
+        capacity++;
+    }
+
     public int compareTo(Train o) {
         return name.compareTo(o.name);
     }

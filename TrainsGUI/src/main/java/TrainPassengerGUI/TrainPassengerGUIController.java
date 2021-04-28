@@ -3,6 +3,7 @@ package TrainPassengerGUI;
 import TrainModel.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,7 +33,7 @@ public class TrainPassengerGUIController {
     @FXML
     public ChoiceBox choiceboxHour;
     @FXML
-    public TableView tableTickets;
+    public TableView<TrainMatchedModel> tableTickets;
     @FXML
     public TableColumn<TrainMatchedModel, String> clmnname;
     @FXML
@@ -177,5 +178,19 @@ public class TrainPassengerGUIController {
             appStage.show();
         }
 
+    }
+
+    public void buttonCancelOnClick(ActionEvent actionEvent) {
+        var p = tableTickets.getSelectionModel().getSelectedItem();
+        if (p != null) {
+            for (var t : trainsContainer.trainList) {
+                if (p.getName() == t.getName()) {
+                    tableTickets.getItems().remove(p);
+                    t.increaseCapacity();
+                    Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Bilet został anulowany", ButtonType.OK);
+                    a1.show();
+                }
+            }
+        }
     }
 }
