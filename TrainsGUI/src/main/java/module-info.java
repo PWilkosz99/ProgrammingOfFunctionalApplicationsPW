@@ -7,5 +7,6 @@ module TrainsGUI {
 
     opens TrainPlannerGUI;
     opens TrainPassengerGUI;
+    opens TrainModel;
     exports TrainPassengerGUI;
 }

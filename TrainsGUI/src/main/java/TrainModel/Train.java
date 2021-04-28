@@ -13,6 +13,7 @@ public class Train implements Comparable<Train> {
     int startTime;
     int finishTime;
     int travelTime;
+    int ticketCost;
     public ArrayList<TrainStation> stationList;
     public ArrayList<Integer> timeTableList;
 
@@ -45,6 +46,7 @@ public class Train implements Comparable<Train> {
         this.name = name;
         this.state = state;
         this.stationList = stationList;
+        this.ticketCost=ticketCost;
         this.number = 0;
         this.capacity = 0;
         this.travelTime = 0;
@@ -56,11 +58,12 @@ public class Train implements Comparable<Train> {
 
     }
 
-    public Train(String name, ArrayList<TrainStation> stationList, ArrayList<Integer> timeTableList, TrainState state) {
+    public Train(String name, ArrayList<TrainStation> stationList, ArrayList<Integer> timeTableList, TrainState state, int ticketCost) {
         this.name = name;
         this.state = state;
         this.stationList = stationList;
         this.timeTableList = timeTableList;
+        this.ticketCost=ticketCost;
     }
 
     public void printTrainCargo() {
@@ -86,6 +89,8 @@ public class Train implements Comparable<Train> {
     public int getTravelTime() {
         return travelTime;
     }
+
+    public int getTicketCost(){return ticketCost;}
 
     public TrainState getTrainState() {
         return state;
