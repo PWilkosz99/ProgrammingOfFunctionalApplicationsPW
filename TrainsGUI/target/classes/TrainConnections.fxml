@@ -23,8 +23,8 @@
             <TableColumn fx:id="clmnTime" prefWidth="120.0" text="Czas przejazdu" />
             <TableColumn fx:id="clmnCost" prefWidth="75.0" text="Cena biletu" />
          </columns></TableView>
-      <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#buttonOnClickBack" text="buttonBack" GridPane.rowIndex="2" />
+      <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#buttonOnClickBack" text="Cofnij" GridPane.rowIndex="2" />
       <Button fx:id="btnBuy" mnemonicParsing="false" onAction="#buttonOnClickBuy" text="Kup bilet" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="txtSearch" GridPane.columnIndex="1" />
+      <TextField fx:id="txtSearch" onAction="#searchByName" GridPane.columnIndex="1" />
    </children>
 </GridPane>

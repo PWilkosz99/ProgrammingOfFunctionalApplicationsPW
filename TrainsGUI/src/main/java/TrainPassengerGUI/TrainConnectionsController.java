@@ -43,8 +43,10 @@ public class TrainConnectionsController {
 
 
     public ObservableList<TrainMatchedModel> dataList = FXCollections.observableArrayList();
+    FilteredList<TrainMatchedModel> filteredData;
 
-    public TrainConnectionsController() { }
+    public TrainConnectionsController() {
+    }
 
     @FXML
     void initialize() {
@@ -56,8 +58,8 @@ public class TrainConnectionsController {
         clmnDeparture.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("departureTime"));
         clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("travelTime"));
         clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
-        FilteredList<TrainMatchedModel> filteredata = new FilteredList<>(dataList, e-> true);
-        tableMatchedTrains.setItems(dataList);
+        filteredData = new FilteredList<>(dataList, e -> true);
+        tableMatchedTrains.setItems(filteredData);
         int i = 0;
         for (TableColumn<TrainMatchedModel, ?> trainMatchedModelTableColumn : tableMatchedTrains.getColumns()) {
             addTooltipToColumnCells(trainMatchedModelTableColumn, i);
@@ -65,25 +67,30 @@ public class TrainConnectionsController {
         }
     }
 
-    private <T> void addTooltipToColumnCells(TableColumn<TrainMatchedModel,T> column, int i) {
+    @FXML
+    private void searchByName(){
+        filteredData.setPredicate(x -> x.getName().contains(txtSearch.getText().toString()));
+    }
 
-        Callback<TableColumn<TrainMatchedModel, T>, TableCell<TrainMatchedModel,T>> existingCellFactory
+    private <T> void addTooltipToColumnCells(TableColumn<TrainMatchedModel, T> column, int i) {
+
+        Callback<TableColumn<TrainMatchedModel, T>, TableCell<TrainMatchedModel, T>> existingCellFactory
                 = column.getCellFactory();
 
         column.setCellFactory(c -> {
             TableCell<TrainMatchedModel, T> cell = existingCellFactory.call(c);
 
             Tooltip tooltip = new Tooltip();
-            if(i==0){
+            if (i == 0) {
                 tooltip.setText("Pociąg spółki PKP Intercity");
-            }else if(i==4){
+            } else if (i == 4) {
                 tooltip.setText("PLN");
-            }else{
+            } else {
                 tooltip.setText("CEST(GMT+2)");
             }
 
             cell.setTooltip(tooltip);
-            return cell ;
+            return cell;
         });
     }
 
@@ -127,11 +134,11 @@ public class TrainConnectionsController {
     }
 
     public void OnMousePressedMatchedTrains(MouseEvent mouseEvent) {
-        ObservableList<TablePosition> selectedCells = tableMatchedTrains.getSelectionModel().getSelectedCells() ;
+        ObservableList<TablePosition> selectedCells = tableMatchedTrains.getSelectionModel().getSelectedCells();
         selectedCells.addListener((ListChangeListener.Change<? extends TablePosition> change) -> {
-            Boolean clicked=false;
+            Boolean clicked = false;
             if (selectedCells.size() > 0) {
-                if(!clicked){
+                if (!clicked) {
                     TablePosition selectedCell = selectedCells.get(0);
                     var firstCol = tableMatchedTrains.getColumns().get(0);
                     TableColumn column = selectedCell.getTableColumn();
@@ -139,22 +146,22 @@ public class TrainConnectionsController {
                     Object data = firstCol.getCellObservableValue(rowIndex).getValue();
 
                     Train properTrain = null;
-                    for (var t: SesssionData.trainsContainer.trainList) {
-                        if(t.getName().equals(data.toString())){
-                            properTrain=t;
+                    for (var t : SesssionData.trainsContainer.trainList) {
+                        if (t.getName().equals(data.toString())) {
+                            properTrain = t;
                             break;
                         }
                     }
                     String stops = "";
-                    for (int i = 1; i < properTrain.stationList.size()-1; i++) {
-                        stops+=(properTrain.stationList.get(i).toString() + " ");
+                    for (int i = 1; i < properTrain.stationList.size() - 1; i++) {
+                        stops += (properTrain.stationList.get(i).toString() + " ");
                     }
 
-                    String trainInfo="Pocig spółki PKP Intercity "+properTrain.getName()+"\nZ stacji: "+properTrain.stationList.get(0).toString()+"\nDo stacji: "+
-                    properTrain.stationList.get(properTrain.stationList.size()-1).toString()+"\nStacje posśrednie:" + stops+"\nStatus:"+properTrain.getTrainState();
+                    String trainInfo = "Pocig spółki PKP Intercity " + properTrain.getName() + "\nZ stacji: " + properTrain.stationList.get(0).toString() + "\nDo stacji: " +
+                            properTrain.stationList.get(properTrain.stationList.size() - 1).toString() + "\nStacje posśrednie:" + stops + "\nStatus:" + properTrain.getTrainState();
                     Alert a1 = new Alert(Alert.AlertType.INFORMATION, trainInfo, ButtonType.OK);
                     a1.show();
-                    clicked=true;
+                    clicked = true;
                 }
             }
         });
