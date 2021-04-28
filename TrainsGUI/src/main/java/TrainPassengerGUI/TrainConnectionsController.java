@@ -1,7 +1,9 @@
 package TrainPassengerGUI;
 
+import TrainModel.Train;
 import TrainModel.TrainMatchedModel;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -66,13 +69,11 @@ public class TrainConnectionsController {
 
         Callback<TableColumn<TrainMatchedModel, T>, TableCell<TrainMatchedModel,T>> existingCellFactory
                 = column.getCellFactory();
-        System.out.println(i);
 
         column.setCellFactory(c -> {
             TableCell<TrainMatchedModel, T> cell = existingCellFactory.call(c);
 
             Tooltip tooltip = new Tooltip();
-            //tooltip.textProperty().bind(cell.itemProperty().asString());
             if(i==0){
                 tooltip.setText("Pociąg spółki PKP Intercity");
             }else if(i==4){
@@ -81,16 +82,12 @@ public class TrainConnectionsController {
                 tooltip.setText("CEST(GMT+2)");
             }
 
-            //tooltip.setText("Pociąg CCC"+cell.itemProperty());
-
             cell.setTooltip(tooltip);
             return cell ;
         });
     }
 
     public void buttonOnClickBack(ActionEvent event) throws IOException {
-
-        System.out.println(SesssionData.matchTrains);
         SesssionData.matchTrains = null;
         Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
         Scene scene = new Scene(blah);
@@ -127,6 +124,40 @@ public class TrainConnectionsController {
             a1.show();
         }
 
+    }
+
+    public void OnMousePressedMatchedTrains(MouseEvent mouseEvent) {
+        ObservableList<TablePosition> selectedCells = tableMatchedTrains.getSelectionModel().getSelectedCells() ;
+        selectedCells.addListener((ListChangeListener.Change<? extends TablePosition> change) -> {
+            Boolean clicked=false;
+            if (selectedCells.size() > 0) {
+                if(!clicked){
+                    TablePosition selectedCell = selectedCells.get(0);
+                    var firstCol = tableMatchedTrains.getColumns().get(0);
+                    TableColumn column = selectedCell.getTableColumn();
+                    int rowIndex = selectedCell.getRow();
+                    Object data = firstCol.getCellObservableValue(rowIndex).getValue();
+
+                    Train properTrain = null;
+                    for (var t: SesssionData.trainsContainer.trainList) {
+                        if(t.getName().equals(data.toString())){
+                            properTrain=t;
+                            break;
+                        }
+                    }
+                    String stops = "";
+                    for (int i = 1; i < properTrain.stationList.size()-1; i++) {
+                        stops+=(properTrain.stationList.get(i).toString() + " ");
+                    }
+
+                    String trainInfo="Pocig spółki PKP Intercity "+properTrain.getName()+"\nZ stacji: "+properTrain.stationList.get(0).toString()+"\nDo stacji: "+
+                    properTrain.stationList.get(properTrain.stationList.size()-1).toString()+"\nStacje posśrednie:" + stops+"\nStatus:"+properTrain.getTrainState();
+                    Alert a1 = new Alert(Alert.AlertType.INFORMATION, trainInfo, ButtonType.OK);
+                    a1.show();
+                    clicked=true;
+                }
+            }
+        });
     }
 }
 

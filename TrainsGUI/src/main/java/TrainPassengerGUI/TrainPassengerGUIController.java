@@ -59,13 +59,11 @@ public class TrainPassengerGUIController {
                     if (t.stationList.get(i).toString().equals(from)) {
                         hit = true;
                         h1 = i;
-                        System.out.println(t.stationList.get(i));
                     }
                 } else {
                     if (t.stationList.get(i).toString().equals(from) && t.timeTableList.get(i).equals(hour)) {
                         hit = true;
                         h1 = i;
-                        System.out.println(t.stationList.get(i));
                     }
                 }
 
@@ -73,7 +71,6 @@ public class TrainPassengerGUIController {
                     if (t.stationList.get(i).toString().equals(to)) {
                         connection = true;
                         h2 = i;
-                        System.out.println(t.stationList.get(i));
                         break;
                     }
                 }
@@ -86,15 +83,15 @@ public class TrainPassengerGUIController {
     }
 
     void trainInit(){
-        trainsContainer = new TrainsContainer();
+        //trainsContainer = new TrainsContainer();
         TrainStation krakow = new TrainStation("Krakow");
         TrainStation warszawa = new TrainStation("Warszawa");
         TrainStation katowice = new TrainStation("Katowice");
         ArrayList<TrainStation> route1 = new ArrayList<TrainStation>();
         ArrayList<TrainStation> route2 = new ArrayList<TrainStation>();
         route1.add(krakow);
-        route1.add(warszawa);
         route1.add(katowice);
+        route1.add(warszawa);
         route2.add(krakow);
         route2.add(warszawa);
 
@@ -107,17 +104,19 @@ public class TrainPassengerGUIController {
         tt2.add(12);
         tt2.add(14);
 
-        Train train = new Train("train1", route1, tt1, TrainState.New, 10, 0);
+        Train train = new Train("train1", route1, tt1, TrainState.New, 10, 2);
         Train train2 = new Train("train2", route2, tt2, TrainState.Delayed, 20, 120);
-        trainsContainer.add(train);
-        trainsContainer.add(train2);
-
-
+        SesssionData.trainsContainer.add(train);
+        SesssionData.trainsContainer.add(train2);
     }
 
     @FXML
     void initialize() {
-        trainInit();
+        if(!SesssionData.initStatus){
+            trainInit();
+            SesssionData.initStatus=true;
+        }
+
 
         choiceboxHour.setValue("DOWOLNA");
         choiceboxHour.getItems().add("DOWOLNA");
@@ -126,7 +125,7 @@ public class TrainPassengerGUIController {
         }
 
         if (SesssionData.bought) {
-            for (var t : trainsContainer.trainList) {
+            for (var t : SesssionData.trainsContainer.trainList) {
                 if (t.getName() == SesssionData.lastBoughtName) {
                     t.decreaseCapacity();
                     break;
@@ -162,10 +161,9 @@ public class TrainPassengerGUIController {
         int hour = -1;
         if (!hourStr.equals("DOWOLNA")) {
             hour = parseInt(hourStr);
-            System.out.println(hour);
         }
 
-        for (TrainMatchedModel t : searchConnections2(from, to, hour, trainsContainer)) {
+        for (TrainMatchedModel t : searchConnections2(from, to, hour, SesssionData.trainsContainer)) {
             trainMatch.add(t);
             found = true;
         }
@@ -188,9 +186,10 @@ public class TrainPassengerGUIController {
     public void buttonCancelOnClick(ActionEvent actionEvent) {
         var p = tableTickets.getSelectionModel().getSelectedItem();
         if (p != null) {
-            for (var t : trainsContainer.trainList) {
+            for (var t : SesssionData.trainsContainer.trainList) {
                 if (p.getName() == t.getName()) {
                     tableTickets.getItems().remove(p);
+                    SesssionData.boughtTickesFor.remove(p);
                     t.increaseCapacity();
                     Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Bilet został anulowany", ButtonType.OK);
                     a1.show();

@@ -15,7 +15,7 @@
     <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TableView fx:id="tableMatchedTrains" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+      <TableView fx:id="tableMatchedTrains" onMousePressed="#OnMousePressedMatchedTrains" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
          <columns>
             <TableColumn fx:id="clmnname" prefWidth="93.0" text="Nazwa" />
             <TableColumn fx:id="clmnDeparture" prefWidth="110.0" text="Godzina odjazdu" />
