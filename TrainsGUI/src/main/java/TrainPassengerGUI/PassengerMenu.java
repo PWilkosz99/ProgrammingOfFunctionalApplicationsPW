@@ -21,7 +21,7 @@ public class PassengerMenu extends Application {
 
         GridPane gridPane = loader.load();
         Scene scene = new Scene(gridPane);
-
+        scene.getStylesheets().add("/style.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Train APP");
         primaryStage.show();

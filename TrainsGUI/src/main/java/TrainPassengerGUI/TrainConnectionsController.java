@@ -98,6 +98,7 @@ public class TrainConnectionsController {
         SesssionData.matchTrains = null;
         Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
         Scene scene = new Scene(blah);
+        scene.getStylesheets().add("/style.css");
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         appStage.setScene(scene);
         appStage.show();
@@ -120,6 +121,7 @@ public class TrainConnectionsController {
                 Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
                 Scene scene = new Scene(blah);
                 Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                scene.getStylesheets().add("/style.css");
                 appStage.setScene(scene);
                 appStage.show();
             } else {

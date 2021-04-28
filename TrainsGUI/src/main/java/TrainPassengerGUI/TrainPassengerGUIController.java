@@ -177,6 +177,7 @@ public class TrainPassengerGUIController {
             Parent blah = FXMLLoader.load(getClass().getResource("/TrainConnections.fxml"));
             Scene scene = new Scene(blah);
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene.getStylesheets().add("/style.css");
             appStage.setScene(scene);
             appStage.show();
         }

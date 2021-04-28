@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -27,12 +28,15 @@
       <ChoiceBox fx:id="choiceboxHour" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <TableView fx:id="tableTickets" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
        <columns>
-           <TableColumn fx:id="clmnname" prefWidth="93.0" text="Nazwa" />
-           <TableColumn fx:id="clmnDeparture" prefWidth="110.0" text="Godzina odjazdu" />
-           <TableColumn fx:id="clmnArrival" prefWidth="126.0" text="Godzina przyjazdu" />
-           <TableColumn fx:id="clmnTime" prefWidth="120.0" text="Czas przejazdu" />
-           <TableColumn fx:id="clmnCost" prefWidth="75.0" text="Cena biletu" />
+           <TableColumn fx:id="clmnname" prefWidth="107.0" text="Nazwa" />
+           <TableColumn fx:id="clmnDeparture" prefWidth="121.0" text="Godzina odjazdu" />
+           <TableColumn fx:id="clmnArrival" prefWidth="135.0" text="Godzina przyjazdu" />
+           <TableColumn fx:id="clmnTime" prefWidth="116.0" text="Czas przejazdu" />
+           <TableColumn fx:id="clmnCost" prefWidth="120.0" text="Cena biletu" />
        </columns></TableView>
-      <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#buttonCancelOnClick" text="Zwróć bilet" GridPane.rowIndex="4" />
+      <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" onAction="#buttonCancelOnClick" prefHeight="25.0" prefWidth="80.0" text="Zwróć bilet" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin></Button>
    </children>
 </GridPane>
