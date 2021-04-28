@@ -1,14 +1,15 @@
 package TrainPassengerGUI;
 
 import TrainModel.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,13 +20,31 @@ import static java.lang.Integer.parseInt;
 
 public class TrainPassengerGUIController {
 
+
     TrainsContainer trainsContainer;
 
     @FXML
     private Button buttonSearch;
+    @FXML
     public TextField txtFrom;
+    @FXML
     public TextField txtTo;
+    @FXML
     public ChoiceBox choiceboxHour;
+    @FXML
+    public TableView tableTickets;
+    @FXML
+    public TableColumn<TrainMatchedModel, String> clmnname;
+    @FXML
+    public TableColumn<TrainMatchedModel, Integer> clmnDeparture;
+    @FXML
+    public TableColumn<TrainMatchedModel, Integer> clmnArrival;
+    @FXML
+    public TableColumn<TrainMatchedModel, Integer> clmnTime;
+    @FXML
+    public TableColumn<TrainMatchedModel, Integer> clmnCost;
+
+    public ObservableList<TrainMatchedModel> dataList = FXCollections.observableArrayList();
 
     public ArrayList<TrainMatchedModel> searchConnections2(String from, String to, int hour, TrainsContainer trainsContainer) {
         ArrayList<TrainMatchedModel> connections = new ArrayList<TrainMatchedModel>();
@@ -59,7 +78,7 @@ public class TrainPassengerGUIController {
                 }
             }
             if (connection) {
-                connections.add(new TrainMatchedModel(t.getName(), t.timeTableList.get(h1), t.timeTableList.get(h2), t.timeTableList.get(h2) - t.timeTableList.get(h1), t.getTicketCost()));
+                connections.add(new TrainMatchedModel(t.getName(), t.timeTableList.get(h1), t.timeTableList.get(h2), t.timeTableList.get(h2) - t.timeTableList.get(h1), t.getTicketCost(), t.getCapacity()));
             }
         }
         return connections;
@@ -88,8 +107,8 @@ public class TrainPassengerGUIController {
         tt2.add(12);
         tt2.add(14);
 
-        Train train = new Train("train1", route1, tt1, TrainState.New, 10);
-        Train train2 = new Train("train2", route2, tt2, TrainState.Delayed, 20);
+        Train train = new Train("train1", route1, tt1, TrainState.New, 10, 0);
+        Train train2 = new Train("train2", route2, tt2, TrainState.Delayed, 20, 120);
         trainsContainer.add(train);
         trainsContainer.add(train2);
 
@@ -99,6 +118,32 @@ public class TrainPassengerGUIController {
         for (int i = 0; i < 24; i++) {
             choiceboxHour.getItems().add(i);
         }
+
+        if (SesssionData.bought) {
+            for (var t : trainsContainer.trainList) {
+                if (t.getName() == SesssionData.lastBoughtName) {
+                    t.decreaseCapacity();
+                    break;
+                }
+            }
+            SesssionData.bought=false;
+            SesssionData.lastBoughtName=null;
+        }
+
+        try {
+            for (TrainMatchedModel t : SesssionData.boughtTickesFor) {
+                dataList.add(t);
+            }
+            clmnname.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, String>("name"));
+            clmnArrival.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("arrivalTime"));
+            clmnDeparture.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("departureTime"));
+            clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("travelTime"));
+            clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
+            tableTickets.setItems(dataList);
+        } catch (Exception e) {
+
+        }
+
     }
 
     public void buttonSearchOnClick(javafx.event.ActionEvent event) throws IOException {
@@ -107,6 +152,7 @@ public class TrainPassengerGUIController {
         String hourStr = choiceboxHour.getValue().toString();
         String to = txtTo.getText();
         String from = txtFrom.getText();
+        Boolean found = false;
         int hour = -1;
         if (!hourStr.equals("DOWOLNA")) {
             hour = parseInt(hourStr);
@@ -115,14 +161,21 @@ public class TrainPassengerGUIController {
 
         for (TrainMatchedModel t : searchConnections2(from, to, hour, trainsContainer)) {
             trainMatch.add(t);
+            found = true;
         }
 
-        SesssionData.matchTrains = trainMatch;
+        if (!found) {
+            Alert a1 = new Alert(Alert.AlertType.WARNING, "Brak pociągów o podanej trasie i godzinie", ButtonType.OK);
+            a1.show();
+        } else {
+            SesssionData.matchTrains = trainMatch;
 
-        Parent blah = FXMLLoader.load(getClass().getResource("/TrainConnections.fxml"));
-        Scene scene = new Scene(blah);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(scene);
-        appStage.show();
+            Parent blah = FXMLLoader.load(getClass().getResource("/TrainConnections.fxml"));
+            Scene scene = new Scene(blah);
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(scene);
+            appStage.show();
+        }
+
     }
 }

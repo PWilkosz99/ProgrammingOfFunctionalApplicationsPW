@@ -6,13 +6,15 @@ public class TrainMatchedModel {
     public int arrivalTime;
     public int travelTime;
     public int ticketCost;
+    public int capacity;
 
-    public TrainMatchedModel(String name, int departureTime, int arrivalTime, int travelTime, int ticketCost) {
+    public TrainMatchedModel(String name, int departureTime, int arrivalTime, int travelTime, int ticketCost, int capacity) {
         this.name = name;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.travelTime = travelTime;
         this.ticketCost = ticketCost;
+        this.capacity = capacity;
     }
 
     public String getName() {

@@ -25,6 +25,13 @@
       <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#buttonSearchOnClick" prefHeight="25.0" prefWidth="271.0" text="Szukaj" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Godzina odjazdu:" GridPane.rowIndex="3" />
       <ChoiceBox fx:id="choiceboxHour" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+      <TableView fx:id="tableTickets" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
+       <columns>
+           <TableColumn fx:id="clmnname" prefWidth="93.0" text="Nazwa" />
+           <TableColumn fx:id="clmnDeparture" prefWidth="110.0" text="Godzina odjazdu" />
+           <TableColumn fx:id="clmnArrival" prefWidth="126.0" text="Godzina przyjazdu" />
+           <TableColumn fx:id="clmnTime" prefWidth="120.0" text="Czas przejazdu" />
+           <TableColumn fx:id="clmnCost" prefWidth="75.0" text="Cena biletu" />
+       </columns></TableView>
    </children>
 </GridPane>

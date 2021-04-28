@@ -9,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -19,7 +17,8 @@ import java.io.IOException;
 
 public class TrainConnectionsController {
 
-
+    @FXML
+    public Button btnBuy;
     @FXML
     private TableView<TrainMatchedModel> tableMatchedTrains;
     @FXML
@@ -44,7 +43,7 @@ public class TrainConnectionsController {
 
     @FXML
     void initialize() {
-        for (TrainMatchedModel t:SesssionData.matchTrains) {
+        for (TrainMatchedModel t : SesssionData.matchTrains) {
             dataList.add(t);
         }
         clmnname.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, String>("name"));
@@ -65,4 +64,38 @@ public class TrainConnectionsController {
         appStage.setScene(scene);
         appStage.show();
     }
+
+    public void buttonOnClickBuy(ActionEvent actionEvent) throws IOException {
+
+        var p = tableMatchedTrains.getSelectionModel().getSelectedItem();
+        if (p != null) {
+            if (p.capacity > 0) {
+
+
+                SesssionData.boughtTickesFor.add(p);
+                SesssionData.bought = true;
+                SesssionData.lastBoughtName = p.getName();
+                SesssionData.matchTrains = null;
+
+                Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Zakup biletu udany", ButtonType.OK);
+                a1.show();
+
+
+                Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
+                Scene scene = new Scene(blah);
+                Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                appStage.setScene(scene);
+                appStage.show();
+            } else {
+                Alert a2 = new Alert(Alert.AlertType.WARNING, "Brak wolnych miejsc na wybrany pociąg", ButtonType.OK);
+                a2.show();
+            }
+        } else {
+            Alert a1 = new Alert(Alert.AlertType.WARNING, "Prosze wybrać poprawny pociąg", ButtonType.OK);
+            a1.show();
+        }
+
+    }
 }
+
+
