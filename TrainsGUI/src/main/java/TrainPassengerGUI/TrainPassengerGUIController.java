@@ -5,10 +5,16 @@ import TrainModel.TrainState;
 import TrainModel.TrainStation;
 import TrainModel.TrainsContainer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -64,7 +70,7 @@ public class TrainPassengerGUIController {
         }
     }
 
-    public void buttonSearchOnClick() {
+    public void buttonSearchOnClick(javafx.event.ActionEvent event) throws IOException {
 
         String hourStr = choiceboxHour.getValue().toString();
         String to = txtTo.getText();
@@ -75,8 +81,18 @@ public class TrainPassengerGUIController {
             System.out.println(hour);
         }
 
-        for (Train t: trainsContainer.searchConnections(from, to, hour)){
+        for (Train t : trainsContainer.searchConnections(from, to, hour)) {
             System.out.println(t.getName());
         }
+
+        Parent blah = FXMLLoader.load(getClass().getResource("/TrainConnections.fxml"));
+        Scene scene = new Scene(blah);
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        appStage.setScene(scene);
+        appStage.show();
+    }
+
+    public void newStage() throws IOException {
+
     }
 }

@@ -4,6 +4,7 @@ module TrainsGUI {
     requires javafx.fxml;
     requires java.desktop;
 
+
     opens TrainPlannerGUI;
     opens TrainPassengerGUI;
     exports TrainPassengerGUI;

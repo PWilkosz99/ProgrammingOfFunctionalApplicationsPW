@@ -17,7 +17,7 @@ public class PassengerMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation((this.getClass().getResource("/PassengerMenu.fxml")));
+        loader.setLocation((this.getClass().getResource("/TrainConnections.fxml")));
 
         GridPane gridPane = loader.load();
 
