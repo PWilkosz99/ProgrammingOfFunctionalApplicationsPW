@@ -82,41 +82,75 @@ public class TrainPassengerGUIController {
         return connections;
     }
 
-    void trainInit(){
+    void trainInit() {
         //trainsContainer = new TrainsContainer();
         TrainStation krakow = new TrainStation("Krakow");
         TrainStation warszawa = new TrainStation("Warszawa");
         TrainStation katowice = new TrainStation("Katowice");
-        ArrayList<TrainStation> route1 = new ArrayList<TrainStation>();
-        ArrayList<TrainStation> route2 = new ArrayList<TrainStation>();
-        route1.add(krakow);
-        route1.add(katowice);
-        route1.add(warszawa);
-        route2.add(krakow);
-        route2.add(warszawa);
+        TrainStation opole = new TrainStation("Opole");
+        TrainStation wroclaw = new TrainStation("Wroclaw");
+        TrainStation kielce = new TrainStation("Kielce");
+        TrainStation radom = new TrainStation("Radom");
+        ArrayList<TrainStation> routeKRWR = new ArrayList<TrainStation>();
+        ArrayList<TrainStation> routeKRWWA = new ArrayList<TrainStation>();
+        ArrayList<TrainStation> routeKRKTWA = new ArrayList<TrainStation>();
+
+        routeKRWR.add(krakow);
+        routeKRWR.add(katowice);
+        routeKRWR.add(opole);
+        routeKRWR.add(wroclaw);
+
+        routeKRWWA.add(krakow);
+        routeKRWWA.add(kielce);
+        routeKRWWA.add(radom);
+        routeKRWWA.add(warszawa);
+
+        routeKRKTWA.add(krakow);
+        routeKRKTWA.add(katowice);
+        routeKRKTWA.add(radom);
+        routeKRKTWA.add(warszawa);
+
 
         ArrayList<Integer> tt1 = new ArrayList<Integer>();
-        tt1.add(2);
-        tt1.add(3);
-        tt1.add(4);
+        tt1.add(6);
+        tt1.add(7);
+        tt1.add(9);
+        tt1.add(10);
 
         ArrayList<Integer> tt2 = new ArrayList<Integer>();
-        tt2.add(12);
-        tt2.add(14);
+        tt2.add(16);
+        tt2.add(17);
+        tt2.add(19);
+        tt2.add(20);
 
-        Train train = new Train("train1", route1, tt1, TrainState.New, 10, 2);
-        Train train2 = new Train("train2", route2, tt2, TrainState.Delayed, 20, 120);
-        SesssionData.trainsContainer.add(train);
-        SesssionData.trainsContainer.add(train2);
+        ArrayList<Integer> tt3 = new ArrayList<Integer>();
+        tt3.add(11);
+        tt3.add(12);
+        tt3.add(13);
+        tt3.add(14);
+
+        Train pogorze = new Train("Pogorze", routeKRWR, tt1, TrainState.Scheduled, 70, 2);
+        Train chelmonski = new Train("Chelmonski", routeKRWR, tt2, TrainState.Scheduled, 80, 2);
+        Train lwow = new Train("Lwow-Ekspres", routeKRWR, tt3, TrainState.Scheduled, 76, 2);
+
+        Train hancza = new Train("Hancza", routeKRWWA, tt1, TrainState.Delayed, 51, 2);
+        Train zeromski = new Train("Zeromski", routeKRWWA, tt2, TrainState.Scheduled, 78, 2);
+        Train sienkiewicz = new Train("Sienkiewicz", routeKRKTWA, tt3, TrainState.New, 64, 2);
+        SesssionData.trainsContainer.add(pogorze);
+        SesssionData.trainsContainer.add(chelmonski);
+        SesssionData.trainsContainer.add(lwow);
+
+        SesssionData.trainsContainer.add(hancza);
+        SesssionData.trainsContainer.add(zeromski);
+        SesssionData.trainsContainer.add(sienkiewicz);
     }
 
     @FXML
     void initialize() {
-        if(!SesssionData.initStatus){
+        if (!SesssionData.initStatus) {
             trainInit();
-            SesssionData.initStatus=true;
+            SesssionData.initStatus = true;
         }
-
 
         choiceboxHour.setValue("DOWOLNA");
         choiceboxHour.getItems().add("DOWOLNA");
@@ -131,8 +165,8 @@ public class TrainPassengerGUIController {
                     break;
                 }
             }
-            SesssionData.bought=false;
-            SesssionData.lastBoughtName=null;
+            SesssionData.bought = false;
+            SesssionData.lastBoughtName = null;
         }
 
         try {
@@ -146,7 +180,7 @@ public class TrainPassengerGUIController {
             clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
             tableTickets.setItems(dataList);
         } catch (Exception e) {
-
+            System.out.println(e.toString());
         }
 
     }

@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +60,9 @@ public class TrainConnectionsController {
         clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("travelTime"));
         clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
         filteredData = new FilteredList<>(dataList, e -> true);
-        tableMatchedTrains.setItems(filteredData);
+        SortedList<TrainMatchedModel> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableMatchedTrains.comparatorProperty());
+        tableMatchedTrains.setItems(sortedData);
         int i = 0;
         for (TableColumn<TrainMatchedModel, ?> trainMatchedModelTableColumn : tableMatchedTrains.getColumns()) {
             addTooltipToColumnCells(trainMatchedModelTableColumn, i);
@@ -160,7 +163,7 @@ public class TrainConnectionsController {
                     }
 
                     String trainInfo = "Pocig spółki PKP Intercity " + properTrain.getName() + "\nZ stacji: " + properTrain.stationList.get(0).toString() + "\nDo stacji: " +
-                            properTrain.stationList.get(properTrain.stationList.size() - 1).toString() + "\nStacje posśrednie:" + stops + "\nStatus:" + properTrain.getTrainState();
+                            properTrain.stationList.get(properTrain.stationList.size() - 1).toString() + "\nStacje posśrednie: " + stops + "\nStatus: " + properTrain.getTrainState();
                     Alert a1 = new Alert(Alert.AlertType.INFORMATION, trainInfo, ButtonType.OK);
                     a1.show();
                     clicked = true;

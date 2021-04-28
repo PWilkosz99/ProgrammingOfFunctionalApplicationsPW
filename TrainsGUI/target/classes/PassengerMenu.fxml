@@ -23,7 +23,7 @@
       <TextField fx:id="txtTo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       <Label text="Z:" GridPane.rowIndex="1" />
       <Label text="Do:" GridPane.rowIndex="2" />
-      <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#buttonSearchOnClick" prefHeight="25.0" prefWidth="271.0" text="Szukaj" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#buttonSearchOnClick" prefHeight="25.0" prefWidth="211.0" text="Szukaj" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
       <Label text="Godzina odjazdu:" GridPane.rowIndex="3" />
       <ChoiceBox fx:id="choiceboxHour" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <TableView fx:id="tableTickets" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
