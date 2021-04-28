@@ -85,8 +85,7 @@ public class TrainPassengerGUIController {
         return connections;
     }
 
-    @FXML
-    void initialize() {
+    void trainInit(){
         trainsContainer = new TrainsContainer();
         TrainStation krakow = new TrainStation("Krakow");
         TrainStation warszawa = new TrainStation("Warszawa");
@@ -113,6 +112,12 @@ public class TrainPassengerGUIController {
         trainsContainer.add(train);
         trainsContainer.add(train2);
 
+
+    }
+
+    @FXML
+    void initialize() {
+        trainInit();
 
         choiceboxHour.setValue("DOWOLNA");
         choiceboxHour.getItems().add("DOWOLNA");

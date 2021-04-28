@@ -25,5 +25,6 @@
          </columns></TableView>
       <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#buttonOnClickBack" text="buttonBack" GridPane.rowIndex="2" />
       <Button fx:id="btnBuy" mnemonicParsing="false" onAction="#buttonOnClickBuy" text="Kup bilet" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="txtSearch" GridPane.columnIndex="1" />
    </children>
 </GridPane>
