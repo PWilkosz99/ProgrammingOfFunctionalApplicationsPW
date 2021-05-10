@@ -118,5 +118,16 @@ public class TrainTable {
             tableTrains.setRowSorter(tr);
             tr.setRowFilter(RowFilter.regexFilter(txtSearchTrain.getText().trim()));
         });
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    System.out.println("SAVED");
+                }else{
+                    System.out.println("DO NOTHING");
+                }
+            }
+        });
     }
 }

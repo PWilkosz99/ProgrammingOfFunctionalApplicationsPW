@@ -1,13 +1,15 @@
 package TrainPlannerGUI;
 
+import TrainModel.TrainStation;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import TrainModel.*;
 
 public class Menu {
     private JTable tableStation;
@@ -102,10 +104,21 @@ public class Menu {
             }
         });
         txtSearchStation.addActionListener(e -> {
-            DefaultTableModel Model = (DefaultTableModel)tableStation.getModel();
+            DefaultTableModel Model = (DefaultTableModel) tableStation.getModel();
             TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
             tableStation.setRowSorter(tr);
             tr.setRowFilter(RowFilter.regexFilter(txtSearchStation.getText().trim()));
+        });
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    System.out.println("SAVED");
+                }else{
+                    System.out.println("DO NOTHING");
+                }
+            }
         });
     }
 
