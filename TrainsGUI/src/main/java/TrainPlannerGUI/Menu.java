@@ -1,5 +1,7 @@
 package TrainPlannerGUI;
 
+import TrainModel.Train;
+import TrainModel.TrainState;
 import TrainModel.TrainStation;
 
 import javax.swing.*;
@@ -80,7 +82,6 @@ public class Menu {
         while ((line = br.readLine()) != null) {
             String[] values = line.split(CSV_SEPARATOR);
             stationsList.add(new TrainStation(values[0], Integer.parseInt(values[2]), Integer.parseInt(values[1])));
-            TrainStation tmp;
         }
     }
 
@@ -98,7 +99,7 @@ public class Menu {
                 oneLine.append(t.getCapacity());
                 oneLine.append(CSV_SEPARATOR);
 
-                oneLine.append(t.getTicketCost());
+                oneLine.append(t.getNumber());
                 oneLine.append(CSV_SEPARATOR);
 
                 oneLine.append(t.getTravelTime());
@@ -107,6 +108,22 @@ public class Menu {
             }
             bw.flush();
             bw.close();
+        }
+    }
+
+    void readTrainsCSV() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("trains.csv"));//FileNotFoundException
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(CSV_SEPARATOR);
+            TrainStation ts = null;
+            for (var s : stationsList) {
+                if (s.getName().equals(values[0])) {
+                    ts = s;
+                    break;
+                }
+            }
+            ts.addTrain(new Train(values[1], Integer.parseInt(values[3]), Integer.parseInt(values[2]), Integer.parseInt(values[4]), TrainState.New));
         }
     }
 
@@ -128,6 +145,7 @@ public class Menu {
 
         try {
             readCSV();
+            readTrainsCSV();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
