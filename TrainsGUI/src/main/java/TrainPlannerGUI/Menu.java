@@ -7,6 +7,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +41,18 @@ public class Menu {
             }
         }
         model.setValueAt(capacity, index, 2);
+    }
+
+    public void save() throws IOException {
+        FileOutputStream fileOutputStream
+                = new FileOutputStream("yourfile.txt");
+        ObjectOutputStream objectOutputStream
+                = new ObjectOutputStream(fileOutputStream);
+        for (var s:stationsList) {
+            objectOutputStream.writeObject(s);
+        }
+        objectOutputStream.flush();
+        objectOutputStream.close();
     }
 
     Menu() {
@@ -115,7 +130,12 @@ public class Menu {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.out.println("SAVED");
-                }else{
+                    try {
+                        save();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
                     System.out.println("DO NOTHING");
                 }
             }

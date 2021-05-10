@@ -1,8 +1,13 @@
 package TrainModel;
 
-import java.util.*;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-public class TrainStation {
+public class TrainStation implements Serializable {
     String name;
     public List<Train> trainsList = new ArrayList<Train>();
     int capacity;
@@ -130,6 +135,13 @@ public class TrainStation {
     public String toString() {
         return name;
     }
+
+    public final void writeObject(Object o) throws IOException {
+
+    }
+
+
+
 
 }
 
