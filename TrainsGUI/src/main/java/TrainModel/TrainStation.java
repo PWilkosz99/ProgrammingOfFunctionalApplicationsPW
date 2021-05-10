@@ -1,6 +1,5 @@
 package TrainModel;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +13,7 @@ public class TrainStation implements Serializable {
     int capacityLimit;
 
     public int getCapacity() {
-        return trainsList.size();
+        return capacity;
     }
 
     public void setCapacity(int capacity) {
@@ -62,11 +61,6 @@ public class TrainStation implements Serializable {
     }
 
     public void deleteAllTrainsNamed(Train train) {
-        // for (TrainModel.Train trains : trainsList) {
-        // if(trains.compareTo(train)==1){
-        // trainsList.remove(trains);
-        // }
-        // }
         for (int i = 0; i < trainsList.size(); i++) {
             String name = trainsList.get(i).name;
             if (name == train.name) {
@@ -144,24 +138,12 @@ public class TrainStation implements Serializable {
     public String toString() {
         return name;
     }
-
-    public final void writeObject(Object o) throws IOException {
-
-    }
-
-
 }
 
 class SortTrainsByDeparture implements Comparator<Train> {
 
     @Override
     public int compare(Train o1, Train o2) {
-        // return o1.compareTo(o2);
-        // if (o1.getDeparture() > o2.getDeparture()) {
-        //     return 1;
-        // } else {
-        //     return 0;
-        // }
         return o1.getDeparture() - o2.getDeparture();
     }
 
@@ -171,13 +153,6 @@ class CompareByTravelTime implements Comparator<Train> {
 
     @Override
     public int compare(Train o1, Train o2) {
-
-        // if((o1.getFinishTime()-o1.getStartTime())>(o2.getFinishTime()-o2.getStartTime())){
-        // return 1;
-        // }else{
-        // return -1;
-        // }
-
         return (o1.getFinishTime() - o1.getStartTime()) - (o2.getFinishTime() - o2.getStartTime());
     }
 

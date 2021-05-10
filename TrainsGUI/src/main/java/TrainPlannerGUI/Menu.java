@@ -84,6 +84,32 @@ public class Menu {
         }
     }
 
+    void saveTrainsCSV() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("trains.csv"), "UTF-8"));
+        for (var s : stationsList) {
+            for (var t : s.trainsList) {
+                StringBuffer oneLine = new StringBuffer();
+                oneLine.append(s.getName());
+                oneLine.append(CSV_SEPARATOR);
+
+                oneLine.append(t.getName());
+                oneLine.append(CSV_SEPARATOR);
+
+                oneLine.append(t.getCapacity());
+                oneLine.append(CSV_SEPARATOR);
+
+                oneLine.append(t.getTicketCost());
+                oneLine.append(CSV_SEPARATOR);
+
+                oneLine.append(t.getTravelTime());
+                bw.write(oneLine.toString());
+                bw.newLine();
+            }
+            bw.flush();
+            bw.close();
+        }
+    }
+
     Menu() throws IOException {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
@@ -102,15 +128,14 @@ public class Menu {
 
         try {
             readCSV();
-            for (var s: stationsList) {
+            for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
                 row[1] = s.getCapacityLimit();
                 row[2] = s.getCapacity();
                 model.addRow(row);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
 
         }
 
@@ -173,6 +198,8 @@ public class Menu {
                     System.out.println("SAVED");
                     try {
                         saveToCSV();
+                        //saveBinary();
+                        saveTrainsCSV();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

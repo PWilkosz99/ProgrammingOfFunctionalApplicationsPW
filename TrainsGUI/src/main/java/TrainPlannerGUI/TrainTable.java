@@ -23,7 +23,7 @@ public class TrainTable {
             case "Delayed" -> TrainState.Delayed;
             case "Planowy" -> TrainState.Scheduled;
             case "Scheduled" -> TrainState.Scheduled;
-            case "Odowłany" -> TrainState.Cancelled;
+            case "Odowołany" -> TrainState.Cancelled;
             case "Cancelled" -> TrainState.Cancelled;
             default -> null;
         };

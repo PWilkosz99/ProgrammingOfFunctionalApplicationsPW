@@ -1,8 +1,9 @@
 package TrainModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Train implements Comparable<Train> {
+public class Train implements Comparable<Train>, Serializable {
     String name;
     String cargo;
     int number;
