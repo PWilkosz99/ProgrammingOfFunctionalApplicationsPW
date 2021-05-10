@@ -7,9 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +21,8 @@ public class Menu {
     private JLabel txtInfo;
     private JTextField txtSearchStation;
     static DefaultTableModel model;
+
+    private static final String CSV_SEPARATOR = ",";
 
     static List<TrainStation> stationsList;
     static List<TrainTable> trainTableslist;
@@ -43,19 +43,48 @@ public class Menu {
         model.setValueAt(capacity, index, 2);
     }
 
-    public void save() throws IOException {
+    @Deprecated
+    public void saveBinary() throws IOException {
         FileOutputStream fileOutputStream
-                = new FileOutputStream("yourfile.txt");
+                = new FileOutputStream("data.txt");
         ObjectOutputStream objectOutputStream
                 = new ObjectOutputStream(fileOutputStream);
-        for (var s:stationsList) {
+        for (var s : stationsList) {
             objectOutputStream.writeObject(s);
         }
         objectOutputStream.flush();
         objectOutputStream.close();
     }
 
-    Menu() {
+    public void saveToCSV() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stations.csv"), "UTF-8"));
+        for (var s : stationsList) {
+            StringBuffer oneLine = new StringBuffer();
+            oneLine.append(s.getName());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(s.getCapacityLimit());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(s.getCapacity());
+            bw.write(oneLine.toString());
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    void readCSV() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("stations.csv"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(CSV_SEPARATOR);
+            stationsList.add(new TrainStation(values[0], Integer.parseInt(values[2]), Integer.parseInt(values[1])));
+            TrainStation tmp;
+        }
+    }
+
+    Menu() throws IOException {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
 
@@ -66,12 +95,24 @@ public class Menu {
         frame.pack();
         frame.setLocationRelativeTo(null);
 
-
         Object[] columns = new Object[]{"Nazwa stacji", "Maksymalna pojemność", "Obecna pojemność"};
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         tableStation.setModel(model);
 
+        try {
+            readCSV();
+            for (var s: stationsList) {
+                Object[] row = new Object[3];
+                row[0] = s.getName();
+                row[1] = s.getCapacityLimit();
+                row[2] = s.getCapacity();
+                model.addRow(row);
+            }
+        }
+        catch(Exception e) {
+
+        }
 
         btnAddStation.addActionListener(e -> {
             Object[] row = new Object[3];
@@ -131,19 +172,23 @@ public class Menu {
                 if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.out.println("SAVED");
                     try {
-                        save();
+                        saveToCSV();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
                     System.out.println("DO NOTHING");
+                    try {
+                        readCSV();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Menu();
     }
 }

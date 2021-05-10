@@ -17,14 +17,23 @@ public class TrainStation implements Serializable {
         return trainsList.size();
     }
 
-    public void setCapacity(int capacity){
-        this.capacity= capacity;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
-    public String getName(){ return name; }
+    public String getName() {
+        return name;
+    }
 
-    public int getCapacityLimit(){ return capacityLimit;}
+    public int getCapacityLimit() {
+        return capacityLimit;
+    }
 
+    public TrainStation(String name, int capacity, int capacityLimit) {
+        this.name = name;
+        this.capacity = capacity;
+        this.capacityLimit = capacityLimit;
+    }
 
     public TrainStation(String name, int capacity) {
         this.name = name;
@@ -139,8 +148,6 @@ public class TrainStation implements Serializable {
     public final void writeObject(Object o) throws IOException {
 
     }
-
-
 
 
 }
