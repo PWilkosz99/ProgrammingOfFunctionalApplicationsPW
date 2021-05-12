@@ -51,11 +51,14 @@ public class Menu {
                 = new FileOutputStream("data.txt");
         ObjectOutputStream objectOutputStream
                 = new ObjectOutputStream(fileOutputStream);
-        for (var s : stationsList) {
-            objectOutputStream.writeObject(s);
-        }
+        objectOutputStream.writeObject(stationsList);
         objectOutputStream.flush();
         objectOutputStream.close();
+    }
+    @Deprecated
+    public void readBinary() throws IOException, ClassNotFoundException {
+        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("data.txt"));
+        stationsList = (List<TrainStation>) inputStream.readObject();
     }
 
     public void saveToCSV() throws IOException {
@@ -144,8 +147,9 @@ public class Menu {
         tableStation.setModel(model);
 
         try {
-            readCSV();
-            readTrainsCSV();
+            //readCSV();
+            //readTrainsCSV();
+            readBinary();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
@@ -215,17 +219,18 @@ public class Menu {
                 if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.out.println("SAVED");
                     try {
-                        saveToCSV();
-                        //saveBinary();
-                        saveTrainsCSV();
+                        //saveToCSV();
+                        saveBinary();
+                        //saveTrainsCSV();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
                     System.out.println("DO NOTHING");
                     try {
-                        readCSV();
-                    } catch (IOException e) {
+                        readBinary();
+                        //readCSV();
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
                 }

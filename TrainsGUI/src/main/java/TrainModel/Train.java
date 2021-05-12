@@ -1,9 +1,12 @@
 package TrainModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Train implements Comparable<Train>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 4159421413701554479L;
     String name;
     String cargo;
     transient TrainState state;

@@ -1,5 +1,6 @@
 package TrainModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +8,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TrainStation implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -2368425976141699339L;
     String name;
     public List<Train> trainsList = new ArrayList<Train>();
     int capacity;
