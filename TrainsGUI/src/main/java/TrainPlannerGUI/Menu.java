@@ -7,6 +7,8 @@ import TrainModel.TrainStation;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -22,6 +24,7 @@ public class Menu {
     private JButton btnDeleteStation;
     private JLabel txtInfo;
     private JTextField txtSearchStation;
+    private JButton btnSave;
     static DefaultTableModel model;
 
     private static final String CSV_SEPARATOR = ",";
@@ -55,12 +58,13 @@ public class Menu {
         objectOutputStream.flush();
         objectOutputStream.close();
     }
+
     @Deprecated
     public void readBinary() throws IOException, ClassNotFoundException {
         ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("data.txt"));
         stationsList = (List<TrainStation>) inputStream.readObject();
-        for(TrainStation s : stationsList){
-            for(Train t : s.trainsList){
+        for (TrainStation s : stationsList) {
+            for (Train t : s.trainsList) {
                 t.setState(TrainState.New);
             }
         }
@@ -139,7 +143,7 @@ public class Menu {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
 
-        JFrame frame = new JFrame("TrainModel.Train management app");
+        JFrame frame = new JFrame("Train management app");
         frame.setContentPane(panelMenu);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,9 +156,9 @@ public class Menu {
         tableStation.setModel(model);
 
         try {
-            //readCSV();
-            //readTrainsCSV();
-            readBinary();
+            readCSV();
+            readTrainsCSV();
+            //readBinary();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
@@ -162,8 +166,11 @@ public class Menu {
                 row[2] = s.getCapacity();
                 model.addRow(row);
             }
-        } catch (Exception e) {
-
+        } catch (FileNotFoundException fe){
+            JOptionPane.showConfirmDialog(frame, "Brak pliku do odczytu!\n" + fe.toString(), "Zapis", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+        catch (Exception e) {
+            JOptionPane.showConfirmDialog(frame, "Odczyt nieudany!\n" + e.toString(), "Zapis", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
         btnAddStation.addActionListener(e -> {
@@ -204,6 +211,21 @@ public class Menu {
                 model.addRow(row);
             }
         });
+
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    saveToCSV();
+                    saveTrainsCSV();
+                    //saveBinary();
+                    JOptionPane.showConfirmDialog(frame, "Zapisano!\n", "Zapis", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ioException) {
+                    JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + ioException.toString(), "Zapis", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         tableStation.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -224,20 +246,14 @@ public class Menu {
                 if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.out.println("SAVED");
                     try {
-                        //saveToCSV();
-                        saveBinary();
-                        //saveTrainsCSV();
+                        //saveBinary();
+                        saveToCSV();
+                        saveTrainsCSV();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    System.out.println("DO NOTHING");
-                    try {
-                        readBinary();
-                        //readCSV();
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    System.out.println("BYE");
                 }
             }
         });
