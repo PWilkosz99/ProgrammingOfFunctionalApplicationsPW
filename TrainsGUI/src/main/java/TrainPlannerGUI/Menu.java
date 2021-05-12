@@ -118,9 +118,9 @@ public class Menu {
                 bw.write(oneLine.toString());
                 bw.newLine();
             }
-            bw.flush();
-            bw.close();
         }
+        bw.flush();
+        bw.close();
     }
 
     void readTrainsCSV() throws IOException {
