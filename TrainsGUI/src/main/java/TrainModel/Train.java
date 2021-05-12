@@ -50,7 +50,7 @@ public class Train implements Comparable<Train>, Serializable {
         this.name = name;
         this.state = state;
         this.stationList = stationList;
-        this.ticketCost=ticketCost;
+        this.ticketCost = ticketCost;
         this.number = 0;
         this.capacity = 0;
         this.travelTime = 0;
@@ -67,8 +67,8 @@ public class Train implements Comparable<Train>, Serializable {
         this.state = state;
         this.stationList = stationList;
         this.timeTableList = timeTableList;
-        this.ticketCost=ticketCost;
-        this.capacity=capacity;
+        this.ticketCost = ticketCost;
+        this.capacity = capacity;
     }
 
     public void printTrainCargo() {
@@ -95,7 +95,9 @@ public class Train implements Comparable<Train>, Serializable {
         return travelTime;
     }
 
-    public int getTicketCost(){return ticketCost;}
+    public int getTicketCost() {
+        return ticketCost;
+    }
 
     public TrainState getTrainState() {
         return state;
@@ -117,11 +119,15 @@ public class Train implements Comparable<Train>, Serializable {
         return finishTime;
     }
 
-    public void decreaseCapacity(){
-    capacity--;
+    public void setState(TrainState s) {
+        state = s;
     }
 
-    public void increaseCapacity(){
+    public void decreaseCapacity() {
+        capacity--;
+    }
+
+    public void increaseCapacity() {
         capacity++;
     }
 

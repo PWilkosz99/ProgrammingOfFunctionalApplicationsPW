@@ -59,6 +59,11 @@ public class Menu {
     public void readBinary() throws IOException, ClassNotFoundException {
         ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("data.txt"));
         stationsList = (List<TrainStation>) inputStream.readObject();
+        for(TrainStation s : stationsList){
+            for(Train t : s.trainsList){
+                t.setState(TrainState.New);
+            }
+        }
     }
 
     public void saveToCSV() throws IOException {
