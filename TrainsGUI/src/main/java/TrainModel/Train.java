@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Train implements Comparable<Train>, Serializable {
     String name;
     String cargo;
+    transient TrainState state;
     int number;
     int capacity;
     int arrivalTime;
     int departureTime;
-    TrainState state;
     int startTime;
     int finishTime;
     int travelTime;

@@ -155,5 +155,4 @@ class CompareByTravelTime implements Comparator<Train> {
     public int compare(Train o1, Train o2) {
         return (o1.getFinishTime() - o1.getStartTime()) - (o2.getFinishTime() - o2.getStartTime());
     }
-
 }
