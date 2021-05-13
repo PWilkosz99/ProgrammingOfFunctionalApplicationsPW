@@ -16,7 +16,8 @@ public class TrainStation implements Serializable {
     int capacityLimit;
 
     public int getCapacity() {
-        return capacity;
+        return trainsList.size();
+        //return capacity;
     }
 
     public void setCapacity(int capacity) {

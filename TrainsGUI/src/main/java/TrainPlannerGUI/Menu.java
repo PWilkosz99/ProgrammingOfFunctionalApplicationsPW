@@ -167,10 +167,10 @@ public class Menu {
                 model.addRow(row);
             }
         } catch (FileNotFoundException fe){
-            JOptionPane.showConfirmDialog(frame, "Brak pliku do odczytu!\n" + fe.toString(), "Zapis", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showConfirmDialog(frame, "Brak pliku do odczytu!\n" + fe.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
         catch (Exception e) {
-            JOptionPane.showConfirmDialog(frame, "Odczyt nieudany!\n" + e.toString(), "Zapis", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showConfirmDialog(frame, "Odczyt nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
         btnAddStation.addActionListener(e -> {
@@ -219,9 +219,9 @@ public class Menu {
                     saveToCSV();
                     saveTrainsCSV();
                     //saveBinary();
-                    JOptionPane.showConfirmDialog(frame, "Zapisano!\n", "Zapis", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showConfirmDialog(frame, "Zapisano!\n", "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 } catch (IOException ioException) {
-                    JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + ioException.toString(), "Zapis", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + ioException.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -250,7 +250,7 @@ public class Menu {
                         saveToCSV();
                         saveTrainsCSV();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     System.out.println("BYE");
