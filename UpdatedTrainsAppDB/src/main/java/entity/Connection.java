@@ -9,12 +9,12 @@ public class Connection {
         EntityTransaction transaction = entityManager.getTransaction();
 
         try{
+            Integer ID = null;
             transaction.begin();
 
-            TrainsEntity tr = new TrainsEntity();
+            TrainsEntity tr = new TrainsEntity(2,3,4, 5);
 
-            tr.getCars();
-            tr.setTraveltime(1230);
+            entityManager.persist(tr);
 
             transaction.commit();
         } finally {

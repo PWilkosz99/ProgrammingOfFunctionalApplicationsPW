@@ -11,8 +11,26 @@ public class TrainsEntity {
     private Integer traveltime;
     private Integer state;
 
+    public TrainsEntity(int id, Integer cars, Integer capacity, Integer traveltime, Integer state) {
+        this.id = id;
+        this.cars = cars;
+        this.capacity = capacity;
+        this.traveltime = traveltime;
+        this.state = state;
+    }
+
+    public TrainsEntity(Integer cars, Integer capacity, Integer traveltime, Integer state) {
+        this.cars = cars;
+        this.capacity = capacity;
+        this.traveltime = traveltime;
+        this.state = state;
+    }
+
+    public TrainsEntity() { }
+
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public int getId() {
         return id;
     }
