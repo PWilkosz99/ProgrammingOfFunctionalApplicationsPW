@@ -35,6 +35,13 @@ public class Connection {
             //entityManager.remove(employee);
             //entityManager.getTransaction().commit();
 
+            //UPDATE
+            TrainsEntity employee = entityManager.find(TrainsEntity.class, 2);
+
+            entityManager.getTransaction().begin();
+            employee.setCars(200);
+            entityManager.getTransaction().commit();
+
 
         } finally {
             if(transaction.isActive()){
