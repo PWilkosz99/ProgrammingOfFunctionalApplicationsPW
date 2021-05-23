@@ -11,7 +11,7 @@ public class Connection {
 
         try{
             Integer ID = null;
-            transaction.begin();
+            //transaction.begin();
 
             //ADD
             //TrainsEntity tr = new TrainsEntity(2,3,4, 5);
@@ -27,6 +27,13 @@ public class Connection {
             //}
             //entityManager.getTransaction().commit();
             //entityManager.close();
+
+            //REMOVE
+            //TrainsEntity employee = entityManager.find(TrainsEntity.class, 5); //find by pk
+
+            //entityManager.getTransaction().begin();
+            //entityManager.remove(employee);
+            //entityManager.getTransaction().commit();
 
 
         } finally {
