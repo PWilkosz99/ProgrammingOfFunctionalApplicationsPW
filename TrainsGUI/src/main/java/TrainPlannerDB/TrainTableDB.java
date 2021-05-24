@@ -3,13 +3,12 @@ package TrainPlannerDB;
 import TrainModel.Train;
 import TrainModel.TrainState;
 import TrainModel.TrainStation;
-import TrainPlannerSerial.Menu;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class TrainTable {
+public class TrainTableDB {
     DefaultTableModel model;
     private JPanel panelTrains;
     private JTable tableTrains;
@@ -32,7 +31,7 @@ public class TrainTable {
         };
     }
 
-    TrainTable(TrainStation currentStation) {
+    TrainTableDB(TrainStation currentStation) {
         JFrame frame = new JFrame("TrainModel.Train management app");
         frame.setContentPane(panelTrains);
         frame.setVisible(true);
@@ -84,7 +83,7 @@ public class TrainTable {
                 currentStation.addTrain(new Train(name, cars, capacity, time, state));
                 cap++;
                 currentStation.setCapacity(cap);
-                TrainPlannerSerial.Menu.RefreshData(cap, currentStation);
+                PlannerMenuDB.RefreshData(cap, currentStation);
                 model.addRow(row);
             }
         });
@@ -98,7 +97,7 @@ public class TrainTable {
 
                     int cap = currentStation.getCapacity();
                     currentStation.setCapacity(cap);
-                    Menu.RefreshData(cap, currentStation);
+                    PlannerMenuDB.RefreshData(cap, currentStation);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Proszę wybrac stację");

@@ -1,6 +1,9 @@
 package entity;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.util.List;
 
 public class Connection {
@@ -11,22 +14,22 @@ public class Connection {
 
         try{
             Integer ID = null;
-            //transaction.begin();
+
 
             //ADD
-            //TrainsEntity tr = new TrainsEntity(2,3,4, 5);
+            //transaction.begin();
+            //TrainsEntity tr = new TrainsEntity(90,1,2, TrainState.Cancelled);
             //entityManager.persist(tr);
             //transaction.commit();
 
             //SELECT
-            //entityManager = entityManagerFactory.createEntityManager();
-            //entityManager.getTransaction().begin();
-            //List<TrainsEntity> result = entityManager.createQuery( "from TrainsEntity ", TrainsEntity.class ).getResultList();
-            //for ( TrainsEntity event : result ) {
-            //    System.out.println( "Event (" + event.getId() + ") : " + event.getCars() );
-            //}
-            //entityManager.getTransaction().commit();
-            //entityManager.close();
+            entityManager.getTransaction().begin();
+            List<TrainsEntity> result = entityManager.createQuery("from TrainsEntity \n", TrainsEntity.class ).getResultList();
+            for ( TrainsEntity event : result ) {
+                System.out.println( "Event (" + event.getId() + ") : " + event.getState() );
+            }
+            entityManager.getTransaction().commit();
+            entityManager.close();
 
             //REMOVE
             //TrainsEntity employee = entityManager.find(TrainsEntity.class, 5); //find by pk
@@ -36,11 +39,11 @@ public class Connection {
             //entityManager.getTransaction().commit();
 
             //UPDATE
-            TrainsEntity employee = entityManager.find(TrainsEntity.class, 2);
+            //TrainsEntity employee = entityManager.find(TrainsEntity.class, 2);
 
-            entityManager.getTransaction().begin();
-            employee.setCars(200);
-            entityManager.getTransaction().commit();
+            //entityManager.getTransaction().begin();
+            //employee.setCars(200);
+            //entityManager.getTransaction().commit();
 
 
         } finally {

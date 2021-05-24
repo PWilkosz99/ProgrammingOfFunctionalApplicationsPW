@@ -1,10 +1,12 @@
 package TrainPlannerDB;
 
-import TrainModel.Train;
-import TrainModel.TrainState;
 import TrainModel.TrainStation;
-import TrainPlannerSerial.TrainTable;
+import entity.TrainsEntity;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -12,12 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Menu {
+public class PlannerMenuDB {
     private JTable tableStation;
     private JPanel panelMenu;
     private JButton btnAddStation;
@@ -31,7 +34,7 @@ public class Menu {
     private static final String CSV_SEPARATOR = ",";
 
     static List<TrainStation> stationsList;
-    static List<TrainTable> trainTableslist;
+    static List<TrainsEntity> trainTableslist;
 
 
     public TrainStation findByStationName(String name) {
@@ -49,98 +52,30 @@ public class Menu {
         model.setValueAt(capacity, index, 2);
     }
 
-    @Deprecated
-    public void saveBinary() throws IOException {
-        FileOutputStream fileOutputStream
-                = new FileOutputStream("data.txt");
-        ObjectOutputStream objectOutputStream
-                = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(stationsList);
-        objectOutputStream.flush();
-        objectOutputStream.close();
-    }
+    public void loadTrainsDB() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
 
-    @Deprecated
-    public void readBinary() throws IOException, ClassNotFoundException {
-        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("data.txt"));
-        stationsList = (List<TrainStation>) inputStream.readObject();
-        for (TrainStation s : stationsList) {
-            for (Train t : s.trainsList) {
-                t.setState(TrainState.New);
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            trainTableslist = entityManager.createQuery("from TrainsEntity ", TrainsEntity.class).getResultList();
+            for (TrainsEntity event : result) {
+                System.out.println("Event (" + event.getId() + ") : " + event.getState());
             }
-        }
-    }
+            entityManager.getTransaction().commit();
 
-    public void saveToCSV() throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stations.csv"), "UTF-8"));
-        for (var s : stationsList) {
-            StringBuffer oneLine = new StringBuffer();
-            oneLine.append(s.getName());
-            oneLine.append(CSV_SEPARATOR);
-
-            oneLine.append(s.getCapacityLimit());
-            oneLine.append(CSV_SEPARATOR);
-
-            oneLine.append(s.getCapacity());
-            bw.write(oneLine.toString());
-            bw.newLine();
-        }
-        bw.flush();
-        bw.close();
-    }
-
-    void readCSV() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("stations.csv"));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] values = line.split(CSV_SEPARATOR);
-            stationsList.add(new TrainStation(values[0], Integer.parseInt(values[2]), Integer.parseInt(values[1])));
-        }
-    }
-
-    void saveTrainsCSV() throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("trains.csv"), "UTF-8"));
-        for (var s : stationsList) {
-            for (var t : s.trainsList) {
-                StringBuffer oneLine = new StringBuffer();
-                oneLine.append(s.getName());
-                oneLine.append(CSV_SEPARATOR);
-
-                oneLine.append(t.getName());
-                oneLine.append(CSV_SEPARATOR);
-
-                oneLine.append(t.getCapacity());
-                oneLine.append(CSV_SEPARATOR);
-
-                oneLine.append(t.getNumber());
-                oneLine.append(CSV_SEPARATOR);
-
-                oneLine.append(t.getTravelTime());
-                bw.write(oneLine.toString());
-                bw.newLine();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
             }
-        }
-        bw.flush();
-        bw.close();
-    }
-
-    void readTrainsCSV() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("trains.csv"));//FileNotFoundException
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] values = line.split(CSV_SEPARATOR);
-            TrainStation ts = null;
-            for (var s : stationsList) {
-                if (s.getName().equals(values[0])) {
-                    ts = s;
-                    break;
-                }
-            }
-            ts.addTrain(new Train(values[1], Integer.parseInt(values[3]), Integer.parseInt(values[2]), Integer.parseInt(values[4]), TrainState.New));
+            entityManager.close();
+            entityManagerFactory.close();
         }
     }
 
-    Menu() throws IOException {
+    PlannerMenuDB() throws IOException {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
 
@@ -157,8 +92,9 @@ public class Menu {
         tableStation.setModel(model);
 
         try {
-            readCSV();
-            readTrainsCSV();
+            loadTrainsDB();
+            //readCSV();
+            //readTrainsCSV();
             //readBinary();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
@@ -167,10 +103,7 @@ public class Menu {
                 row[2] = s.getCapacity();
                 model.addRow(row);
             }
-        } catch (FileNotFoundException fe){
-            JOptionPane.showConfirmDialog(frame, "Brak pliku do odczytu!\n" + fe.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JOptionPane.showConfirmDialog(frame, "Odczyt nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
@@ -217,11 +150,11 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    saveToCSV();
-                    saveTrainsCSV();
+                    //saveToCSV();
+                    //saveTrainsCSV();
                     //saveBinary();
                     JOptionPane.showConfirmDialog(frame, "Zapisano!\n", "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ioException) {
+                } catch (Exception ioException) {
                     JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + ioException.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -231,7 +164,7 @@ public class Menu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                trainTableslist.add(new TrainTable(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
+                trainTableslist.add(new TrainTableDB(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
             }
         });
         txtSearchStation.addActionListener(e -> {
@@ -248,9 +181,9 @@ public class Menu {
                     System.out.println("SAVED");
                     try {
                         //saveBinary();
-                        saveToCSV();
-                        saveTrainsCSV();
-                    } catch (IOException e) {
+                        //saveToCSV();
+                        //saveTrainsCSV();
+                    } catch (Exception e) {
                         JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
@@ -261,7 +194,7 @@ public class Menu {
     }
 
     public static void main(String[] args) throws IOException {
-        new Menu();
+        new PlannerMenuDB();
     }
 }
 

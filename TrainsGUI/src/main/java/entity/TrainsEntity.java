@@ -1,5 +1,7 @@
 package entity;
 
+import TrainModel.TrainState;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,9 +11,9 @@ public class TrainsEntity {
     private Integer cars;
     private Integer capacity;
     private Integer traveltime;
-    private Integer state;
+    private TrainState state;
 
-    public TrainsEntity(int id, Integer cars, Integer capacity, Integer traveltime, Integer state) {
+    public TrainsEntity(int id, Integer cars, Integer capacity, Integer traveltime, TrainState state) {
         this.id = id;
         this.cars = cars;
         this.capacity = capacity;
@@ -19,7 +21,7 @@ public class TrainsEntity {
         this.state = state;
     }
 
-    public TrainsEntity(Integer cars, Integer capacity, Integer traveltime, Integer state) {
+    public TrainsEntity(Integer cars, Integer capacity, Integer traveltime, TrainState state) {
         this.cars = cars;
         this.capacity = capacity;
         this.traveltime = traveltime;
@@ -70,12 +72,12 @@ public class TrainsEntity {
     }
 
     @Basic
-    @Column(name = "STATE")
-    public Integer getState() {
+    @Column(name = "STATE", columnDefinition = "INT")
+    public TrainState getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(TrainState state) {
         this.state = state;
     }
 
