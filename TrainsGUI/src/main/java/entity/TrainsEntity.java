@@ -13,6 +13,7 @@ public class TrainsEntity {
     private Integer capacity;
     private Integer traveltime;
     private TrainState state;
+    private Integer ticketCost;
 
     public TrainsEntity(String name, Integer cars, Integer capacity, Integer traveltime, TrainState state) {
         this.name = name;
@@ -20,6 +21,7 @@ public class TrainsEntity {
         this.capacity = capacity;
         this.traveltime = traveltime;
         this.state = state;
+        this.ticketCost=15;
     }
 
     public TrainsEntity() { }
@@ -83,6 +85,16 @@ public class TrainsEntity {
 
     public void setState(TrainState state) {
         this.state = state;
+    }
+
+    @Basic
+    @Column(name = "TICKETCOST")
+    public Integer getTicketCost() {
+        return ticketCost;
+    }
+
+    public void setTicketCost(Integer ticketCost) {
+        this.ticketCost = ticketCost;
     }
 
     @Override

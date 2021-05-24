@@ -15,7 +15,9 @@ module TrainsGUI {
 
     opens TrainPlannerSerial;
     opens TrainPassengerGUI;
+    opens TrainFinderDB;
     opens TrainModel;
     exports TrainPassengerGUI;
+    exports TrainFinderDB;
     exports entity;
 }

@@ -139,4 +139,55 @@ public class EntityUtil {
             entityManagerFactory.close();
         }
     }
+
+    public static List<TrainsonstationsEntity> searchConnections(String s1, String s2, int h){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            var st1ID = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", s1).getSingleResult().getId();
+            var st2ID = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", s2).getSingleResult().getId();
+            var cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm", TrainsonstationsEntity.class).setParameter("nm", s2).getResultList();
+            entityManager.getTransaction().commit();
+
+            List<TrainsonstationsEntity> connections = new ArrayList<TrainsonstationsEntity>();
+
+            for (var c: cns) {
+                entityManager.getTransaction().begin();
+                var tmp = entityManager.createQuery("from TrainsonstationsEntity where trainID=:nm and stationID=:nm2", TrainsonstationsEntity.class).setParameter("nm", c.getTrainId()).setParameter("nm2",st2ID).getResultList();
+                entityManager.getTransaction().commit();
+                connections.addAll(tmp);
+            }
+
+        return connections;
+
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    public static TrainsEntity getTrainByID(int ID){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            TrainsEntity t = entityManager.createQuery("from TrainsEntity where ID=:id", TrainsEntity.class).setParameter("id", ID).getSingleResult();
+            entityManager.getTransaction().commit();
+            return t;
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+
 }
