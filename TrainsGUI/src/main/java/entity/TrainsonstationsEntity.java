@@ -9,6 +9,7 @@ public class TrainsonstationsEntity {
     private int stationId;
     private int trainId;
     private Integer order;
+    private Integer stime;
 
     public TrainsonstationsEntity(int stationId, int trainId) {
         this.stationId = stationId;
@@ -63,6 +64,16 @@ public class TrainsonstationsEntity {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    @Basic
+    @Column(name = "stime")
+    public Integer getStime() {
+        return stime;
+    }
+
+    public void setStime(Integer stime) {
+        this.stime = stime;
     }
 
     @Override

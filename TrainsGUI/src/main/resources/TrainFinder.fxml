@@ -31,7 +31,7 @@
            <TableColumn fx:id="clmnname" prefWidth="107.0" text="Nazwa" />
            <TableColumn fx:id="clmnDeparture" prefWidth="121.0" text="Godzina odjazdu" />
            <TableColumn fx:id="clmnArrival" prefWidth="135.0" text="Godzina przyjazdu" />
-           <TableColumn fx:id="clmnTime" prefWidth="116.0" text="Czas przejazdu" />
+           <TableColumn fx:id="clmnTime" prefWidth="116.0" text="ID biletu" />
            <TableColumn fx:id="clmnCost" prefWidth="120.0" text="Cena biletu" />
        </columns></TableView>
       <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" onAction="#buttonCancelOnClick" prefHeight="25.0" prefWidth="80.0" text="Zwróć bilet" GridPane.rowIndex="4">

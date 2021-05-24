@@ -93,7 +93,7 @@ public class FinderMenuController {
             clmnname.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, String>("name"));
             clmnArrival.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("arrivalTime"));
             clmnDeparture.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("departureTime"));
-            clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
+            clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketID"));
             clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
             tableTickets.setItems(dataList);
         } catch (Exception e) {

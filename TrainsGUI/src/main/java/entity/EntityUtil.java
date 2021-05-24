@@ -149,7 +149,13 @@ public class EntityUtil {
             entityManager.getTransaction().begin();
             var st1ID = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", s1).getSingleResult().getId();
             var st2ID = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", s2).getSingleResult().getId();
-            var cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm", TrainsonstationsEntity.class).setParameter("nm", s2).getResultList();
+            List<TrainsonstationsEntity> cns;
+            if(h==-1){
+                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm", TrainsonstationsEntity.class).setParameter("nm", s2).getResultList();
+            }else{
+                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm and stime=:nm2 ", TrainsonstationsEntity.class).setParameter("nm", s2).setParameter("nm2", h).getResultList();
+            }
+
             entityManager.getTransaction().commit();
 
             List<TrainsonstationsEntity> connections = new ArrayList<TrainsonstationsEntity>();
