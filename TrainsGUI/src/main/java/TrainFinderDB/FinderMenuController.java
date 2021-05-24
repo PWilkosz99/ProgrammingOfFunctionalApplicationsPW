@@ -66,16 +66,8 @@ public class FinderMenuController {
         return connections;
     }
 
-    void trainInit() {
-
-    }
-
     @FXML
     void initialize() {
-        if (!SesssionData.initStatus) {
-            trainInit();
-            SesssionData.initStatus = true;
-        }
 
         choiceboxHour.setValue("DOWOLNA");
         choiceboxHour.getItems().add("DOWOLNA");
@@ -95,13 +87,13 @@ public class FinderMenuController {
         }
 
         try {
-            for (TrainMatchedModel t : SesssionData.boughtTickesFor) {
+            for (TrainMatchedModel t : EntityUtil.getTickets()) {
                 dataList.add(t);
             }
             clmnname.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, String>("name"));
             clmnArrival.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("arrivalTime"));
             clmnDeparture.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("departureTime"));
-            clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("travelTime"));
+            clmnTime.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
             clmnCost.setCellValueFactory(new PropertyValueFactory<TrainMatchedModel, Integer>("ticketCost"));
             tableTickets.setItems(dataList);
         } catch (Exception e) {
@@ -140,17 +132,17 @@ public class FinderMenuController {
             appStage.setScene(scene);
             appStage.show();
         }
-
     }
 
     public void buttonCancelOnClick(ActionEvent actionEvent) {
         var p = tableTickets.getSelectionModel().getSelectedItem();
         if (p != null) {
-            for (var t : SesssionData.trainsContainer.trainList) {
+            for (var t : dataList) {
                 if (p.getName() == t.getName()) {
                     tableTickets.getItems().remove(p);
                     SesssionData.boughtTickesFor.remove(p);
-                    t.increaseCapacity();
+                    //t.increaseCapacity();
+                    EntityUtil.cancelTicketByID(p.getTicketID());
                     Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Bilet został anulowany", ButtonType.OK);
                     a1.show();
                 }

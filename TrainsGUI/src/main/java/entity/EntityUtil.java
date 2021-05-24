@@ -1,6 +1,7 @@
 package entity;
 
 import TrainModel.Train;
+import TrainModel.TrainMatchedModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -189,5 +190,69 @@ public class EntityUtil {
         }
     }
 
+    public static TrainsEntity getTrainByName(String nm){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            var t = entityManager.createQuery("from TrainsEntity where name=:nm", TrainsEntity.class).setParameter("nm", nm).getResultList();
+            entityManager.getTransaction().commit();
+            return t.get(0);
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
 
+    public static List<TrainMatchedModel> getTickets(){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            var te = entityManager.createQuery("from TicketsEntity", TicketsEntity.class).getResultList();
+            entityManager.getTransaction().commit();
+
+            List<TrainMatchedModel> res = new ArrayList<TrainMatchedModel>();
+
+            for (var t:te) {
+                var tr = EntityUtil.getTrainByID(t.getTrainId());
+                res.add(new TrainMatchedModel(tr.getName(), tr.getTraveltime(), tr.getTraveltime()-3, tr.getTicketCost(), t.getId()));
+            }
+
+            return res;
+
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    public static void cancelTicketByID(int ID){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            TicketsEntity ticket = entityManager.find(TicketsEntity.class, ID); //find by pk
+
+            entityManager.getTransaction().begin();
+            entityManager.remove(ticket);
+            entityManager.getTransaction().commit();
+
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
 }

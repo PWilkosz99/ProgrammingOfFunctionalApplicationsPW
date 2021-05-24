@@ -2,6 +2,9 @@ package TrainFinderDB;
 
 import TrainModel.Train;
 import TrainModel.TrainMatchedModel;
+import entity.EntityUtil;
+import entity.TicketsEntity;
+import entity.TrainsEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -71,7 +74,7 @@ public class TrainConnectionsController {
     }
 
     @FXML
-    private void searchByName(){
+    private void searchByName() {
         filteredData.setPredicate(x -> x.getName().contains(txtSearch.getText().toString()));
     }
 
@@ -99,7 +102,7 @@ public class TrainConnectionsController {
 
     public void buttonOnClickBack(ActionEvent event) throws IOException {
         SesssionData.matchTrains = null;
-        Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
+        Parent blah = FXMLLoader.load(getClass().getResource("/TrainFinder.fxml"));
         Scene scene = new Scene(blah);
         scene.getStylesheets().add("/style.css");
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -118,10 +121,13 @@ public class TrainConnectionsController {
                 SesssionData.matchTrains = null;
 
                 Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Zakup biletu udany", ButtonType.OK);
+                TrainsEntity train = EntityUtil.getTrainByName(p.getName());
+                TicketsEntity ticket = new TicketsEntity(99, train.getId(), SesssionData.startID, SesssionData.finishID);
+                EntityUtil.addToDB(ticket);
                 a1.show();
 
 
-                Parent blah = FXMLLoader.load(getClass().getResource("/PassengerMenu.fxml"));
+                Parent blah = FXMLLoader.load(getClass().getResource("/TrainFinder.fxml"));
                 Scene scene = new Scene(blah);
                 Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 scene.getStylesheets().add("/style.css");
@@ -163,7 +169,7 @@ public class TrainConnectionsController {
                     }
 
                     String trainInfo = "Pocig spółki PKP Intercity " + properTrain.getName() + "\nZ stacji: " + properTrain.stationList.get(0).toString() + "\nDo stacji: " +
-                            properTrain.stationList.get(properTrain.stationList.size() - 1).toString() + "\nStacje posśrednie: " + stops + "\nStatus: " + properTrain.getTrainState();
+                            properTrain.stationList.get(properTrain.stationList.size() - 1).toString() + "\nStacje pośrednie: " + stops + "\nStatus: " + properTrain.getTrainState();
                     Alert a1 = new Alert(Alert.AlertType.INFORMATION, trainInfo, ButtonType.OK);
                     a1.show();
                     clicked = true;
