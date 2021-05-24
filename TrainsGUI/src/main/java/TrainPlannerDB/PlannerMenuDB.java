@@ -1,6 +1,8 @@
 package TrainPlannerDB;
 
 import TrainModel.TrainStation;
+import entity.EntityUtil;
+import entity.StationsEntity;
 import entity.TrainsEntity;
 
 import javax.persistence.EntityManager;
@@ -14,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,11 +34,11 @@ public class PlannerMenuDB {
 
     private static final String CSV_SEPARATOR = ",";
 
-    static List<TrainStation> stationsList;
+    static List<StationsEntity> stationsList;
     static List<TrainsEntity> trainTableslist;
 
 
-    public TrainStation findByStationName(String name) {
+    public StationsEntity findByStationName(String name) {
         return stationsList.stream().filter(station -> name.equals(station.getName())).findFirst().orElse(null);
     }
 
@@ -60,10 +61,7 @@ public class PlannerMenuDB {
 
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            trainTableslist = entityManager.createQuery("from TrainsEntity ", TrainsEntity.class).getResultList();
-            for (TrainsEntity event : result) {
-                System.out.println("Event (" + event.getId() + ") : " + event.getState());
-            }
+            stationsList = entityManager.createQuery("from StationsEntity ", StationsEntity.class).getResultList();
             entityManager.getTransaction().commit();
 
         } finally {
@@ -117,7 +115,9 @@ public class PlannerMenuDB {
             } else {
                 String name = String.valueOf(row[0]);
                 int cap = Integer.parseInt(String.valueOf(row[1]));
-                stationsList.add(new TrainStation(name, cap));
+                StationsEntity newStation = new StationsEntity(name, 0, cap);
+                EntityUtil.addToDB(newStation);
+                stationsList.add(newStation);
                 model.addRow(row);
             }
         });
@@ -127,9 +127,10 @@ public class PlannerMenuDB {
             if (selectedIndex >= 0) {
                 if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć stacje " + model.getValueAt(selectedIndex, 0) + "?", "OSTRZEŻENIE",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    TrainStation actStation = findByStationName(String.valueOf(model.getValueAt(selectedIndex, 0)));
+                    StationsEntity actStation = findByStationName(String.valueOf(model.getValueAt(selectedIndex, 0)));
                     model.removeRow(selectedIndex);
                     stationsList.remove(actStation);
+                    EntityUtil.deleteFromDB(actStation);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
@@ -137,59 +138,28 @@ public class PlannerMenuDB {
         });
 
         btnSortStation.addActionListener(e -> {
-            Comparator<TrainStation> compareByCapacity = (TrainStation t1, TrainStation t2) -> Integer.compare(t1.getCapacity(), t2.getCapacity());
+            Comparator<StationsEntity> compareByCapacity = (StationsEntity t1, StationsEntity t2) -> Integer.compare(t1.getCapacity(), t2.getCapacity());
             stationsList.sort(compareByCapacity);
-            for (TrainStation ts : stationsList) {
+            for (StationsEntity ts : stationsList) {
                 model.removeRow(0);
                 Object[] row = {ts.getName(), ts.getCapacityLimit(), ts.getCapacity()};
                 model.addRow(row);
             }
         });
 
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    //saveToCSV();
-                    //saveTrainsCSV();
-                    //saveBinary();
-                    JOptionPane.showConfirmDialog(frame, "Zapisano!\n", "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception ioException) {
-                    JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + ioException.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-
         tableStation.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                trainTableslist.add(new TrainTableDB(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
+                super.mouseClicked(e);//TODO
+                //trainTableslist.add(new TrainTableDB(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
             }
         });
+
         txtSearchStation.addActionListener(e -> {
             DefaultTableModel Model = (DefaultTableModel) tableStation.getModel();
             TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
             tableStation.setRowSorter(tr);
             tr.setRowFilter(RowFilter.regexFilter(txtSearchStation.getText().trim()));
-        });
-
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (JOptionPane.showConfirmDialog(frame, "Zapisać wprowadzone dane?", "Zapis", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    System.out.println("SAVED");
-                    try {
-                        //saveBinary();
-                        //saveToCSV();
-                        //saveTrainsCSV();
-                    } catch (Exception e) {
-                        JOptionPane.showConfirmDialog(frame, "Zapis nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    System.out.println("BYE");
-                }
-            }
         });
     }
 
