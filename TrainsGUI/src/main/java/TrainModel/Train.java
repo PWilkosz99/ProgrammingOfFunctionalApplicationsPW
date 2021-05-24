@@ -134,5 +134,4 @@ public class Train implements Comparable<Train>, Serializable {
     public int compareTo(Train o) {
         return name.compareTo(o.name);
     }
-
 }

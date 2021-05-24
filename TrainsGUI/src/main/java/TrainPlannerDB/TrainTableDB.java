@@ -1,12 +1,16 @@
 package TrainPlannerDB;
 
-import TrainModel.Train;
 import TrainModel.TrainState;
-import TrainModel.TrainStation;
+import entity.EntityUtil;
+import entity.StationsEntity;
+import entity.TrainsEntity;
+import entity.TrainsonstationsEntity;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrainTableDB {
     DefaultTableModel model;
@@ -14,7 +18,6 @@ public class TrainTableDB {
     private JTable tableTrains;
     private JButton btnAddTrain;
     private JButton btnDeleteTrain;
-    private JButton btnUpdate;
     private JTextField txtSearchTrain;
 
     public static TrainState parseStringtoState(String sstate) {
@@ -31,7 +34,7 @@ public class TrainTableDB {
         };
     }
 
-    TrainTableDB(TrainStation currentStation) {
+    TrainTableDB(StationsEntity currentStation) {
         JFrame frame = new JFrame("TrainModel.Train management app");
         frame.setContentPane(panelTrains);
         frame.setVisible(true);
@@ -44,15 +47,26 @@ public class TrainTableDB {
         model.setColumnIdentifiers(columns);
         tableTrains.setModel(model);
 
-        for (Train train : currentStation.trainsList) {
-            Object[] row = new Object[5];
-            row[0] = train.getName();
-            row[1] = train.getNumber();
-            row[2] = train.getCapacity();
-            row[3] = train.getTravelTime();
-            row[4] = train.getTrainState().toString();
-            model.addRow(row);
+        List<TrainsEntity> trainsOnStation= new ArrayList<TrainsEntity>();
+
+        try{
+                trainsOnStation.addAll(EntityUtil.loadTrainsDB(currentStation.getId()));
+        }catch (Exception e){
+            System.out.println(e.toString());
         }
+
+        if (trainsOnStation.size() > 0) {
+            for (var train : EntityUtil.loadTrainsDB(currentStation.getId())) {
+                Object[] row = new Object[5];
+                row[0] = train.getName();
+                row[1] = train.getCars();
+                row[2] = train.getCapacity();
+                row[3] = train.getTraveltime();
+                row[4] = train.getState().toString();
+                model.addRow(row);
+            }
+        }
+
 
         btnAddTrain.addActionListener(e -> {
             int cap = currentStation.getCapacity();
@@ -80,9 +94,11 @@ public class TrainTableDB {
                 int time = Integer.parseInt(String.valueOf(row[3]));
                 TrainState state = parseStringtoState(row[4].toString());
 
-                currentStation.addTrain(new Train(name, cars, capacity, time, state));
+                TrainsEntity newtrain = new TrainsEntity(name, cars, capacity, time, state);
+                EntityUtil.addToDB(newtrain);
+                EntityUtil.addToDB(new TrainsonstationsEntity(currentStation.getId(), newtrain.getId(), 0));
                 cap++;
-                currentStation.setCapacity(cap);
+                EntityUtil.updateCapacity(currentStation, cap);
                 PlannerMenuDB.RefreshData(cap, currentStation);
                 model.addRow(row);
             }
@@ -92,30 +108,20 @@ public class TrainTableDB {
             if (selectedIndex >= 0) {
                 if (JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć pociąg " + model.getValueAt(selectedIndex, 0) + "?", "OSTRZEŻENIE",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
+                    EntityUtil.deleteTrainByName(String.valueOf(model.getValueAt(selectedIndex, 0)));
                     model.removeRow(selectedIndex);
 
                     int cap = currentStation.getCapacity();
-                    currentStation.setCapacity(cap);
+                    EntityUtil.updateCapacity(currentStation, cap);
                     PlannerMenuDB.RefreshData(cap, currentStation);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
             }
         });
-        btnUpdate.addActionListener(e -> {
-            //Object[] columns = {"Nazwa pociagu", "Ilosc wagonow", "Ilosc miejsc", "Czas przejazdu", "Stan pociagu"};
-            int selectedIndex = tableTrains.getSelectedRow();
-            String name = String.valueOf(model.getValueAt(selectedIndex, 0));
-            int cars = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 1)));
-            int capacity = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 2)));
-            int time = Integer.parseInt(String.valueOf(model.getValueAt(selectedIndex, 3)));
-            TrainState state = parseStringtoState(String.valueOf(model.getValueAt(selectedIndex, 4)));
-            currentStation.deleteAllTrainsNamed(new Train(String.valueOf(model.getValueAt(selectedIndex, 0))));
-            currentStation.addTrain(new Train(name, cars, capacity, time, state));
-        });
+
         txtSearchTrain.addActionListener(e -> {
-            DefaultTableModel Model = (DefaultTableModel)tableTrains.getModel();
+            DefaultTableModel Model = (DefaultTableModel) tableTrains.getModel();
             TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
             tableTrains.setRowSorter(tr);
             tr.setRowFilter(RowFilter.regexFilter(txtSearchTrain.getText().trim()));

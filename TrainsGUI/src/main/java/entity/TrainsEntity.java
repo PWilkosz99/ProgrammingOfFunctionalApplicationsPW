@@ -8,20 +8,14 @@ import javax.persistence.*;
 @Table(name = "trains")
 public class TrainsEntity {
     private int id;
+    private String name;
     private Integer cars;
     private Integer capacity;
     private Integer traveltime;
     private TrainState state;
 
-    public TrainsEntity(int id, Integer cars, Integer capacity, Integer traveltime, TrainState state) {
-        this.id = id;
-        this.cars = cars;
-        this.capacity = capacity;
-        this.traveltime = traveltime;
-        this.state = state;
-    }
-
-    public TrainsEntity(Integer cars, Integer capacity, Integer traveltime, TrainState state) {
+    public TrainsEntity(String name, Integer cars, Integer capacity, Integer traveltime, TrainState state) {
+        this.name = name;
         this.cars = cars;
         this.capacity = capacity;
         this.traveltime = traveltime;
@@ -39,6 +33,16 @@ public class TrainsEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic

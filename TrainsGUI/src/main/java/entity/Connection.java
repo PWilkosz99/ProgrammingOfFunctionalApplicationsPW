@@ -16,10 +16,10 @@ public class Connection {
 
 
             //ADD
-            transaction.begin();
-            StationsEntity tr = new StationsEntity("Krakow", 0 ,8);
-            entityManager.persist(tr);
-            transaction.commit();
+//            transaction.begin();
+//            StationsEntity tr = new StationsEntity("Krakow", 0 ,8);
+//            entityManager.persist(tr);
+//            transaction.commit();
 
             //SELECT
             //entityManager.getTransaction().begin();
@@ -38,11 +38,11 @@ public class Connection {
             //entityManager.getTransaction().commit();
 
             //UPDATE
-            //TrainsEntity employee = entityManager.find(TrainsEntity.class, 2);
+            TrainsEntity employee = entityManager.find(TrainsEntity.class, 17);
 
-            //entityManager.getTransaction().begin();
-            //employee.setCars(200);
-            //entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            employee.setCars(200);
+            entityManager.getTransaction().commit();
 
 
         } finally {

@@ -1,19 +1,11 @@
 package TrainPlannerDB;
 
-import TrainModel.TrainStation;
 import entity.EntityUtil;
 import entity.StationsEntity;
-import entity.TrainsEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -35,14 +27,14 @@ public class PlannerMenuDB {
     private static final String CSV_SEPARATOR = ",";
 
     static List<StationsEntity> stationsList;
-    static List<TrainsEntity> trainTableslist;
+    static List<TrainTableDB> trainTableslist;
 
 
     public StationsEntity findByStationName(String name) {
         return stationsList.stream().filter(station -> name.equals(station.getName())).findFirst().orElse(null);
     }
 
-    public static void RefreshData(int capacity, TrainStation station) {
+    public static void RefreshData(int capacity, StationsEntity station) {
         int index = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
             if (String.valueOf(model.getValueAt(i, 0)).equals(station.getName())) {
@@ -51,26 +43,6 @@ public class PlannerMenuDB {
             }
         }
         model.setValueAt(capacity, index, 2);
-    }
-
-    public void loadTrainsDB() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-
-            entityManager = entityManagerFactory.createEntityManager();
-            entityManager.getTransaction().begin();
-            stationsList = entityManager.createQuery("from StationsEntity ", StationsEntity.class).getResultList();
-            entityManager.getTransaction().commit();
-
-        } finally {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            entityManager.close();
-            entityManagerFactory.close();
-        }
     }
 
     PlannerMenuDB() throws IOException {
@@ -90,10 +62,7 @@ public class PlannerMenuDB {
         tableStation.setModel(model);
 
         try {
-            loadTrainsDB();
-            //readCSV();
-            //readTrainsCSV();
-            //readBinary();
+             stationsList = EntityUtil.loadStationsDB();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
@@ -150,8 +119,8 @@ public class PlannerMenuDB {
         tableStation.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);//TODO
-                //trainTableslist.add(new TrainTableDB(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
+                super.mouseClicked(e);
+                trainTableslist.add(new TrainTableDB(findByStationName(String.valueOf(model.getValueAt(tableStation.getSelectedRow(), 0)))));
             }
         });
 
