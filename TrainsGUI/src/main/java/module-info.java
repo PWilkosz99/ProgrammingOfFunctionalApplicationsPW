@@ -3,6 +3,7 @@ module TrainsGUI {
     requires javafx.graphics;
     requires javafx.fxml;
     requires java.desktop;
+    requires java.persistence;
 
 
     opens TrainPlannerGUI;
