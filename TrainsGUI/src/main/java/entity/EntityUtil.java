@@ -68,7 +68,6 @@ public class EntityUtil {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             List<StationsEntity> se = entityManager.createQuery("from StationsEntity", StationsEntity.class).getResultList();
             entityManager.getTransaction().commit();
@@ -87,7 +86,6 @@ public class EntityUtil {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             List<TrainsonstationsEntity> tose = entityManager.createQuery("from TrainsonstationsEntity where stationID=:n", TrainsonstationsEntity.class).setParameter("n", n).getResultList();
             entityManager.getTransaction().commit();
@@ -120,13 +118,7 @@ public class EntityUtil {
         try {
             entityManager.getTransaction().begin();
             var tr = entityManager.createQuery("from TrainsEntity where name=:nm", TrainsEntity.class).setParameter("nm", name).getSingleResult();
-            entityManager.getTransaction().commit();
-
-            entityManager.getTransaction().begin();
             var ntlist = entityManager.createQuery("from TrainsEntity where name=:nm", TrainsEntity.class).setParameter("nm", name).getResultList();
-            entityManager.getTransaction().commit();
-
-            entityManager.getTransaction().begin();
             for (var r : ntlist) {
                 entityManager.remove(r);
             }

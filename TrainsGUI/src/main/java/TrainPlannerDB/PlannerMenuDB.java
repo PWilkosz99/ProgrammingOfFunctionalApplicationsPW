@@ -1,11 +1,14 @@
 package TrainPlannerDB;
 
 import entity.EntityUtil;
+import entity.RatingEntity;
 import entity.StationsEntity;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -21,6 +24,7 @@ public class PlannerMenuDB {
     private JButton btnDeleteStation;
     private JLabel txtInfo;
     private JTextField txtSearchStation;
+    private JButton btnRate;
     private JButton btnSave;
     static DefaultTableModel model;
 
@@ -62,7 +66,7 @@ public class PlannerMenuDB {
         tableStation.setModel(model);
 
         try {
-             stationsList = EntityUtil.loadStationsDB();
+            stationsList = EntityUtil.loadStationsDB();
             for (var s : stationsList) {
                 Object[] row = new Object[3];
                 row[0] = s.getName();
@@ -103,6 +107,21 @@ public class PlannerMenuDB {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
+            }
+        });
+
+        btnRate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = tableStation.getSelectedRow();
+                if (selectedIndex >= 0) {
+                    StationsEntity actStation = findByStationName(String.valueOf(model.getValueAt(selectedIndex, 0)));
+                    int id = actStation.getId();
+                    int rate = Integer.parseInt(JOptionPane.showInputDialog("Podaj ocenę dla stacji " + actStation.getName() + " (0-5)"));
+                    EntityUtil.addToDB(new RatingEntity(rate, id));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
+                }
             }
         });
 
