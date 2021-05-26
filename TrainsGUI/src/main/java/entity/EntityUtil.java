@@ -10,10 +10,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityUtil {
+    private static final String CSV_SEPARATOR = ",";
 
     public static <T> void addToDB(T obj) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
@@ -84,7 +89,25 @@ public class EntityUtil {
         }
     }
 
-    public static List<TrainsEntity> loadTrainsDB(int n) {
+    public static List<TrainsEntity> loadTrainsDB() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            List<TrainsEntity> se = entityManager.createQuery("from TrainsEntity", TrainsEntity.class).getResultList();
+            entityManager.getTransaction().commit();
+            return se;
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    public static List<TrainsEntity> loadTrainDB(int n) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -209,6 +232,24 @@ public class EntityUtil {
         }
     }
 
+    public static StationsEntity getStationByName(String nm) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            entityManager.getTransaction().begin();
+            var t = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", nm).getResultList();
+            entityManager.getTransaction().commit();
+            return t.get(0);
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
     public static List<TrainMatchedModel> getTickets() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -222,7 +263,7 @@ public class EntityUtil {
 
             for (var t : te) {
                 var tr = EntityUtil.getTrainByID(t.getTrainId());
-                res.add(new TrainMatchedModel(tr.getName(), tr.getTraveltime(), tr.getTraveltime() - 3, tr.getTicketCost(), t.getId()));
+                res.add(new TrainMatchedModel(tr.getName(), tr.getTraveltime(), tr.getTraveltime(), tr.getTicketCost(), t.getId()));
             }
 
             return res;
@@ -274,18 +315,18 @@ public class EntityUtil {
             criteriaQuery.where(predicate);
             List<RatingEntity> items = entityManager.createQuery(criteriaQuery).getResultList();
 
-            double mean=0;
+            double mean = 0;
             int i = 0;
 
-            for (RatingEntity re: items) {
-                mean+=re.getRate();
+            for (RatingEntity re : items) {
+                mean += re.getRate();
                 i++;
             }
-            if(i==0){
+            if (i == 0) {
                 return 0;
             }
 
-            return mean/i;
+            return mean / i;
 
         } finally {
             if (transaction.isActive()) {
@@ -294,5 +335,54 @@ public class EntityUtil {
             entityManager.close();
             entityManagerFactory.close();
         }
+    }
+
+    public static void saveFromDBToCSV() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stations2.csv"), "UTF-8"));
+        var stationsList = EntityUtil.loadStationsDB();
+        for (var s : stationsList) {
+            StringBuffer oneLine = new StringBuffer();
+            oneLine.append(s.getName());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(s.getCapacityLimit());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(s.getCapacity());
+            bw.write(oneLine.toString());
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+
+        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("trains2.csv"), "UTF-8"));
+        var trainsList = EntityUtil.loadTrainsDB();
+        for (var t : trainsList) {
+            StringBuffer oneLine = new StringBuffer();
+            oneLine.append(t.getId());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getName());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getCapacity());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getCars());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getTicketCost());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getState());
+            oneLine.append(CSV_SEPARATOR);
+
+            oneLine.append(t.getTraveltime());
+            oneLine.append(CSV_SEPARATOR);
+            bw.write(oneLine.toString());
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
     }
 }

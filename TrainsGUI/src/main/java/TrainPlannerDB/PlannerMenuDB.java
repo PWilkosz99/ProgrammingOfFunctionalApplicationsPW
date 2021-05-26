@@ -25,6 +25,7 @@ public class PlannerMenuDB {
     private JLabel txtInfo;
     private JTextField txtSearchStation;
     private JButton btnRate;
+    private JButton btnDump;
     private JButton btnSave;
     static DefaultTableModel model;
 
@@ -49,7 +50,7 @@ public class PlannerMenuDB {
         model.setValueAt(capacity, index, 2);
     }
 
-    public static void RefreshTable(){
+    public static void RefreshTable() {
         model.getDataVector().removeAllElements();
         try {
             stationsList = EntityUtil.loadStationsDB();
@@ -59,10 +60,10 @@ public class PlannerMenuDB {
                 row[1] = s.getCapacityLimit();
                 row[2] = s.getCapacity();
                 double mean = EntityUtil.getRateMean(s.getId());
-                if(mean>0){
+                if (mean > 0) {
                     row[3] = mean;
-                }else{
-                    row[3]= "N/A";
+                } else {
+                    row[3] = "N/A";
                 }
 
                 model.addRow(row);
@@ -90,7 +91,6 @@ public class PlannerMenuDB {
         tableStation.setModel(model);
 
 
-
         try {
             stationsList = EntityUtil.loadStationsDB();
             for (var s : stationsList) {
@@ -99,10 +99,10 @@ public class PlannerMenuDB {
                 row[1] = s.getCapacityLimit();
                 row[2] = s.getCapacity();
                 double mean = EntityUtil.getRateMean(s.getId());
-                if(mean>0){
+                if (mean > 0) {
                     row[3] = mean;
-                }else{
-                    row[3]= "N/A";
+                } else {
+                    row[3] = "N/A";
                 }
 
                 model.addRow(row);
@@ -182,6 +182,18 @@ public class PlannerMenuDB {
             TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(Model);
             tableStation.setRowSorter(tr);
             tr.setRowFilter(RowFilter.regexFilter(txtSearchStation.getText().trim()));
+        });
+
+        btnDump.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    EntityUtil.saveFromDBToCSV();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ioException.toString());
+                }
+            }
         });
     }
 

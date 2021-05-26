@@ -52,15 +52,14 @@ public class FinderMenuController {
 
         var cons = EntityUtil.searchConnections(from, to, hour);
 
-        for (var t : cons) {
-            System.out.println(t.getTrainId());
-        }
-
         ArrayList<TrainMatchedModel> connections = new ArrayList<TrainMatchedModel>();
+
+        SesssionData.startID=EntityUtil.getStationByName(from).getId();
+        SesssionData.finishID=EntityUtil.getStationByName(to).getId();
 
         for (var t: cons) {
             var tmpTR = EntityUtil.getTrainByID(t.getTrainId());
-            connections.add(new TrainMatchedModel(tmpTR.getName(), hour, tmpTR.getTraveltime(), tmpTR.getTraveltime()-hour, tmpTR.getTicketCost(), tmpTR.getCapacity()));
+            connections.add(new TrainMatchedModel(tmpTR.getName(), hour, hour+tmpTR.getTraveltime(), tmpTR.getTraveltime(), tmpTR.getTicketCost(), tmpTR.getCapacity()));
         }
 
         return connections;

@@ -50,13 +50,13 @@ public class TrainTableDB {
         List<TrainsEntity> trainsOnStation= new ArrayList<TrainsEntity>();
 
         try{
-                trainsOnStation.addAll(EntityUtil.loadTrainsDB(currentStation.getId()));
+                trainsOnStation.addAll(EntityUtil.loadTrainDB(currentStation.getId()));
         }catch (Exception e){
             System.out.println(e.toString());
         }
 
         if (trainsOnStation.size() > 0) {
-            for (var train : EntityUtil.loadTrainsDB(currentStation.getId())) {
+            for (var train : EntityUtil.loadTrainDB(currentStation.getId())) {
                 Object[] row = new Object[5];
                 row[0] = train.getName();
                 row[1] = train.getCars();
