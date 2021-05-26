@@ -122,7 +122,7 @@ public class TrainConnectionsController {
 
                 Alert a1 = new Alert(Alert.AlertType.CONFIRMATION, "Zakup biletu udany", ButtonType.OK);
                 TrainsEntity train = EntityUtil.getTrainByName(p.getName());
-                TicketsEntity ticket = new TicketsEntity(99, train.getId(), SesssionData.startID, SesssionData.finishID);
+                TicketsEntity ticket = new TicketsEntity(99, train.getId(), SesssionData.startID, SesssionData.finishID, p.getDepartureTime(), p.getTravelTime());
                 EntityUtil.addToDB(ticket);
                 a1.show();
 

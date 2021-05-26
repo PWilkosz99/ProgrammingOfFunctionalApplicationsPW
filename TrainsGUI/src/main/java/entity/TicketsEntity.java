@@ -10,12 +10,16 @@ public class TicketsEntity {
     private Integer trainId;
     private Integer startStationId;
     private Integer finishStationId;
+    private Integer departTime;
+    private Integer travelTime;
 
-    public TicketsEntity(int buyerId, Integer trainId, Integer startStationId, Integer finishStationId) {
+    public TicketsEntity(int buyerId, Integer trainId, Integer startStationId, Integer finishStationId, Integer departTime, Integer travelTime) {
         this.buyerId = buyerId;
         this.trainId = trainId;
         this.startStationId = startStationId;
         this.finishStationId = finishStationId;
+        this.departTime = departTime;
+        this.travelTime = travelTime;
     }
 
     public TicketsEntity() {}
@@ -69,6 +73,26 @@ public class TicketsEntity {
 
     public void setFinishStationId(Integer finishStationId) {
         this.finishStationId = finishStationId;
+    }
+
+    @Basic
+    @Column(name = "traveltime")
+    public Integer getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(Integer travelTime) {
+        this.travelTime = travelTime;
+    }
+
+    @Basic
+    @Column(name = "departuretime")
+    public Integer getDepartTime() {
+        return departTime;
+    }
+
+    public void setDepartTime(Integer departTime) {
+        this.departTime = departTime;
     }
 
     @Override

@@ -169,9 +169,9 @@ public class EntityUtil {
             var st2ID = entityManager.createQuery("from StationsEntity where name=:nm", StationsEntity.class).setParameter("nm", s2).getSingleResult().getId();
             List<TrainsonstationsEntity> cns;
             if (h == -1) {
-                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm", TrainsonstationsEntity.class).setParameter("nm", s2).getResultList();
+                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm", TrainsonstationsEntity.class).setParameter("nm", st2ID).getResultList();
             } else {
-                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm and stime=:nm2 ", TrainsonstationsEntity.class).setParameter("nm", s2).setParameter("nm2", h).getResultList();
+                cns = entityManager.createQuery("from TrainsonstationsEntity where stationID=:nm and stime=:nm2 ", TrainsonstationsEntity.class).setParameter("nm", st2ID).setParameter("nm2", h).getResultList();
             }
 
             entityManager.getTransaction().commit();
@@ -263,7 +263,7 @@ public class EntityUtil {
 
             for (var t : te) {
                 var tr = EntityUtil.getTrainByID(t.getTrainId());
-                res.add(new TrainMatchedModel(tr.getName(), tr.getTraveltime(), tr.getTraveltime(), tr.getTicketCost(), t.getId()));
+                res.add(new TrainMatchedModel(tr.getName(), t.getDepartTime(), t.getDepartTime()+t.getTravelTime(), tr.getTicketCost(), t.getId()));
             }
 
             return res;

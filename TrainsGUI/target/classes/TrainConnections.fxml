@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TrainPassengerGUI.TrainConnectionsController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="293.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <TableView fx:id="tableMatchedTrains" onMouseReleased="#OnMousePressedMatchedTrains" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+         <columns>
+            <TableColumn fx:id="clmnname" prefWidth="118.0" text="Nazwa" />
+            <TableColumn fx:id="clmnDeparture" prefWidth="127.0" text="Godzina odjazdu" />
+            <TableColumn fx:id="clmnArrival" editable="false" prefWidth="110.0" text="Godzina przyjazdu" />
+            <TableColumn fx:id="clmnTime" prefWidth="120.0" text="Czas przejazdu" />
+            <TableColumn fx:id="clmnCost" prefWidth="124.0" text="Cena biletu" />
+         </columns></TableView>
+      <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#buttonOnClickBack" prefHeight="25.0" prefWidth="87.0" text="Cofnij" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin></Button>
+      <Button fx:id="btnBuy" mnemonicParsing="false" onAction="#buttonOnClickBuy" prefHeight="42.0" prefWidth="198.0" text="Kup bilet" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="txtSearch" onAction="#searchByName" GridPane.columnIndex="1" />
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="192.0" text="Szukaj:" />
+   </children>
+</GridPane>
