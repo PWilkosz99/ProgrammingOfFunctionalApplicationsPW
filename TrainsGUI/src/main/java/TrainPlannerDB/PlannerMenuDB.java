@@ -49,6 +49,30 @@ public class PlannerMenuDB {
         model.setValueAt(capacity, index, 2);
     }
 
+    public static void RefreshTable(){
+        model.getDataVector().removeAllElements();
+        try {
+            stationsList = EntityUtil.loadStationsDB();
+            for (var s : stationsList) {
+                Object[] row = new Object[4];
+                row[0] = s.getName();
+                row[1] = s.getCapacityLimit();
+                row[2] = s.getCapacity();
+                double mean = EntityUtil.getRateMean(s.getId());
+                if(mean>0){
+                    row[3] = mean;
+                }else{
+                    row[3]= "N/A";
+                }
+
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "Odczyt nieudany!\n" + e.toString(), "Zapis", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+        model.fireTableDataChanged();
+    }
+
     PlannerMenuDB() throws IOException {
         stationsList = new ArrayList<>();
         trainTableslist = new ArrayList<>();
@@ -60,18 +84,27 @@ public class PlannerMenuDB {
         frame.pack();
         frame.setLocationRelativeTo(null);
 
-        Object[] columns = new Object[]{"Nazwa stacji", "Maksymalna pojemność", "Obecna pojemność"};
+        Object[] columns = new Object[]{"Nazwa stacji", "Maksymalna pojemność", "Obecna pojemność", "Ocena"};
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         tableStation.setModel(model);
 
+
+
         try {
             stationsList = EntityUtil.loadStationsDB();
             for (var s : stationsList) {
-                Object[] row = new Object[3];
+                Object[] row = new Object[4];
                 row[0] = s.getName();
                 row[1] = s.getCapacityLimit();
                 row[2] = s.getCapacity();
+                double mean = EntityUtil.getRateMean(s.getId());
+                if(mean>0){
+                    row[3] = mean;
+                }else{
+                    row[3]= "N/A";
+                }
+
                 model.addRow(row);
             }
         } catch (Exception e) {
@@ -119,6 +152,7 @@ public class PlannerMenuDB {
                     int id = actStation.getId();
                     int rate = Integer.parseInt(JOptionPane.showInputDialog("Podaj ocenę dla stacji " + actStation.getName() + " (0-5)"));
                     EntityUtil.addToDB(new RatingEntity(rate, id));
+                    RefreshTable();
                 } else {
                     JOptionPane.showMessageDialog(null, "Proszę wybrac stację");
                 }

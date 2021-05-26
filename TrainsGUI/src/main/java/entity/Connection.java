@@ -38,11 +38,13 @@ public class Connection {
             //entityManager.getTransaction().commit();
 
             //UPDATE
-            TrainsEntity employee = entityManager.find(TrainsEntity.class, 17);
+            //TrainsEntity employee = entityManager.find(TrainsEntity.class, 17);
 
-            entityManager.getTransaction().begin();
-            employee.setCars(200);
-            entityManager.getTransaction().commit();
+            //entityManager.getTransaction().begin();
+            //employee.setCars(200);
+            //entityManager.getTransaction().commit();
+
+            System.out.println(EntityUtil.getRateMean(1));
 
 
         } finally {
