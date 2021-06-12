@@ -10,7 +10,7 @@ module TrainsGUI {
     requires org.hibernate.commons.annotations;
     requires org.hibernate.orm.core;
     requires java.sql;
-
+    requires spring.web;
 
 
     opens TrainPlannerSerial;
