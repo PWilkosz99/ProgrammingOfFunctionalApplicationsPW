@@ -1,4 +1,5 @@
 module TrainsGUI {
+    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
@@ -11,6 +12,9 @@ module TrainsGUI {
     requires org.hibernate.orm.core;
     requires java.sql;
     requires spring.web;
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+
 
 
     opens TrainPlannerSerial;
