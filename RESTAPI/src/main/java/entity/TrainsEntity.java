@@ -24,6 +24,10 @@ public class TrainsEntity {
         this.ticketCost=15;
     }
 
+    public TrainsEntity(String name){
+        this.name=name;
+    }
+
     public TrainsEntity() { }
 
     @Id

@@ -12,6 +12,10 @@ public class StationsEntity {
 
     public StationsEntity() { }
 
+    public StationsEntity(String name){
+        this.name=name;
+    }
+
     public StationsEntity(String name, Integer capacity, Integer capacityLimit) {
         this.name = name;
         this.capacity = capacity;

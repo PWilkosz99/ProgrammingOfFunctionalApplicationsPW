@@ -1,6 +1,8 @@
 package com.labs.restapi;
 
 import entity.EntityUtil;
+import entity.StationsEntity;
+import entity.TrainsEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +20,24 @@ public class RestapiApplication {
         return String.format("Hello %s!", name);
     }
 
-    @DeleteMapping("/train/{id}")
+    @PostMapping("/api/train")
+    void newTrain(String newTrainName) {  //TrainsEntity newTrain
+        EntityUtil.addToDB(new TrainsEntity(newTrainName));
+    }
+
+    @PostMapping("/api/trainstation")
+    void newStation(String newStationName) {  //StationsEntity newStation
+        EntityUtil.addToDB(new StationsEntity(newStationName));
+    }
+
+
+    @DeleteMapping("/api/train/{id}")
     void deleteTrain(@PathVariable int id) {
         EntityUtil.deleteTrainByID(id);
     }
 
-    @DeleteMapping("/trainstation/{id}")
+    @DeleteMapping("/api/trainstation/{id}")
     void deleteStation(@PathVariable int id) {
         EntityUtil.deleteStationByID(id);
     }
-
 }
