@@ -404,23 +404,4 @@ public class EntityUtil {
             entityManagerFactory.close();
         }
     }
-
-    public static void deleteStationByID(int id){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            entityManager.getTransaction().begin();
-            var st = entityManager.createQuery("from StationsEntity where id=:id", StationsEntity.class).setParameter("id", id).getSingleResult();
-            entityManager.remove(st);
-            entityManager.getTransaction().commit();
-
-        } finally {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            entityManager.close();
-            entityManagerFactory.close();
-        }
-    }
 }
