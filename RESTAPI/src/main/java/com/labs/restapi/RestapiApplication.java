@@ -1,6 +1,7 @@
 package com.labs.restapi;
 
 import entity.EntityUtil;
+import entity.RatingEntity;
 import entity.StationsEntity;
 import entity.TrainsEntity;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +31,10 @@ public class RestapiApplication {
         EntityUtil.addToDB(new StationsEntity(newStationName));
     }
 
+    @PostMapping("/api/rating")
+    void newStation(int ID, int rate) {
+        EntityUtil.addToDB(new RatingEntity(rate,ID));
+    }
 
     @DeleteMapping("/api/train/{id}")
     void deleteTrain(@PathVariable int id) {
