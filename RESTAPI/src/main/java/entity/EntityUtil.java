@@ -302,10 +302,6 @@ public class EntityUtil {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-
-//            Criteria cr = session.createCriteria(Employee.class);
-//            List results = cr.list();
-
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<RatingEntity> criteriaQuery = criteriaBuilder.createQuery(RatingEntity.class);
             Root<RatingEntity> itemRoot = criteriaQuery.from(RatingEntity.class);
@@ -415,6 +411,29 @@ public class EntityUtil {
             entityManager.remove(st);
             entityManager.getTransaction().commit();
 
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    public static List<TrainsEntity> getTrainsOnStation(int id){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            List<TrainsEntity> res = new ArrayList<TrainsEntity>();
+            entityManager.getTransaction().begin();
+            var list = entityManager.createQuery("from TrainsonstationsEntity where stationID=:id", TrainsonstationsEntity.class).setParameter("id", id).getResultList();
+            for (var t : list) {
+                var tr = entityManager.createQuery("from TrainsEntity where id=:id", TrainsEntity.class).setParameter("id", t.getTrainId()).getSingleResult();
+                res.add(tr);
+            }
+            entityManager.getTransaction().commit();
+            return res;
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();

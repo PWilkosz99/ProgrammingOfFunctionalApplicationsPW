@@ -1,0 +1,20 @@
+[
+  {
+    "id": 87,
+    "name": "Krakus",
+    "cars": 5,
+    "capacity": 120,
+    "traveltime": 3,
+    "state": "Scheduled",
+    "ticketCost": 15
+  },
+  {
+    "id": 89,
+    "name": "Wawel",
+    "cars": 6,
+    "capacity": 150,
+    "traveltime": 3,
+    "state": "Scheduled",
+    "ticketCost": 15
+  }
+]
