@@ -28,9 +28,14 @@ public class RestapiApplication {
         SpringApplication.run(RestapiApplication.class, args);
     }
 
-    @GetMapping("/hello")
-    public String sayHello(@RequestParam(value = "myName", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
+    @PostMapping("/api/train")
+    void newTrain(String newTrainName) {  //TrainsEntity newTrain
+        EntityUtil.addToDB(new TrainsEntity(newTrainName));
+    }
+
+    @DeleteMapping("/api/train/{id}")
+    void deleteTrain(@PathVariable int id) {
+        EntityUtil.deleteTrainByID(id);
     }
 
     @GetMapping("/api/train/{id}/rating")
@@ -45,7 +50,7 @@ public class RestapiApplication {
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
-        File file = new File("Z:\\ProgrammingOfFunctionalApplicationsPW\\RESTAPI\\trains2.csv");
+        File file = new File("trains2.csv");
         Path path = Paths.get(file.getAbsolutePath());
         ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
@@ -61,6 +66,16 @@ public class RestapiApplication {
         return EntityUtil.loadStationsDB();
     }
 
+    @PostMapping("/api/trainstation")
+    void newStation(String newStationName) {  //StationsEntity newStation
+        EntityUtil.addToDB(new StationsEntity(newStationName));
+    }
+
+    @DeleteMapping("/api/trainstation/{id}")
+    void deleteStation(@PathVariable int id) {
+        EntityUtil.deleteStationByID(id);
+    }
+
     @GetMapping("/api/trainstation/{id}/train")
     public List<TrainsEntity> getTrainsOnStation(@PathVariable int id) {
         return EntityUtil.getTrainsOnStation(id);
@@ -71,28 +86,9 @@ public class RestapiApplication {
         return EntityUtil.getTrainByID(id).getCapacity();
     }
 
-    @PostMapping("/api/train")
-    void newTrain(String newTrainName) {  //TrainsEntity newTrain
-        EntityUtil.addToDB(new TrainsEntity(newTrainName));
-    }
-
-    @PostMapping("/api/trainstation")
-    void newStation(String newStationName) {  //StationsEntity newStation
-        EntityUtil.addToDB(new StationsEntity(newStationName));
-    }
-
     @PostMapping("/api/rating")
     void newStation(int ID, int rate) {
         EntityUtil.addToDB(new RatingEntity(rate,ID));
     }
 
-    @DeleteMapping("/api/train/{id}")
-    void deleteTrain(@PathVariable int id) {
-        EntityUtil.deleteTrainByID(id);
-    }
-
-    @DeleteMapping("/api/trainstation/{id}")
-    void deleteStation(@PathVariable int id) {
-        EntityUtil.deleteStationByID(id);
-    }
 }

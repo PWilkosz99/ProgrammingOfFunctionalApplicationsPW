@@ -1,0 +1,29 @@
+### dodaje pociąg do stacji (listy)
+POST http://localhost:8080/api/train?newTrainName=nowyPociag
+
+### usuwa pociąg ze stacji (listy)
+DELETE http://localhost:8080/api/train/108
+
+### zwraca średnią ocenę pociągu
+GET http://localhost:8080/api/train/81/rating
+
+### zwraca wszystkie pociagi w formie pliku CSV
+GET http://localhost:8080/api/train/csv
+
+### zwraca wszystkie stacje
+GET http://localhost:8080/api/trainstation
+
+### dodaje nową stację
+POST http://localhost:8080/api/trainstation?newStationName=nowaStacja123
+
+### usuwa stację
+DELETE http://localhost:8080/api/trainstation/105
+
+### zwraca wszystkie pociągi przejeżdżające przez stację
+GET http://localhost:8080/api/trainstation/81/train
+
+### zwraca zapełnienie pociągu (ilość wolnych miejsc)
+GET http://localhost:8080/api/train/87/fill
+
+### dodaje ocenę dla pociągu/stacji
+POST http://localhost:8080/api/rating?ID=81&rate=3
