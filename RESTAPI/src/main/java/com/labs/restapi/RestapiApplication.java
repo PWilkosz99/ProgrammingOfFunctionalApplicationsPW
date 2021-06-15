@@ -29,8 +29,8 @@ public class RestapiApplication {
     }
 
     @PostMapping("/api/train")
-    void newTrain(String newTrainName) {  //TrainsEntity newTrain
-        EntityUtil.addToDB(new TrainsEntity(newTrainName));
+    void newTrain(TrainsEntity newTrain) {
+        EntityUtil.addToDB(newTrain);
     }
 
     @DeleteMapping("/api/train/{id}")
@@ -67,8 +67,8 @@ public class RestapiApplication {
     }
 
     @PostMapping("/api/trainstation")
-    void newStation(String newStationName) {  //StationsEntity newStation
-        EntityUtil.addToDB(new StationsEntity(newStationName));
+    void newStation(StationsEntity newStation) {  //StationsEntity newStation
+        EntityUtil.addToDB(newStation);
     }
 
     @DeleteMapping("/api/trainstation/{id}")
